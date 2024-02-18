@@ -1,0 +1,63 @@
+<h2>Head settings</h2>
+<div id="prime-settings">
+    <div class="block" id="bootstrap-settings">
+        <h3>Bootstrap Settings</h3>
+        <form [formGroup]="Bootstrap" (ngSubmit)="onSubmitUpdateBootstrap()">
+            <ul>
+                <li>
+                    <label for="tw">TwitterBootstrap</label>
+                    <input type="radio" name="bootstrap" id="tw" checked value="tw" formControlName="bootstrap">
+                </li>
+                <li>
+                    <label for="tw">TwitterBootstrap2</label>
+                    <input type="radio" name="bootstrap" id="tw2" value="tw2" formControlName="bootstrap">
+                </li>
+            </ul>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+    <div id="files" class="block">
+        <h3>Upload Files</h3>
+        <div class="names">
+            <div class="col32"><p>name</p></div>
+            <div class="col32"><p>Downloaded date</p></div>
+            <div class="col32"><p>Status</p></div>
+        </div>
+        <hr>
+        <div class="rows">
+            <div class="row">
+                <div class="col32"><p>style.css</p></div>
+                <div class="col32"><p>01-01-2024</p></div>
+                <div class="col32"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block" id="seo">
+    <h3>SEO Settings</h3>
+    <form [formGroup]="seo" (ngSubmit)="onSubmitUpdateSEO()">
+        <div class="group">
+            <div class="col">
+                <h4>Title:</h4>
+                <input type="text" formControlName="title" placeholder="Title for browser">
+            </div>
+            <div class="col">
+                <h4>Description:</h4>
+                <textarea  formControlName="des" placeholder="Describe your site for search engines"></textarea>
+            </div>
+        </div>
+        <div class="group" id="tags">
+            <div class="col">
+                <h4>Tags manager</h4>
+                <div>
+                    <input type="text" name="tag-manager" [(ngModel)]="tagName" [ngModelOptions]="{standalone: true}" placeholder="Tag name" (keydown.enter)="$event.preventDefault()" (keyup.enter)="onEnter()">
+                    <p class="button" (click)="addTag()">add</p>
+                </div>
+            </div>
+            <div class="tags-container">
+                <ng-container #tagsContainer></ng-container>
+            </div>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+</div>

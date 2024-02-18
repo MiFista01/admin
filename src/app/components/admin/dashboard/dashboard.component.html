@@ -1,0 +1,63 @@
+<h2>Dashboard</h2>
+<div id="stats-actions">
+    <div class="block">
+        <h3>WebSite Stats</h3>
+        <div id="start">
+            <div id="stats">
+                <div class="stat">
+                    <img src="assets/imgs/dashboard/pages.svg" alt="">
+                    <p>{{pages}} pages</p>
+                </div>
+                <div class="stat">
+                    <img src="assets/imgs/dashboard/people.png" alt="">
+                    <p>{{people}} people</p>
+                </div>
+                <div class="stat">
+                    <img src="assets/imgs/dashboard/pages.svg" alt="">
+                    <p>{{pages}} pages</p>
+                </div>
+                <div class="stat">
+                    <img src="assets/imgs/dashboard/people.png" alt="">
+                    <p>{{people}} people</p>
+                </div>
+            </div>
+            <a href="">Welcome WebSite</a>
+        </div>
+    </div>
+    <div class="block">
+        <h3>Last action in pages</h3>
+        <div id="actions">
+            <div class="action">
+                <p>Home / Modifier</p>
+                <p>smallBtn</p>
+            </div>
+            <div class="action">
+                <p>Home / Create</p>
+                <p>smallBtn</p>
+            </div>
+            <div class="action">
+                <p>Home / Modifier</p>
+                <p>smallBtn</p>
+            </div>
+            <div class="action">
+                <p>Home / Create</p>
+                <p>smallBtn</p>
+            </div>
+            <div class="action">
+                <p>Home / Modifier</p>
+                <p>smallBtn</p>
+            </div>
+            <div class="action">
+                <p>Home / Create</p>
+                <p>smallBtn</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="wishes" class="block">
+    <form [formGroup]="wishes" (ngSubmit)="onSubmitWish()">
+        <h3>Wishes to the developers</h3>
+        <textarea id="wish" cols="30" rows="10" formControlName="wish" placeholder="Write your wishes for improving the project"></textarea>
+        <button type="submit" [disabled]="wishes.invalid">send</button>
+    </form>
+</div>

@@ -1,0 +1,4 @@
+<aside class="uploadedGallery" [ngStyle]="{ 'right': right }" (scroll)="onScroll($event)">
+    <button (click)="startLoop(0, true)">Start Loop</button>
+    <app-gallery-item *ngFor="let item of items" [src]="item" (toggleAsideEvent)="toggleAside(undefined, $event)"></app-gallery-item>
+</aside>

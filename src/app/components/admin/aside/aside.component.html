@@ -1,0 +1,28 @@
+<aside>
+    <ul>
+        <li [id]="focusedItem === 'dashboard' ? 'focus' : null">
+            <a routerLink="/admin/dashboard" (click)="ChangeFocus('dashboard')"><p>DashBoard</p></a>
+        </li>
+        <li [id]="focusedItem === 'head' ? 'focus' : null">
+            <a routerLink="/admin/head" (click)="ChangeFocus('head')"><p>Head</p></a>
+        </li>
+        <li [id]="focusedItem === 'head-foot' ? 'focus' : null">
+            <a routerLink="/admin/head-foot" (click)="ChangeFocus('head-foot')"><p>Header/Footer</p></a>
+        </li>
+        <li [id]="focusedItem === 'pages' ? 'focus' : null">
+            <a routerLink="/admin/pages" (click)="ChangeFocus('pages')"><p>Pages</p> <p>{{pages}}</p></a>
+        </li>
+        <li [id]="focusedItem === 'files' ? 'focus' : null">
+            <a routerLink="/admin/files" (click)="ChangeFocus('files')"><p>Files</p> <p>{{files}}</p></a>
+        </li>
+        <li [id]="focusedItem === 'messages' ? 'focus' : null">
+            <a routerLink="/admin/messages" (click)="ChangeFocus('messages')"><p>Message</p> <p>{{messages}}</p></a>
+        </li>
+        <li [id]="focusedItem === 'user' ? 'focus' : null">
+            <a routerLink="/admin/user" (click)="ChangeFocus('user')"><p>User</p> <p>{{user}}</p></a>
+        </li>
+        <li [id]="focusedItem === 'templates' ? 'focus' : null">
+            <a routerLink="/admin/templates" (click)="ChangeFocus('templates')"><p>Templates</p> <p>{{templates}}</p></a>
+        </li>
+    </ul>
+</aside>

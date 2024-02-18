@@ -1,0 +1,52 @@
+$size-index: calc(1vw + 1vh);
+:host{
+    width: 16%;
+    height: 100%;
+}
+aside{
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    position: relative;
+    ul{
+        width: 100%;
+        height: 100%;
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+        #focus{
+            background-color: rgb(153,102,204);
+            a{
+                color: black !important;
+            }
+        }
+        li{
+            width: 100%;
+            background-color: rgb(51, 51, 51);
+            border: 3px solid black;
+            box-sizing: border-box;
+            transition-duration: 0.2s;
+            border-radius: 10px;
+            a{
+                box-sizing: border-box;
+                display: block;
+                width: 100%;
+                padding: 10px;
+                color: white;
+                text-decoration: none;
+                font-size: calc($size-index * 1.1);
+                display: flex;
+                justify-content: space-between;
+                p{
+                    margin: 0px;
+                }
+            }
+        }
+        li:not(:first-child){
+            margin-top: -3px;
+        }
+        li:not(#focus):hover{
+            margin-left: 10px;
+        }
+    }
+}

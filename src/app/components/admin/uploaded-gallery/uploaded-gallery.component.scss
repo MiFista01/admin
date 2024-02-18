@@ -1,0 +1,23 @@
+$color: rgba(114, 48, 180, 0.68);
+$size-index: calc(1vw + 1vh);
+.uploadedGallery{
+    position: absolute;
+    transition-duration: 0.2s;
+    top: 0px;
+    right: -20vw;
+    background-color: rgb(31, 31, 31);
+    height: 100%;
+    width: 20vw;
+    box-sizing: border-box;
+    border: 3px solid $color;
+    padding: 0px 10px;
+    padding-bottom: 20px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    button{
+        display: none;
+    }
+    
+}

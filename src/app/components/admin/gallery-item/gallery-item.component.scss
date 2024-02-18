@@ -1,0 +1,11 @@
+.galleryItem{
+    width: calc(20vw - 20px);
+    height: calc(20vw - 20px);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition-duration: 0.2s;
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.11);
+    }
+}
