@@ -1,0 +1,7 @@
+$color: rgba(114, 48, 180, 0.68);
+$size-index: calc(1vw + 1vh);
+:host {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
