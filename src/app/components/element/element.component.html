@@ -1,0 +1,22 @@
+<ng-container [ngSwitch]="element.type">
+    <section *ngSwitchCase="'section'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">
+      <app-element *ngFor="let item of element.children" [element]="item" [ngClass]="item.properties?.className ? item.properties.className : null"></app-element>
+    </section>
+    <div *ngSwitchCase="'area'" class="area" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">
+      <app-element *ngFor="let item of element.children" [element]="item" [ngClass]="item.properties?.className ? item.properties.className : null"></app-element>
+    </div>
+    <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.config" >
+        <h1 *ngSwitchCase="'h1'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h1>
+        <h2 *ngSwitchCase="'h2'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h2>
+        <h3 *ngSwitchCase="'h3'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h3>
+        <h4 *ngSwitchCase="'h4'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h4>
+        <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h5>
+        <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h6>
+    </ng-container>
+    <p *ngSwitchCase="'text'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</p>
+    <img *ngSwitchCase="'img'" [src]="element.src" alt="" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">
+    <a *ngSwitchCase="'btn'" href="{{element.src}}" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null"> {{element.text}}</a>
+    <a *ngSwitchCase="'socal_btn'" target="_blank" href="{{element.src}}" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null"> {{element.text}}</a>
+    <div *ngSwitchDefault>
+    </div>
+</ng-container>

@@ -1,4 +1,3 @@
-// import { editingElement } from "./drag-drop";
 var tagSelect = $("<select>", {
     html: `
       <option value="px" selected>px</option>
@@ -6,6 +5,34 @@ var tagSelect = $("<select>", {
       <option value="vw">vw</option>
       <option value="vh">vh</option>
       <option value="em">em</option>
+    `,
+});
+var justifySelect = $("<select>", {
+    html: `
+      <option value="--" selected>none</option>
+      <option value="start" selected>start</option>
+      <option value="end">end</option>
+      <option value="center">center</option>
+      <option value="space-around">space-around</option>
+      <option value="space-between">space-between</option>
+    `,
+});
+var alignSelect = $("<select>", {
+    html: `
+      <option value="--" selected>none</option>
+      <option value="baseline" selected>baseline</option>
+      <option value="center">center</option>
+      <option value="center">center</option>
+      <option value="start">start</option>
+      <option value="end">end</option>
+      <option value="stretch">stretch</option>
+    `,
+});
+var directionSelect = $("<select>", {
+    html: `
+      <option value="--" selected>none</option>
+      <option value="row" selected>row</option>
+      <option value="column">column</option>
     `,
 });
 let optionsEditor1 = []
@@ -217,6 +244,29 @@ function createOption(text, type, value, setValue = null, add = true) {
                 formFieldsValues[value] = $(input).val()
             }
         }
+    }else{
+        if(type.includes("justify")){
+            formFieldsValues[value] = $(justifySelect).val();
+            $(justifySelect).change(function (e) { 
+                e.preventDefault();
+                formFieldsValues[value] = $(this).val();
+            });
+            $(div).append(justifySelect);
+        }else if(type.includes("align")){
+            formFieldsValues[value] = $(alignSelect).val();
+            $(alignSelect).change(function (e) { 
+                e.preventDefault();
+                formFieldsValues[value] = $(this).val();
+            });
+            $(div).append(alignSelect);
+        }else if(type.includes("direction")){
+            formFieldsValues[value] = $(directionSelect).val();
+            $(directionSelect).change(function (e) { 
+                e.preventDefault();
+                formFieldsValues[value] = $(this).val();
+            });
+            $(div).append(directionSelect);
+        }
     }
     
     let deleteBtn = document.createElement("img");
@@ -263,6 +313,28 @@ function setEditorOptions(classList, styles) {
         $("[value='background-color']").remove();
         $("[value='color']").remove();
         $("[value='font-family']").remove();
+    }else if(classList.includes("list")){
+        const optionJus = document.createElement("option")
+        $(optionJus).attr("value", "justify-content");
+        $(optionJus).attr("type", "select justify");
+        $(optionJus).attr("add", "false");
+        $(optionJus).attr("child", "true");
+        $(optionJus).text("justify mod");
+        $("#options-editor1").append(optionJus);
+        const optionAlign = document.createElement("option")
+        $(optionAlign).attr("value", "align-items");
+        $(optionAlign).attr("type", "select align");
+        $(optionAlign).attr("add", "false");
+        $(optionAlign).attr("child", "true");
+        $(optionAlign).text("align mod");
+        $("#options-editor1").append(optionAlign);
+        const optionDirection = document.createElement("option")
+        $(optionDirection).attr("value", "flex-direction");
+        $(optionDirection).attr("type", "select direction");
+        $(optionDirection).attr("add", "false");
+        $(optionDirection).attr("child", "true");
+        $(optionDirection).text("direction mod");
+        $("#options-editor1").append(optionDirection);
     }
     let classes = ''
     for (const classItem of classList) {

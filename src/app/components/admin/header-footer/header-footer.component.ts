@@ -1,9 +1,10 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, afterNextRender, afterRender } from '@angular/core';
-import { ScriptloaderService } from '../../../services/scriptloader.service';
-import { UploadedGalleryComponent } from '../uploaded-gallery/uploaded-gallery.component';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, ElementRef,ViewChild, afterNextRender } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { DomainService } from '../../../services/domain.service';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UploadedGalleryComponent } from '../uploaded-gallery/uploaded-gallery.component';
+import { ScriptloaderService } from '../../../services/scriptloader.service';
+import {environment} from "../../../../config"
+
 declare function emitTriggers(): void;
 @Component({
   selector: 'app-header-footer',
@@ -14,7 +15,7 @@ declare function emitTriggers(): void;
 })
 export class HeaderFooterComponent {
   configs:any
-  constructor(private sl:ScriptloaderService, private fb: FormBuilder, private http: HttpClient, private domain:DomainService){
+  constructor(private sl:ScriptloaderService, private fb: FormBuilder, private http: HttpClient){
     afterNextRender (() => {
       this.sl.createConstructor()
     });
@@ -29,6 +30,7 @@ export class HeaderFooterComponent {
   hideGallery(){
     this.childComponent?.toggleAside(false)
   }
+  
   selectImg(selectedImage:string){
     this.configs.get('srctToChange').setValue(selectedImage);
     emitTriggers()
@@ -45,17 +47,23 @@ export class HeaderFooterComponent {
     let file: File = fileList[0];
     let formData:FormData = new FormData();
     formData.append('uploadImage', file, file.name)
-    this.http.post<ServerResponse>(`http://localhost:3000/image`, formData).subscribe(data =>{
+    this.http.post<ServerResponse>(`${environment.apiUrl}/images`, formData).subscribe(data =>{
       const filename = data['filename'];
-      const path = `http://localhost:3000/static/imgs/${filename}`
+      const path = `${environment.apiUrl}/static/imgs/uploads/${filename}`
       this.selectImg(path)
-      this.childComponent?.addImage(path)
+      if(this.childComponent?.end == true){
+        this.childComponent.addImage(path)
+      }
+      
     })
-    
   }
   setExImg(event:any){
     let imgURL: string = event.target.value;
     this.selectImg(imgURL)
   }
   
+  @ViewChild("inputUpload", { static: false }) inputUpload: ElementRef | undefined;
+  triggerInput(){
+    this.inputUpload?.nativeElement.click();
+  }
 }

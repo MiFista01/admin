@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AsideComponent } from '../aside/aside.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -11,5 +11,13 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
-
+  constructor(private router: Router){}
+  toggleAside(){
+    const currentRoute = this.router.url;
+    if (currentRoute.length == 6 && currentRoute.substring(0,6) === '/admin') {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

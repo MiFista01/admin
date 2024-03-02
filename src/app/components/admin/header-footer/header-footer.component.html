@@ -1,3 +1,4 @@
+<h2>Header/Footer constructor</h2>
 <div class="constructor">
     <div class="copy-container"></div>
     <header class="element access-point">
@@ -16,10 +17,8 @@
             <select name="options-editor1" id="options-editor1">
                 <option value="--" selected>none</option>
                 <option value="background-color" type="color" add="true">background color</option>
-                <!-- <option value="background-image" type="select">background image</option> -->
                 <option value="color" type="color" add="true">text color</option>
                 <option value="flex-grow" type="number" add="false">grow</option>
-                <!-- <option value="font-family" type="select">font</option> -->
                 <option value="border" type="textarea">border</option>
                 <option value="border-radius" type="number" add="true">border radius</option>
                 <option value="box-shadow" type="textarea">box shadow</option>
@@ -59,10 +58,26 @@
         <form  class="configs" [formGroup]="configs">
             <div class="row">
                 <div class="confs-container">
-                    <p (click)="showGallery()" class="type-img">select from uploadet</p>
-                    <input class="type-img" type="file" name="uploadImg" (change)="saveImage($event)" (click)="hideGallery()" accept="image/png, image/jpg, image/jpeg, image/avif, image/svg+xml, image/webp, image/gif">
-                    <input type="text" class="type-img" placeholder="Paste the external image URL" (input)="setExImg($event)">
-
+                    <div class="type-img">
+                        <p (click)="showGallery()" class="btn">select from uploadet</p>
+                        <p (click)="triggerInput()" class="btn">Upload image</p>
+                        <input #inputUpload type="file" name="uploadImg" (change)="saveImage($event)" (click)="hideGallery()" accept="image/png, image/jpg, image/jpeg, image/avif, image/svg+xml, image/webp, image/gif">
+                        <input type="text" placeholder="Paste the external image URL" (input)="setExImg($event)">
+                    </div>
+                    <div class="type-list">
+                        <input type="number" name="count-point" id="count-point" placeholder="Select the number of list items">
+                    </div>
+                    <div class="type-title">
+                        <p>Select title type: </p>
+                        <select name="tag-type" id="tag-type">
+                            <option value="h1">h1</option>
+                            <option value="h2">h2</option>
+                            <option value="h3">h3</option>
+                            <option value="h4">h4</option>
+                            <option value="h5">h5</option>
+                            <option value="h6">h6</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col end">
                     <input type="text" name="src-to-change" id="src-to-change" formControlName="srctToChange" >
@@ -118,7 +133,7 @@
             <p class="placeholder">image</p>
             <img src="" alt="" class="editible-configurator">
         </div>
-        <div class="element list prime">
+        <ul class="element list prime">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -130,22 +145,8 @@
                 <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
             </div>
             <p class="placeholder">list</p>
-            <ul></ul>
-        </div>
-        <div class="element button prime">
-            <div class="border border1"></div>
-            <div class="border border2"></div>
-            <div class="border border3"></div>
-            <div class="border border4"></div>
-            <div class="funcBtn">
-                <img src="assets/imgs/constructor/move.png" alt="" class="move">
-                <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration">
-                <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
-                <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
-            </div>
-            <p class="placeholder">button</p>
-            <a href=""></a>
-        </div>
+            
+        </ul>
         <div class="element title prime">
             <div class="border border1"></div>
             <div class="border border2"></div>
@@ -158,7 +159,7 @@
                 <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
             </div>
             <p class="placeholder">title</p>
-            <h1></h1>
+            <h1 class="editible-configurator" contenteditable="true"></h1>
         </div>
         <div class="element paragraph prime">
             <div class="border border1"></div>
@@ -171,9 +172,22 @@
                 <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
             </div>
             <p class="placeholder">text</p>
-            <p class="text"></p>
+            <p class="text editible-configurator" contenteditable="true"></p>
         </div>
-        <div class="element social-btn prime">
+        <a class="element button prime" href="">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+            <div class="funcBtn">
+                <img src="assets/imgs/constructor/move.png" alt="" class="move">
+                <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration">
+                <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+                <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+            </div>
+            <p class="placeholder">button</p>
+        </a>
+        <a class="element social-btn prime" href="" target="_blank">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -185,8 +199,7 @@
                 <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
             </div>
             <p class="placeholder">social button</p>
-            <a href="" target="_blank"></a>
-        </div>
+        </a>
         <!-- <div class="element form prime">
             <div class="border border1"></div>
             <div class="border border2"></div>
