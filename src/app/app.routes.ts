@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './components/admin/home/home.component';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 import { AdminComponent } from './components/admin/admin/admin.component';
 import { HeadComponent } from './components/admin/head/head.component';
@@ -9,10 +9,12 @@ import { FilesComponent } from './components/admin/files/files.component';
 import { MessagesComponent } from './components/admin/messages/messages.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { TemplatesComponent } from './components/admin/templates/templates.component';
+import { PageComponent } from './components/page/page.component';
 
 export const routes: Routes = [
-    {"path":"", component:HomeComponent},
+    {"path":":page", component: PageComponent},
     {"path":"admin", component:AdminComponent, children:[
+        {"path":"", component:HomeComponent},
         {"path":"dashboard", component:DashboardComponent},
         {"path":"head", component:HeadComponent},
         {"path":"head-foot", component:HeaderFooterComponent},

@@ -2,13 +2,8 @@ $color: rgba(142, 61, 222, 0.68);
 $size-index: calc(1vw + 1vh);
 html,
 body {
-    background: rgb(38, 38, 38);
-    background: linear-gradient(135deg, rgba(38, 38, 38, 1) 32%, rgba(99, 99, 99, 1) 73%, rgba(184, 184, 184, 1) 95%);
     padding: 0px;
     margin: 0px;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
 }
 * {
     font-family: "Inter", sans-serif;
@@ -27,6 +22,7 @@ body {
     font-weight: bold;
     font-size: 2em;
     text-shadow: 0px 0px 1px black;
+    z-index: 0;
 }
 .non-empty {
     border: none;
@@ -47,6 +43,12 @@ body {
         pointer-events: none;
     }
 }
+.editor .form-editor{
+    width: 75%;
+}
+.configurator .form-editor{
+    width: 50%;
+}
 .editor, .configurator {
     position: absolute;
     width: 100%;
@@ -66,8 +68,8 @@ body {
         cursor: pointer;
     }
     .form-editor {
-        width: 50%;
-        height: 80%;
+        height: 70%;
+        max-height: 70%;
         margin: auto;
         margin-top: 5%;
         background-color: white;
@@ -85,6 +87,7 @@ body {
         .options-editor {
             height: 10%;
             display: flex;
+            accent-color: $color;
             select {
                 border: none;
                 border-bottom: 4px solid rgba(77, 33, 121, 0.6);
@@ -139,6 +142,42 @@ body {
                 &>p{
                     cursor: pointer;
                 }
+                &>div{
+                    display: flex;
+                    width: 100%;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    &>*{
+                        margin: 10px 0px;
+                    }
+                    .btn{
+                        padding: 10px 20px;
+                        border: 4px solid rgba(77, 33, 121, 0.6);
+                        border-radius: 10px;
+                        cursor: pointer;
+                    }
+                    p{
+                        font-size: calc((1vw + 1vh) * 0.85);
+                        margin: 0px;
+                        text-transform: capitalize;
+                    }
+                    input[type="file"]{
+                        display: none;
+                    }
+                    input:not([type="file"]){
+                        flex-grow: 1;
+                        resize: vertical;
+                        height: 5vh;
+                        width: 100%;
+                        border: none;
+                        border-bottom: 4px solid rgba(77, 33, 121, 0.6);
+                        outline: none;
+                        padding: 0px;
+                        margin: 0px 5px;
+                        font-size: calc((1vw + 1vh) * 0.85);
+                        align-self: self-end;
+                    }
+                }
             }
             .col {
                 position: sticky;
@@ -181,7 +220,8 @@ body {
     align-items: center;
     padding-bottom: 10px;
     header,
-    footer {
+    footer,
+    main{
         width: 100%;
         min-height: 15vh;
         height: auto;
@@ -190,9 +230,10 @@ body {
         box-sizing: border-box;
         display: flex;
         flex-wrap: wrap;
-    }
-    .element {
-        margin: 15px;
+        .element {
+            margin: 15px;
+            width: calc(100% - 30px);
+        }
     }
 }
 .constructor {
@@ -243,7 +284,10 @@ body {
             pointer-events: auto;
             width: 100%;
             &:first-child {
-                margin-top: 28%;
+                margin-top: 20%;
+            }
+            &>*:last-child:not(.placeholder){
+                display: none;
             }
         }
         
@@ -257,14 +301,21 @@ body {
 }
 .element {
     position: relative;
-    min-height: 10vh;
+    min-height: 5vh;
     box-sizing: border-box;
-    box-shadow: inset 0px 0px 10px $color;
     display: flex;
     flex-wrap: wrap;
     overflow: visible;
+    margin: 0px;
     .placeholder {
         font-size: 1.3em;
+    }
+    &>*:not(.placeholder, .border, .funcBtn){
+        z-index: 2;
+    }
+    &>*:last-child:not(.placeholder, img, li, .section, .area, .element){
+        width: 100%;
+        margin: 0px;
     }
 }
 .section {
@@ -272,17 +323,35 @@ body {
 }
 .area, .list {
     flex-grow: 2;
+    min-width: 35%;
 }
-.img,
-.button,
-.title,
-.paragraph {
-    width: 100%;
+.list{
+    list-style: none;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    margin:0px;
+    &>li{
+        border: 5px dashed $color;
+        min-width: 3vw;
+        min-height: 3vw;
+        flex-grow: 2;
+        cursor: pointer;
+    }
 }
 .img{
     &>img{
         width: 100%;
     }
+}
+.img,
+.button,
+.title,
+.text,
+.paragraph {
+    width: 100%;
 }
 .funcBtn {
     position: absolute;
@@ -290,7 +359,7 @@ body {
     right: 0px;
     display: none;
     overflow: hidden;
-    z-index: 1;
+    z-index: 5;
     img {
         height: calc($size-index * 1.5);
         cursor: pointer;
@@ -393,4 +462,10 @@ body {
         height: calc($size-index * 2);
         cursor: pointer;
     }
+}
+.horizontal{
+    flex-direction: row;
+}
+.vertical{
+    flex-direction: column;
 }

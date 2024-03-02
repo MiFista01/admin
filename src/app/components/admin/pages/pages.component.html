@@ -1,1 +1,25 @@
-<p>pages works!</p>
+<form id="search">
+    <div class="left">
+        <h2>Pages</h2>
+        <input type="text" name="pageName" id="pageName">
+        <button>search</button>
+    </div>
+    <div class="right">
+        <p class="btn">update cards</p>
+    </div>
+</form>
+<section>
+    <div class="pages">
+        <article *ngFor="let item of showPages">
+           <a>
+                <img src="{{item.pageImg}}" alt="">
+                <div class="des">
+                    <p class="name">{{item.pageName}}</p>
+                </div>
+           </a>
+        </article>
+    </div>
+    <div class="pagination">
+
+    </div>
+</section>

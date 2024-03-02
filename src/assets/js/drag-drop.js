@@ -59,7 +59,7 @@ function setDragDrop() {
     $($(".copy-container").children()[0]).css("left",leftPX - width * 1.5 + "px"); //установка позици скопированного элемента
   });
 
-  $(".constructor .element").click(function (e) {//установка функции при событии клика по классу .element
+  $(".constructor .element, .constructor .access-point").click(function (e) {//установка функции при событии клика по классу .element
     e.preventDefault();
     if ($(".copy-container").children().length > 0) { //проверка есть ли скопированный элемент
       let element = createElement(this, 0); //запуск функции создания элемента с модом "добавить"
@@ -80,15 +80,9 @@ function createElement(parent, insertMod, child = null) {
     $(element).css("left", "0px"); //обнуление позиции
     $(".elements").css("right", "0vw"); //востановлении панели
     $(".copy-container").empty(); //очитска дива для копирования
-    $(element).mouseenter(function (e) { //событие входа мыши в элемент
-      if(!hovered){
-        showHideFunc(this, true);
-        showHideFunc(e.relatedTarget, false);
-        hovered = true
-        setTimeout(() => {
-          hovered = false
-        }, 5);
-      }
+    $(element).mouseenter(function (e) {//событие входа мыши в элемент
+      showHideFunc(this, true);
+      showHideFunc(e.relatedTarget, false);
     });
     $(element).mouseleave(function (e) {//событие выхода мыши в элемент
       showHideFunc(this, false);
@@ -193,6 +187,14 @@ function createElement(parent, insertMod, child = null) {
 }
 function showHideFunc(obj, status) {
   if (!$(obj).hasClass("prime")) {
+    if(!$(obj).hasClass("element")){
+      for(const i of $(obj).parents()){
+        if($(i).hasClass("element") && !$(i).hasClass("prime")){
+          obj = i;
+          break;
+        }
+      }
+    }
     if (status) {
       $($(obj).children(".border")).show(0);
       $($(obj).children(".border1")).css("height", "10px");
@@ -207,7 +209,6 @@ function showHideFunc(obj, status) {
       $($(obj).children(".border2")).css("height", "0px");
       $($(obj).children(".border3")).css("width", "0px");
       $($(obj).children(".border4")).css("width", "0px");
-      
       $($(obj).children(".funcBtn")).slideUp(200);
     }
   }

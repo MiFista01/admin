@@ -10,10 +10,18 @@ $size-index: calc(1vw + 1vh);
     flex-direction: column;
     align-items: center;
     position: relative;
-    iframe {
-        flex-grow: 1;
-        width: 100%;
-        min-height: 40vh;
-    }
+    color: rgb(153, 102, 204);
 }
 
+h2{
+    margin: 0px;
+    width: 100%;
+    text-transform: uppercase;
+    font-family: "Koulen", sans-serif;
+    font-weight: 500;
+    letter-spacing: 3px;
+    font-size: calc($size-index * 2.2);
+}
+.element{
+    box-shadow: inset 0px 0px 10px $color;
+}

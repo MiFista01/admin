@@ -10,14 +10,16 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  link = "/"
   constructor(private router: Router) {}
   ChangerHome(){
     const currentRoute = this.router.url;
-
-    if (currentRoute.substring(0,5) !== '/admin') {
-      return '/';
+    if (currentRoute.substring(0,6) !== '/admin') {
+      this.link = "/"
+      return false;
     } else {
-      return '/admin';
+      this.link = "/admin"
+      return true;
     }
   }
 }

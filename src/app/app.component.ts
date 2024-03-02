@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { DomainService } from './services/domain.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +17,8 @@ import { DomainService } from './services/domain.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(private domain:DomainService){
+  constructor(){
     afterNextRender (() => {
-      this.domain.setMainDomain(window.location.hostname.split('.').slice(-2).join('.'))
     });
   }
-  title = 'admin';
 }
