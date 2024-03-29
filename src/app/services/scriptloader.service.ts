@@ -8,8 +8,8 @@ declare function setConfigurator():void
 export class ScriptloaderService {
   constructor() { }
   createConstructor(){
-    setDragDrop()
-    setEditor()
-    setConfigurator()
+    // setDragDrop()
+    // setEditor()
+    // setConfigurator()
   }
 }

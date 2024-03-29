@@ -32,21 +32,21 @@ function setDragDrop() {
     return true;
   });
 
-  $(".components .element ").click(function (e) {
-    //функция для копирования элемента из компонентов
-    e.preventDefault();
-    if ($(this).hasClass("prime")) { //проверка на то что клик был именно по элементу в панели
-      $(".copy-container").empty(); //очистка дива для копирования
-      let element = $(this).clone(); // клонирование элемента по которому был клик
-      $(element).removeClass("prime"); //удаление класса у скопированного элемента
-      $(".copy-container").append(element); //добавление скопированного элемента в див для перемещения
-      let width = $(element).width(); //получение ширины элемента
-      let height = $(element).height(); //получение высоты элемента
-      $($(".copy-container").children()[0]).css("top",topPX - height * 2.5 + "px"); //установка начальной позици скопированного элемента
-      $($(".copy-container").children()[0]).css("left",leftPX - width * 1.5 + "px"); //установка начальной позици скопированного элемента
-      $(".elements").css("right", "-20vw");
-    }
-  });
+  // $(".components .element ").click(function (e) {
+  //   //функция для копирования элемента из компонентов
+  //   e.preventDefault();
+  //   if ($(this).hasClass("prime")) { //проверка на то что клик был именно по элементу в панели
+  //     $(".copy-container").empty(); //очистка дива для копирования
+  //     let element = $(this).clone(); // клонирование элемента по которому был клик
+  //     $(element).removeClass("prime"); //удаление класса у скопированного элемента
+  //     $(".copy-container").append(element); //добавление скопированного элемента в див для перемещения
+  //     let width = $(element).width(); //получение ширины элемента
+  //     let height = $(element).height(); //получение высоты элемента
+  //     $($(".copy-container").children()[0]).css("top",topPX - height * 2.5 + "px"); //установка начальной позици скопированного элемента
+  //     $($(".copy-container").children()[0]).css("left",leftPX - width * 1.5 + "px"); //установка начальной позици скопированного элемента
+  //     $(".elements").css("right", "-20vw");
+  //   }
+  // });
 
   $("body").mousemove(function (e) {
     //функция для перемещение скопированного элемента из компонентов

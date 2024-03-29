@@ -12,7 +12,6 @@ import { TemplatesComponent } from './components/admin/templates/templates.compo
 import { PageComponent } from './components/page/page.component';
 
 export const routes: Routes = [
-    {"path":":page", component: PageComponent},
     {"path":"admin", component:AdminComponent, children:[
         {"path":"", component:HomeComponent},
         {"path":"dashboard", component:DashboardComponent},
@@ -23,5 +22,6 @@ export const routes: Routes = [
         {"path":"messages", component:MessagesComponent},
         {"path":"user", component:UsersComponent},
         {"path":"templates", component:TemplatesComponent}
-    ]}
+    ]},
+    {"path":":page", component: PageComponent},
 ];

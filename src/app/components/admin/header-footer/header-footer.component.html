@@ -1,11 +1,11 @@
 <h2>Header/Footer constructor</h2>
-<div class="constructor">
-    <div class="copy-container"></div>
-    <header class="element access-point">
+<div class="constructor" ngMoveDraggabaleElement (contextmenu)="newContextMenu()" ngMoveDraggabaleElement>
+    <div class="clone-container" id="clone-container"></div>
+    <header class="element access-point" ngDropzone>
         <p class="placeholder">header</p>
     </header>
     <!-- <iframe src="https://uiverse.io/" frameborder="0"></iframe> -->
-    <footer class="element access-point">
+    <footer class="element access-point" ngDropzone>
         <p class="placeholder">footer</p>
     </footer>
 </div>
@@ -91,23 +91,12 @@
 </div>
 <div class="components">
     <div class="btn-elements">
-        <img src="assets/imgs/constructor/menu.svg" alt="">
+        <img src="assets/imgs/constructor/menu.svg" alt="" (click)="toggleElementsMenu()">
     </div>
     
-    <div class="elements">
-        <div class="element section prime">
-            <div class="border border1"></div>
-            <div class="border border2"></div>
-            <div class="border border3"></div>
-            <div class="border border4"></div>
-            <div class="funcBtn">
-                <img src="assets/imgs/constructor/move.png" alt="" class="move">
-                <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
-                <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
-            </div>
-            <p class="placeholder">section</p>
-        </div>
-        <div class="element area prime">
+    <div class="elements" [ngStyle]="{'right': !rightAside? '-20vw': '0vw'}">
+        <app-constructor-element *ngFor="let item of elements" [element]="item"></app-constructor-element>
+        <!-- <div class="element area prime" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -119,7 +108,7 @@
             </div>
             <p class="placeholder">area</p>
         </div>
-        <div class="element img prime">
+        <div class="element img prime" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -133,7 +122,7 @@
             <p class="placeholder">image</p>
             <img src="" alt="" class="editible-configurator">
         </div>
-        <ul class="element list prime">
+        <ul class="element list prime" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -147,7 +136,7 @@
             <p class="placeholder">list</p>
             
         </ul>
-        <div class="element title prime">
+        <div class="element title prime" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -161,7 +150,7 @@
             <p class="placeholder">title</p>
             <h1 class="editible-configurator" contenteditable="true"></h1>
         </div>
-        <div class="element paragraph prime">
+        <div class="element paragraph prime" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -174,7 +163,7 @@
             <p class="placeholder">text</p>
             <p class="text editible-configurator" contenteditable="true"></p>
         </div>
-        <a class="element button prime" href="">
+        <a class="element button prime" href="" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -187,7 +176,7 @@
             </div>
             <p class="placeholder">button</p>
         </a>
-        <a class="element social-btn prime" href="" target="_blank">
+        <a class="element social-btn prime" href="" target="_blank" ngStartDraggable (onStartDrag)="clickableElements()">
             <div class="border border1"></div>
             <div class="border border2"></div>
             <div class="border border3"></div>
@@ -199,13 +188,6 @@
                 <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
             </div>
             <p class="placeholder">social button</p>
-        </a>
-        <!-- <div class="element form prime">
-            <div class="border border1"></div>
-            <div class="border border2"></div>
-            <div class="border border3"></div>
-            <div class="border border4"></div>
-            <p class="placeholder">form</p>
-        </div> -->
+        </a> -->
     </div>
 </div>

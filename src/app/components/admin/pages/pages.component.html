@@ -1,18 +1,29 @@
-<form id="search">
-    <div class="left">
+<div id="search">
+    <form class="left">
         <h2>Pages</h2>
-        <input type="text" name="pageName" id="pageName">
-        <button>search</button>
-    </div>
+        <div class="searchField">
+            <input type="text" name="pageNameSearch" id="pageNameSearch" placeholder="search pages">
+            <img src="./assets/imgs/search.png" alt="">
+        </div>
+    </form>
     <div class="right">
-        <p class="btn">update cards</p>
+        <div class="btn">
+            <p (click)="togglePageNameForm()">create page</p>
+            <form [formGroup]="createrPages" id="createrPages" (submit)="createPage()" [ngStyle]="{'height': pageNameFormToggle? '50px': '0px'}">
+                <input type="text" id="pageName" required formControlName="pageName" [ngStyle]="{'color': errorPageName ? 'red': 'white'}">
+                <button [disabled]="!createrPages.valid">create</button>
+            </form>
+        </div>
+        <div class="btn">
+            <p (click)="updateCardsSnapshot()">update cards</p>
+        </div>
     </div>
-</form>
+</div>
 <section>
     <div class="pages">
         <article *ngFor="let item of showPages">
            <a>
-                <img src="{{item.pageImg}}" alt="">
+                <img src="{{item.pageImg}}" *ngIf="item.pageImg != null && item.pageImg.length > 0" alt="">
                 <div class="des">
                     <p class="name">{{item.pageName}}</p>
                 </div>

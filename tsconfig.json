@@ -22,7 +22,14 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "@directives/*": ["app/directives/*"],
+      "@config": ["config.ts"],
+      "@services/*": ["app/services/*"],
+      "@guards/*": ["app/guards/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
