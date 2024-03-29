@@ -1,0 +1,40 @@
+<ng-container [ngSwitch]="element.type">
+    <section *ngSwitchCase="'section'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null" ngStartDraggable (onStartDrag)="onStartDrag()" [attr.element-type]="element.type">
+        <div class="border border1"></div>
+        <div class="border border2"></div>
+        <div class="border border3"></div>
+        <div class="border border4"></div>
+        <div class="funcBtn">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <p class="placeholder">section</p>
+        <app-constructor-element *ngFor="let item of element.children" [element]="item" [ngClass]="item.properties?.className ? item.properties.className : null"></app-constructor-element>
+    </section>
+
+    <div *ngSwitchCase="'area'" class="area" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.element-type]="element.type">
+      
+    </div>
+
+    <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.config" >
+        <h1 *ngSwitchCase="'h1'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h1>
+        <h2 *ngSwitchCase="'h2'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h2>
+        <h3 *ngSwitchCase="'h3'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h3>
+        <h4 *ngSwitchCase="'h4'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h4>
+        <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h5>
+        <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h6>
+    </ng-container>
+
+    <p *ngSwitchCase="'text'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</p>
+
+    <img *ngSwitchCase="'img'" [src]="element.src" alt="" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">
+
+    <a *ngSwitchCase="'btn'" href="{{element.src}}" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null"> {{element.text}}</a>
+
+    <a *ngSwitchCase="'socal_btn'" target="_blank" href="{{element.src}}" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null"> {{element.text}}</a>
+
+    <div *ngSwitchDefault>
+    </div>
+</ng-container>

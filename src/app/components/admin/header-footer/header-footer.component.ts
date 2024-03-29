@@ -1,28 +1,66 @@
 import { Component, ElementRef,ViewChild, afterNextRender } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UploadedGalleryComponent } from '../uploaded-gallery/uploaded-gallery.component';
 import { ScriptloaderService } from '../../../services/scriptloader.service';
-import {environment} from "../../../../config"
+import {environment} from "@config"
+import { CommonModule } from '@angular/common';
+import { ConstructorElementComponent } from '../constructor-element/constructor-element.component';
+import { ConstructorService } from '@services/constructor.service';
+import { Subscription } from 'rxjs';
+import { MoveDraggabaleElementDirective } from '@directives/move-draggabale-element.directive';
+import { DropzoneDirective } from '@directives/dropzone.directive';
+
 
 declare function emitTriggers(): void;
 @Component({
   selector: 'app-header-footer',
   standalone: true,
-  imports: [HttpClientModule, ReactiveFormsModule, UploadedGalleryComponent],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    UploadedGalleryComponent,
+    ConstructorElementComponent,
+    MoveDraggabaleElementDirective,
+    DropzoneDirective,
+  ],
   templateUrl: './header-footer.component.html',
-  styleUrl: './header-footer.component.scss'
+  styleUrl: './header-footer.component.scss',
 })
 export class HeaderFooterComponent {
-  configs:any
-  constructor(private sl:ScriptloaderService, private fb: FormBuilder, private http: HttpClient){
-    afterNextRender (() => {
-      this.sl.createConstructor()
-    });
+  configs:FormGroup
+  constructor(
+    private sl:ScriptloaderService,
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private constructorService: ConstructorService
+  ){
+    // afterNextRender (() => {
+    //   this.sl.createConstructor()
+    // });
     this.configs = this.fb.group({
       srctToChange: ['', [Validators.required]],
     });
   }
+  rightAside = true
+  clone:any = []
+  elements = [
+    {
+      type:"section",
+      configurator: false,
+      properties:{
+        className:"element section prime"
+      }
+    }
+  ]
+  
+  ngOnInit(): void {
+    this.constructorService.selectedElement$.subscribe(status => {
+      this.rightAside = status;
+    });
+  }
+
   @ViewChild(UploadedGalleryComponent, { static: false }) childComponent: UploadedGalleryComponent | undefined;
   showGallery(){
     this.childComponent?.toggleAside()
@@ -32,7 +70,7 @@ export class HeaderFooterComponent {
   }
   
   selectImg(selectedImage:string){
-    this.configs.get('srctToChange').setValue(selectedImage);
+    this.configs.get('srctToChange')?.setValue(selectedImage);
     emitTriggers()
   }
   saveImage(event:any){
@@ -63,7 +101,29 @@ export class HeaderFooterComponent {
   }
   
   @ViewChild("inputUpload", { static: false }) inputUpload: ElementRef | undefined;
+
+  toggleElementsMenu(){
+    this.rightAside = !this.rightAside
+  }
   triggerInput(){
     this.inputUpload?.nativeElement.click();
+  }
+
+  clickableElements(){
+    this.rightAside = true
+  }
+
+  newContextMenu(){
+    if(!this.rightAside){
+      this.rightAside = true
+      const container = document.getElementById("clone-container") as HTMLElement;
+      if (container?.firstElementChild != null && container.children.length > 0) {
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+      }
+      return false
+    }
+    return true
   }
 }
