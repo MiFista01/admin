@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+interface elements{
+  [key:string]:{
+    configurator:boolean,
+    properties:{
+      [key:string]:any
+    }
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConstructorService {
-  private selectedElementSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  selectedElement$: Observable<boolean> = this.selectedElementSubject.asObservable();
-  public elements = {
+  public elements:elements = {
     section:{
       configurator: false,
       properties:{
@@ -29,35 +34,32 @@ export class ConstructorService {
     list:{
       configurator: true,
       properties:{
-        className:"element section prime"
+        className:"element list prime"
       }
     },
     title:{
       configurator: true,
       properties:{
-        className:"element img prime"
+        className:"element title prime"
       }
     },
     paragraph:{
       configurator: false,
       properties:{
-        className:"element section prime"
+        className:"element paragraph prime"
       }
     },
-    button:{
+    btn:{
       configurator: true,
       properties:{
-        className:"element section prime"
+        className:"element button prime"
       }
     },
     "social-btn":{
       configurator: true,
       properties:{
-        className:"element img prime"
+        className:"element social-btn prime"
       }
     },
-  }
-  changeRightAsideStatus(status: boolean): void {
-    this.selectedElementSubject.next(status);
   }
 }

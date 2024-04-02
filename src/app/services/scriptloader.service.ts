@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-declare function setDragDrop():void;
-declare function setEditor():void 
-declare function setConfigurator():void
+declare function initDragDrop():void;
+declare function initEditor():void 
+declare function initConfigurator():void
 @Injectable({
   providedIn: 'root'
 })
 export class ScriptloaderService {
   constructor() { }
   createConstructor(){
-    // setDragDrop()
-    // setEditor()
-    // setConfigurator()
+    initDragDrop()
+    initEditor()
+    initConfigurator()
   }
 }

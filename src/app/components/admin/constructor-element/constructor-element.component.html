@@ -1,39 +1,123 @@
 <ng-container [ngSwitch]="element.type">
-    <section *ngSwitchCase="'section'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null" ngStartDraggable (onStartDrag)="onStartDrag()" [attr.element-type]="element.type">
-        <div class="border border1"></div>
-        <div class="border border2"></div>
-        <div class="border border3"></div>
-        <div class="border border4"></div>
-        <div class="funcBtn">
+    <section *ngSwitchCase="'section'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
             <img src="assets/imgs/constructor/move.png" alt="" class="move">
             <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
             <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
             <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
         </div>
-        <p class="placeholder">section</p>
-        <app-constructor-element *ngFor="let item of element.children" [element]="item" [ngClass]="item.properties?.className ? item.properties.className : null"></app-constructor-element>
     </section>
 
-    <div *ngSwitchCase="'area'" class="area" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.element-type]="element.type">
-      
+    <div *ngSwitchCase="'area'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
     </div>
-
-    <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.config" >
-        <h1 *ngSwitchCase="'h1'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h1>
-        <h2 *ngSwitchCase="'h2'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h2>
-        <h3 *ngSwitchCase="'h3'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h3>
-        <h4 *ngSwitchCase="'h4'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h4>
-        <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h5>
-        <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</h6>
-    </ng-container>
-
-    <p *ngSwitchCase="'text'" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">{{element.text}}</p>
-
-    <img *ngSwitchCase="'img'" [src]="element.src" alt="" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null">
-
-    <a *ngSwitchCase="'btn'" href="{{element.src}}" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null"> {{element.text}}</a>
-
-    <a *ngSwitchCase="'socal_btn'" target="_blank" href="{{element.src}}" [id]="element.properties?.id ? element.properties.id : null" [ngClass]="element.properties?.className ? element.properties.className : null"> {{element.text}}</a>
+    <div *ngSwitchCase="'img'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <img>
+    </div>
+    <div *ngSwitchCase="'list'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <ul></ul>
+    </div>
+    <div *ngSwitchCase="'title'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <h1 contenteditable="true"></h1>
+    </div>
+    <div *ngSwitchCase="'paragraph'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <p contenteditable="true"></p>
+    </div>
+    <div *ngSwitchCase="'btn'" [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <a></a>
+    </div>
+    <div *ngSwitchCase="'social-btn'"  [ngClass]="element.properties?.className ? element.properties.className : null" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtnss">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configuration" *ngIf="element.configurator">
+            <img src="assets/imgs/constructor/edit.png" alt="" class="edit">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <a target="_blank"></a>
+    </div>
 
     <div *ngSwitchDefault>
     </div>
