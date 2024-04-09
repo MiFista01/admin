@@ -15,14 +15,14 @@
         <li [id]="focusedItem === 'files' ? 'focus' : null">
             <a routerLink="/admin/files" (click)="ChangeFocus('files')"><p>Files</p> <p>{{files}}</p></a>
         </li>
-        <li [id]="focusedItem === 'messages' ? 'focus' : null">
-            <a routerLink="/admin/messages" (click)="ChangeFocus('messages')"><p>Message</p> <p>{{messages}}</p></a>
-        </li>
-        <li [id]="focusedItem === 'user' ? 'focus' : null">
-            <a routerLink="/admin/user" (click)="ChangeFocus('user')"><p>User</p> <p>{{user}}</p></a>
-        </li>
         <li [id]="focusedItem === 'templates' ? 'focus' : null">
             <a routerLink="/admin/templates" (click)="ChangeFocus('templates')"><p>Templates</p> <p>{{templates}}</p></a>
+        </li>
+        <li [id]="focusedItem === 'database' ? 'focus' : null">
+            <a routerLink="/admin/database" (click)="ChangeFocus('database')"><p>Database</p></a>
+        </li>
+        <li [id]="focusedItem === 'faq' ? 'focus' : null">
+            <a routerLink="/admin/faq" (click)="ChangeFocus('faq')"><p>FAQ</p></a>
         </li>
     </ul>
 </aside>

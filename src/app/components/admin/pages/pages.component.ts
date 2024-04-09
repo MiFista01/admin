@@ -3,21 +3,28 @@ import { Component, Inject } from '@angular/core';
 import {environment} from "@config"
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RequestsService } from 'app/services/admin/requests.service';
-import { error } from 'console';
+import { RouterModule } from '@angular/router';
+import { ConstructorService } from '@services/constructor.service';
 
 @Component({
   selector: 'app-pages',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './pages.component.html',
   styleUrl: './pages.component.scss'
 })
 export class PagesComponent {
   createrPages: FormGroup;
+  host = ""
+  showPages:any[] = []
+  allPages:any[] = []
+  pageNameFormToggle = false
+  errorPageName = false
 
   constructor(
     private req:RequestsService,
     private fb:FormBuilder,
+    private constructorService: ConstructorService,
     @Inject(DOCUMENT) private document: any
   ){
     this.createrPages = this.fb.group({
@@ -27,14 +34,9 @@ export class PagesComponent {
       ]
     ]});
   }
-  host = ""
-  showPages:any[] = []
-  allPages:any[] = []
-  pageNameFormToggle = false
-  errorPageName = false
   ngOnInit(){
     this.host = this.document.location.origin
-    this.req.sendGetRequest(`${environment.apiUrl}/pages/`).subscribe(data=>{
+    this.req.Get<[]>(`${environment.apiUrl}/pages/`).subscribe(data=>{
       for(const i of data){
         if(this.showPages.length < 12){
           this.showPages.push(i)
@@ -43,13 +45,23 @@ export class PagesComponent {
       }
     })
   }
+  searchPages(e:any){
+    if(e.target.value.length > 0){
+      this.showPages = this.allPages.filter(page => page.pageName.includes(e.target.value));   
+    }else{
+      this.showPages = this.allPages.slice(0, 12);
+    }
+  }
   togglePageNameForm(){
     this.pageNameFormToggle = !this.pageNameFormToggle
   }
   createPage(){
-    this.req.sendPostRequest(`${environment.apiUrl}/pages/`,{pageName:this.createrPages.controls["pageName"].value}).subscribe(data=>{
-      console.log(data)
+    this.req.Post<any>(`${environment.apiUrl}/pages/`,{pageName:this.createrPages.controls["pageName"].value}).subscribe(data=>{
       this.createrPages.controls["pageName"].value
+      if(this.showPages.length < 12){
+        this.showPages.push(data)
+      }
+      this.allPages.push(data)
     },
   error=>{
     this.errorPageName = true
@@ -60,7 +72,9 @@ export class PagesComponent {
   }
   updateCardsSnapshot(){
     for(const i of this.showPages){
-      this.req.sendPostRequest(`${environment.apiUrl}/pages/snapshot/${i.id}`,{url:this.host+"/"+i.pageName})
+      this.req.Patch<any>(`${environment.apiUrl}/pages/snapshot/${i.id}`,{url:this.host+"/"+i.pageName}).subscribe(data=>{
+        i.pageImg = data.pageImg
+      })
     }
   }
 }

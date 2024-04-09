@@ -6,16 +6,16 @@ import { Injectable } from '@angular/core';
 })
 export class RequestsService {
   constructor(private http: HttpClient) { }
-  sendGetRequest(url:string){
-    return this.http.get<any>(url, { withCredentials: true });
+  Get<T>(url:string){
+    return this.http.get<T>(url, { withCredentials: true });
   }
-  sendPostRequest(url:string, body:any){
-    return this.http.post<any>(url, body, { withCredentials: true });
+  Post<T>(url:string, body:any){
+    return this.http.post<T>(url, body, { withCredentials: true });
   }
-  sendPatchRequest(url:string, body:any){
-    return this.http.patch<any>(url, body, { withCredentials: true });
+  Patch<T>(url:string, body:any){
+    return this.http.patch<T>(url, body, { withCredentials: true });
   }
-  sendDeleteRequest(url:string){
-    return this.http.delete<any>(url, { withCredentials: true });
+  Delete<T>(url:string){
+    return this.http.delete<T>(url, { withCredentials: true });
   }
 }

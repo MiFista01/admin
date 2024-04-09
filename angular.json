@@ -34,7 +34,7 @@
             ],
             "scripts": [
               "src/assets/js/drag-drop.js",
-              "src/assets/js/constructor.js",
+              "src/assets/js/editor.js",
               "src/assets/js/configurator.js"
             ],
             "server": "src/main.server.ts",
