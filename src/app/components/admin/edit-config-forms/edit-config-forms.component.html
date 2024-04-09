@@ -1,0 +1,98 @@
+<app-uploaded-gallery #gallery (setImageInput)="setImage($event)"></app-uploaded-gallery>
+<div class="forms">
+    <div class="card" >
+        <div class="bg" (click)="galleryMenuClick(true)" (click)="returnForms()"></div>
+        <form class="editor" [class.flipped]="isFlipped">
+            <header>
+                <h2><span class="elementType"></span> editor</h2>
+                <p class="flippBtn editorBtn" (click)="flipCard()">Go to conf.</p>
+            </header>
+            <div class="body">
+                <div class="styles-options">
+                    <div class="group" *ngFor="let group of styles">
+                        <p (click)="showStyleGroup(group.optGroupName)" [class.selectedStyle]="checkStyleSelectedGroup(group)">{{group.optGroupName}}</p>
+                        <div class="style-tokens" [class.show]="showStyleGroupArray.includes(group.optGroupName)" >
+                            <p [attr.value]="style.value" (click)="selectedStyle(style.value)" [attr.type]="style.type" *ngFor="let style of group.group">{{style.name}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="styles-changer">
+                    <p>{{ '{' }}</p>
+                    <div class="style-changer" *ngFor="let group of styles" [class.show]="checkStyleSelectedGroup(group)">
+                        <div *ngFor="let style of group.group" [class.show]="selectedStyles.includes(style.value)">
+                            <ng-container [ngSwitch]="style.type">
+                                <article *ngSwitchCase="'user-color'" [attr.type]="style.type" [attr.styleName]="style.value">
+                                    <p class="label">{{style.name}}:</p>
+                                    <input type="color">
+                                    <input type="range" min="0" max="1" step="0.1">
+                                </article>
+                                <article *ngSwitchCase="'user-size'" [attr.type]="style.type" [attr.styleName]="style.value">
+                                    <p class="label">{{style.name}}:</p>
+                                    <input type="number" value="0">
+                                    <select>
+                                        <option value="px" selected>px</option>
+                                        <option value="%">%</option>
+                                        <option value="vw">vw</option>
+                                        <option value="vh">vh</option>
+                                        <option value="em">em</option>
+                                    </select>
+                                </article>
+                                <article *ngSwitchCase="'user-select'" [attr.type]="style.type" [attr.styleName]="style.value">
+                                    <p class="label">{{style.name}}:</p>
+                                    <select>
+                                        <option value="{{value}}" *ngFor="let value of style.values">{{value}}</option>
+                                    </select>
+                                </article>
+                                <article *ngSwitchCase="'user-text'" [attr.type]="style.type" [attr.styleName]="style.value">
+                                    <p class="label">{{style.name}}:</p>
+                                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                                </article>
+                                <article *ngSwitchCase="'user-numb'" [attr.type]="style.type" [attr.styleName]="style.value">
+                                    <p class="label">{{style.name}}:</p>
+                                    <input type="number" value="0">
+                                </article>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <p>{{ '}' }}</p>
+                </div>
+                <p id="selectStyles">update</p>
+            </div>
+        </form>
+        <form class="configurator" [class.flipped]="!isFlipped">
+            <header>
+                <h2><span class="elementType"></span> configurator</h2>
+                <p class="flippBtn" (click)="flipCard()">Go to editor</p>
+            </header>
+            <div class="body">
+                <div class="conf conf-img">
+                    <p *ngIf="galleryLength > 0" (click)="galleryMenuClick(false)">select image</p>
+                    <div>
+                        <p (click)="fileInputTrigger()">uploade image</p>
+                        <input #file type="file" (change)="sendImage($event)">
+                    </div>
+                    <textarea placeholder="Select image URL" (input)="setImageUrl($event)"></textarea>
+                </div>
+                <div class="conf conf-list">
+                    <input type="number" id="countItem" (change)="setListChildren($event)" value="0" placeholder="Set count list child" min="0">
+                </div>
+                <div class="conf conf-title">
+                    <select (change)="changeTitle($event)">
+                        <option value="h1">h1</option>
+                        <option value="h2">h2</option>
+                        <option value="h3">h3</option>
+                        <option value="h4">h4</option>
+                        <option value="h5">h5</option>
+                        <option value="h6">h6</option>
+                    </select>
+                </div>
+                <div class="conf conf-btn">
+                    <select (change)="changeBtnSrc($event)">
+                        <option value="--" selected disabled>--</option>
+                        <option *ngFor="let item of pages" value="{{item}}">{{item}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

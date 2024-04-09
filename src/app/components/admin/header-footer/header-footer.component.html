@@ -1,15 +1,19 @@
-<h2>Header/Footer constructor</h2>
-<div class="constructorMain">
-    <div class="clone-container" id="clone-container"></div>
-    <header class="element header" dropzone="true" placeholder="header"></header>
-    <footer class="element header" dropzone="true" placeholder="footer"></footer>
+<app-edit-config-forms></app-edit-config-forms>
+
+
+<div class="constructor">
+    <h2>Header/Footer constructor</h2>
+    <div class="constructorMain">
+        <div class="clone-container" id="clone-container"></div>
+        <header class="element header" dropzone="true" placeholder="header"></header>
+        <footer class="element header" dropzone="true" placeholder="footer"></footer>
+    </div>
 </div>
 
 <div class="constructorAside">
-    <div class="showHideBtnElement">
-        <img src="assets/imgs/constructor/menu.svg" alt="" >
+    <div class="constructorAsideBtn">
+        <p (click)="updateImage()">UpadePage</p>
     </div>
-    
     <div class="elements">
         <app-constructor-element *ngFor="let elementConf of constructorElements" [element]="elementConf"></app-constructor-element>
     </div>

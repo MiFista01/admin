@@ -1,71 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 import { GalleryItemComponent } from '../gallery-item/gallery-item.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import {environment} from "../../../../config"
+import {environment} from "@config"
+import { RequestsService } from '@services/admin/requests.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-uploaded-gallery',
   standalone: true,
-  imports: [CommonModule,HttpClientModule, GalleryItemComponent],
+  imports: [CommonModule, GalleryItemComponent],
   templateUrl: './uploaded-gallery.component.html',
   styleUrl: './uploaded-gallery.component.scss'
 })
 export class UploadedGalleryComponent {
-  constructor(private http: HttpClient){}
-  items: string[] = [];
-  isLoading = false
-  end = false
-  party = 1
-  sendLendth = 4
-
-  startLoop(party:number, increment:boolean) {
-    if(this.items.length % this.sendLendth == 0){
-      this.party++;
-    }
-
-    if(party == 0){
-      this.items = []
-      this.party = 1
-      this.end = false
-      this.isLoading = false
-    }
-
-    let receivedPictures = this.http.get<string[]>(`${environment.apiUrl}/images/${party}`).subscribe(data =>{
-      if(data.length == 0){
-        return;
-      }else if( data.length % this.sendLendth != 0){
-        this.end = true
-      }
-      for (let i of data) {
-        this.items.push(`${environment.apiUrl}/static/imgs/uploads/${i}`)
-      }
-      this.isLoading = false
+  images:string[] = []
+  private imagesLengthSubject = new BehaviorSubject<number>(0);
+  imagesLength$ = this.imagesLengthSubject.asObservable();
+  flipped = true
+  uploadImageStatus = false
+  party = 0
+  @ViewChild('imagesDiv') imagesDiv!: ElementRef;
+  @Output() setImageInput = new EventEmitter<string>();
+  constructor(private req: RequestsService){}
+  ngOnInit(){
+    this.req.Get<[]>(`${environment.apiUrl}/images/0`).subscribe(data=>{
+      data.forEach(imageSrc=>{
+        this.images.push(`${environment.apiUrl}/static/imgs/uploads/${imageSrc}`)
+      })
+      this.imagesLengthSubject.next(this.images.length)
     })
   }
-  addImage(src:string){
-    this.items.push(src)
-  }
-  right = '-20vw';
-  @Output() newItemEvent = new EventEmitter<string>();
-  toggleAside(open?:boolean, selectedImage?: string) {
-    if(open == undefined){
-      this.right = this.right === '-20vw' ? '0vw' : '-20vw';
-      if(selectedImage){
-        this.newItemEvent.emit(selectedImage);
-      }
-    }else{
-      this.right = open === true ? '0vw' : '-20vw';
-    }
-  }
 
-  @HostListener('scroll', ['$event'])
-  onScroll(event: any): void {
-    if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight && !this.isLoading && !this.end) {
-      this.party = Math.floor(this.items.length / this.sendLendth)
-      this.startLoop(this.party, true)
-      this.isLoading = true
+  public toggleAside(status:boolean){
+    this.flipped = status
+  }
+  onScroll(event: any) {
+    const element = event.target;
+    if (element.scrollHeight - element.scrollTop < element.clientHeight+40 && !this.uploadImageStatus) {
+      this.req.Get<number>(`${environment.apiUrl}/images/length`).subscribe(value=>{
+        if( value != this.images.length){
+          this.uploadImageStatus = true
+          if(this.images.length % 4 == 0){
+            this.party++
+          }else{
+            const desiredLength = Math.floor(this.images.length / 4) * 4;
+            this.images.splice(desiredLength);
+          }
+          this.req.Get<[]>(`${environment.apiUrl}/images/${this.party}`).subscribe(data=>{
+            data.forEach((value) => {
+              this.images.push(`${environment.apiUrl}/static/imgs/uploads/${value}`)
+            })
+            this.uploadImageStatus = false
+          })
+        }
+      })
     }
+  }
+  setImage(imagePath: string){
+    this.setImageInput.emit(imagePath)
   }
 }

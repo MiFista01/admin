@@ -1,4 +1,4 @@
-$color: rgba(142, 61, 222, 0.68);
+$color: rgba(142, 61, 222, .68);
 $size-index: calc(1vw + 1vh);
 html,
 body {
@@ -7,29 +7,27 @@ body {
 }
 * {
     font-family: "Inter", sans-serif;
-    transition-property: left, right, background-color;
-    transition-duration: 0.5s;
     box-sizing: border-box;
 }
-@keyframes visible {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-   }
+
+.constructor{
+    width: 80%;
+    flex-grow: 1;
+}
 .clone-container{
     position: absolute;
     left: 0px;
     top: 0px;
     pointer-events: none;
-    .element{
+    &>.element{
         width: 15vw;
         height: 10vh;
         pointer-events: none;
         transition-duration: 0s !important;
         transform: translate(-50%, -50%);
+        &>*{
+            display: none;
+        }
     }
 }
 .constructorMain{
@@ -39,70 +37,132 @@ body {
     &>*{
         width: 100%;
     }
-    header, footer{
+    header, footer, main{
         min-height: 20vh;
         padding: 15px;
+        width: 100%;
+        .img{
+            flex-grow: 2;
+        }
         .element{
-            min-height: 15vh;
+            min-height: 10vh;
             padding: 15px;
             box-sizing: border-box;
+            max-height: 100%;
+            img{
+                object-fit: contain;
+            }
         }
+    }
+    * {
+        transition-property: left, right, background-color;
+        transition-duration: .5s;
+    }
+    a{
+        // pointer-events: none;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 .constructorAside{
-    position: absolute;
+    position: sticky;
     top: 0px;
-    right: 0px;
     display: flex;
     flex-direction: column;
-    width: 20vw;
-    height: calc(100vh - $size-index * 4.5);
+    width: 20%;
+    align-items: end;
+    height: 100%;
     pointer-events: none;
     z-index: 2;
-    .showHideBtnElement{
+    background-color: rgb(27, 27, 27);
+    border: 6px solid $color;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    .constructorAsideBtn{
         display: flex;
+        justify-content: center;
         align-items: center;
-        justify-content: end;
-        height: 10vh;
-        padding-right: 10px;
-        z-index: 1;
-        img{
-            height: 70%;
+        width: 100%;
+        height: 10%;
+        box-sizing: border-box;
+        pointer-events: all;
+        p{
+            margin: 0px;
+            text-transform: uppercase;
+            color: whitesmoke;
+            background-color: $color;
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            pointer-events: all;
+            transition-duration: 0.5s;
+            &:hover{
+                background-color: rgb(142, 61, 222);
+                color: white;
+                scale: 1.1;
+            }
         }
     }
     .elements{
-        position: absolute;
-        right: 0px;
-        top: 0px;
         width: 100%;
-        height: 100%;
+        height: 90%;
         overflow: scroll;
         padding: 10px;
-        padding-top: 8vh;
         box-sizing: border-box;
-        background-color: rgb(27, 27, 27);
-        border: 6px solid $color;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
+        transition-duration: .5s;
         &::-webkit-scrollbar{
             display: none;
         }
         .element{
+            &::before{
+                color: $color !important;
+            }
             width: 100%;
             height: 10vh;
             margin: 10px 0px;
             cursor: pointer;
             pointer-events: all;
+            transition-duration: 0.5s;
+            &>*{
+                display: none;
+            }
+            &:hover{
+                z-index: 2;
+                scale: 1.1;
+            }
         }
     }
 }
-section, .title, .paragraph, image{
+section, .title, .paragraph, .img, .list, .btn{
     width: 100%;
+    &>h1,
+    &>h2,
+    &>h3,
+    &>h4,
+    &>h5,
+    &>h6,
+    &>p,
+    &>img,
+    &>ul,
+    &>a{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        color: white;
+    }
+    
+}
+.area{
+    flex-grow: 2;
+    min-width: 15%;
 }
 .element{
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
     &::before{
         content: attr(placeholder);
         position: absolute;
@@ -113,9 +173,12 @@ section, .title, .paragraph, image{
         text-transform: uppercase;
         font-size: 1.3em;
         font-weight: 700;
-        transform: translate(-50%, -50%)
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        color: rgba(142, 61, 222, 0.416);
+        z-index: 0;
     }
-    &>.borders, &>.funcBtns, .leaved>.borders, .leaved>.funcBtns{
+    &>.borders, &>.funcBtns{
         transition-property: opacity;
         opacity: 0;
         pointer-events: none;
@@ -123,15 +186,24 @@ section, .title, .paragraph, image{
     .active:hover:not(.prime){
         &>.borders, &>.funcBtns{
             opacity: 1;
-            pointer-events: all;
+            pointer-events: none;
+            z-index: 2;
+            &>*{
+                pointer-events: all;
+            }
         }
     }
     .funcBtns{
-        width: 100%;
-        height: 5vh;
+        width: calc(100% - 25px);
+        height: 4vh;
         position: absolute;
+        display: flex;
+        justify-content: end;
+        align-items: center;
         img{
             height: 100%;
+            cursor: pointer;
+            pointer-events: all;
         }
     }
     .borders{
@@ -142,13 +214,14 @@ section, .title, .paragraph, image{
         height: 100%;
         .border1, .border2, .border3, .border4{
             position: absolute;
-            background-color: rgba(144, 0, 255, 0.6);
+            background-color: rgba(144, 0, 255, .6);
             cursor: pointer;
-            box-shadow: 0px 0px 0px rgba(154, 29, 250, 0.6);
-            transition-duration: 0.5s;
+            box-shadow: 0px 0px 0px rgba(154, 29, 250, .6);
+            transition-duration: .5s;
+            pointer-events: all;
             &:hover{
-                background-color: rgba(154, 29, 250, 0.6);
-                box-shadow: 0px 0px 5px rgba(154, 29, 250, 0.6);
+                background-color: rgba(154, 29, 250, .6);
+                box-shadow: 0px 0px 5px rgba(154, 29, 250, .6);
                 z-index: 1;
             }
         }
@@ -169,4 +242,42 @@ section, .title, .paragraph, image{
             right: 0px;
         }
     }
+    ul{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        li{
+            position: relative;
+            min-width: 15%;
+            flex-grow: 1;
+            box-shadow: inset 0px 0px 10px $color;
+            &::before{
+                content: "li";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 1.3em;
+                font-weight: 700;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
+        }
+    }
+    a{
+        text-decoration: none;
+    }
+}
+.show{
+    max-height: 300px !important;
+}
+.flipped {
+    transform: rotateY(180deg);
+}
+.selectedStyle{
+    background-color: rgba(142, 61, 222, .2);
 }

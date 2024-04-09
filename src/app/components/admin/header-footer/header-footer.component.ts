@@ -1,25 +1,21 @@
-import { AfterRenderPhase, Component, ElementRef,ViewChild, afterNextRender, afterRender } from '@angular/core';
-import {HttpClientModule } from '@angular/common/http';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {Component, afterNextRender } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UploadedGalleryComponent } from '../uploaded-gallery/uploaded-gallery.component';
-import {environment} from "@config"
 import { CommonModule } from '@angular/common';
 import { ScriptloaderService } from '@services/scriptloader.service';
 import { ConstructorElementComponent } from '../constructor-element/constructor-element.component';
 import { ConstructorService } from '@services/constructor.service';
-
-
-
-declare function emitTriggers(): void;
+import { EditConfigFormsComponent } from '../edit-config-forms/edit-config-forms.component';
+declare function emitCreateCondtructorTree():any
 @Component({
   selector: 'app-header-footer',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
     UploadedGalleryComponent,
     ConstructorElementComponent,
+    EditConfigFormsComponent
   ],
   templateUrl: './header-footer.component.html',
   styleUrl: './header-footer.component.scss',
@@ -29,7 +25,8 @@ export class HeaderFooterComponent {
   constructor(
     private sl:ScriptloaderService,
     private fb: FormBuilder,
-    private constructorService:ConstructorService
+    private constructorService:ConstructorService,
+    
   ){
     for( const key of Object.keys(constructorService.elements)){
       const element = {
@@ -42,5 +39,8 @@ export class HeaderFooterComponent {
       this.sl.createConstructor()
       
     });
+  }
+  updateImage(){
+    emitCreateCondtructorTree()
   }
 }

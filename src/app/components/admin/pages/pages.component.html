@@ -2,27 +2,27 @@
     <form class="left">
         <h2>Pages</h2>
         <div class="searchField">
-            <input type="text" name="pageNameSearch" id="pageNameSearch" placeholder="search pages">
-            <img src="./assets/imgs/search.png" alt="">
+            <input type="text" name="pageNameSearch" id="pageNameSearch" placeholder="search pages" (input)="searchPages($event)">
+            <!-- <img src="./assets/imgs/search.png" alt=""> -->
         </div>
     </form>
     <div class="right">
         <div class="btn">
             <p (click)="togglePageNameForm()">create page</p>
-            <form [formGroup]="createrPages" id="createrPages" (submit)="createPage()" [ngStyle]="{'height': pageNameFormToggle? '50px': '0px'}">
+            <form [formGroup]="createrPages" id="createrPages" (submit)="createPage()" [ngStyle]="{'height': pageNameFormToggle? '50px': '0px', 'pointer-events': pageNameFormToggle? 'all': 'none', 'opacity': pageNameFormToggle? '1': '0'}">
                 <input type="text" id="pageName" required formControlName="pageName" [ngStyle]="{'color': errorPageName ? 'red': 'white'}">
                 <button [disabled]="!createrPages.valid">create</button>
             </form>
         </div>
         <div class="btn">
-            <p (click)="updateCardsSnapshot()">update cards</p>
+            <p (click)="updateCardsSnapshot()" >update cards</p>
         </div>
     </div>
 </div>
 <section>
     <div class="pages">
         <article *ngFor="let item of showPages">
-           <a>
+           <a [ngStyle]="{'justify-content': item.pageImg == null? 'end': 'space-between'}" [routerLink]="['./', item.pageName]">
                 <img src="{{item.pageImg}}" *ngIf="item.pageImg != null && item.pageImg.length > 0" alt="">
                 <div class="des">
                     <p class="name">{{item.pageName}}</p>
