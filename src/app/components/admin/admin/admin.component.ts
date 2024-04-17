@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AsideComponent } from '../aside/aside.component';
 import { Router, RouterModule } from '@angular/router';
+import { HeaderComponent } from 'app/header/header.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule,RouterModule, AsideComponent],
+  imports: [CommonModule,RouterModule, AsideComponent, HeaderComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })

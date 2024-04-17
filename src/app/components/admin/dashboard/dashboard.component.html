@@ -1,63 +1,58 @@
-<h2>Dashboard</h2>
+<h2 class="Color Large">Dashboard</h2>
 <div id="stats-actions">
-    <div class="block">
-        <h3>WebSite Stats</h3>
+    <div class="block OpacityBorderColor">
+        <h3 class="Color Middle">WebSite Stats</h3>
         <div id="start">
             <div id="stats">
-                <div class="stat">
+                <div class="stat Color Small">
                     <img src="assets/imgs/dashboard/pages.svg" alt="">
-                    <p>{{pages}} pages</p>
+                    <p class="Color">{{pages}} pages</p>
                 </div>
-                <div class="stat">
+                <div class="stat Color Small">
                     <img src="assets/imgs/dashboard/people.png" alt="">
-                    <p>{{people}} people</p>
+                    <p class="Color">{{people}} people</p>
                 </div>
-                <div class="stat">
+                <div class="stat Color Small">
                     <img src="assets/imgs/dashboard/pages.svg" alt="">
-                    <p>{{pages}} pages</p>
+                    <p class="Color">{{pages}} pages</p>
                 </div>
-                <div class="stat">
+                <div class="stat Color Small">
                     <img src="assets/imgs/dashboard/people.png" alt="">
-                    <p>{{people}} people</p>
+                    <p class="Color">{{people}} people</p>
                 </div>
             </div>
-            <a href="">Welcome WebSite</a>
+            <a href="/home" class="Color BackgroundColorBtn BorderColor">Welcome WebSite</a>
         </div>
     </div>
-    <div class="block">
-        <h3>Last action in pages</h3>
+    <div class="block OpacityBorderColor" style="width: 25%;">
+        <h3 class="Color Middle">Last action in pages</h3>
         <div id="actions">
-            <div class="action">
+            <div class="action Color Tiny BackgroundColorBtn">
                 <p>Home / Modifier</p>
-                <p>smallBtn</p>
             </div>
-            <div class="action">
+            <div class="action Color Tiny BackgroundColorBtn">
                 <p>Home / Create</p>
-                <p>smallBtn</p>
             </div>
-            <div class="action">
+            <div class="action Color Tiny BackgroundColorBtn">
                 <p>Home / Modifier</p>
-                <p>smallBtn</p>
             </div>
-            <div class="action">
+            <div class="action Color Tiny BackgroundColorBtn">
                 <p>Home / Create</p>
-                <p>smallBtn</p>
             </div>
-            <div class="action">
+            <div class="action Color Tiny BackgroundColorBtn">
                 <p>Home / Modifier</p>
-                <p>smallBtn</p>
             </div>
-            <div class="action">
+            <div class="action Color Tiny BackgroundColorBtn">
                 <p>Home / Create</p>
-                <p>smallBtn</p>
             </div>
+            
         </div>
     </div>
 </div>
-<div id="wishes" class="block">
+<div id="wishes" class="block OpacityBorderColor">
     <form [formGroup]="wishes" (ngSubmit)="onSubmitWish()">
-        <h3>Wishes to the developers</h3>
-        <textarea id="wish" cols="30" rows="10" formControlName="wish" placeholder="Write your wishes for improving the project"></textarea>
+        <h3 class="Color Middle">Wishes to the developers</h3>
+        <textarea id="wish" cols="30" rows="10" formControlName="wish" placeholder="Write your wishes for improving the project" class="Small OpacityBorderColor"></textarea>
         <button type="submit" [disabled]="wishes.invalid">send</button>
     </form>
 </div>

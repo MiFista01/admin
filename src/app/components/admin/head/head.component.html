@@ -1,45 +1,47 @@
-<h2>Head settings</h2>
+<h2 class="Color Large">Head settings</h2>
 <div id="prime-settings">
-    <div id="files" class="block">
-        <h3>Upload Files</h3>
+    <div id="files" class="block BackgroundColorLight">
+        <h3 class="Color Big">Upload Files</h3>
         <div class="names">
-            <div class="col32"><p>name</p></div>
-            <div class="col32"><p>Downloaded date</p></div>
-            <div class="col32"><p>Status</p></div>
+            <div class="col32 Color Small"><p>name</p></div>
+            <div class="col32 Color Small"><p>Downloaded date</p></div>
+            <div class="col32 Color Small"><p>Status</p></div>
         </div>
         <hr>
         <div class="rows">
             <div class="row">
-                <div class="col32"><p>style.css</p></div>
-                <div class="col32"><p>01-01-2024</p></div>
-                <div class="col32"></div>
+                <div class="col32 Color Tiny"><p>style.css</p></div>
+                <div class="col32 Color Tiny"><p>01-01-2024</p></div>
+                <div class="col32 Color Tiny"></div>
             </div>
         </div>
     </div>
 </div>
-<div class="block" id="seo">
-    <h3>SEO Settings</h3>
+<div class="block BackgroundColorLight" id="seo">
+    <h3 class="Color Big">SEO Settings</h3>
     <form [formGroup]="seo" (ngSubmit)="onSubmitUpdateSEO()">
         <div class="group">
             <div class="col">
-                <h4>Title:</h4>
-                <input type="text" formControlName="title" placeholder="Title for browser">
+                <h4 class="Color Middle">Title:</h4>
+                <input type="text" formControlName="title" placeholder="Title for browser" class="Small">
             </div>
             <div class="col">
-                <h4>Description:</h4>
-                <textarea  formControlName="des" placeholder="Describe your site for search engines"></textarea>
+                <h4 class="Color Middle">Description:</h4>
+                <textarea  formControlName="des" placeholder="Describe your site for search engines" class="Small"></textarea>
             </div>
         </div>
         <div class="group" id="tags">
             <div class="col">
-                <h4>Tags manager</h4>
+                <h4 class="Color Middle">Tags manager</h4>
                 <div>
-                    <input type="text" name="tag-manager" [(ngModel)]="tagName" [ngModelOptions]="{standalone: true}" placeholder="Tag name" (keydown.enter)="$event.preventDefault()" (keyup.enter)="onEnter()">
+                    <input type="text" name="tag-manager" [(ngModel)]="tagName" [ngModelOptions]="{standalone: true}" placeholder="Tag name" (keydown.enter)="$event.preventDefault()" (keyup.enter)="onEnter()" class="Small">
                     <p class="button" (click)="addTag()">add</p>
                 </div>
             </div>
             <div class="tags-container">
-                <ng-container #tagsContainer></ng-container>
+                <div class="tag BackgroundColorLight OpacityBorderColor" *ngFor="let item of tagsNames" (click)="deleteTag(item)">
+                    <p>{{item}}</p>
+                </div>
             </div>
         </div>
         <button type="submit">Update</button>

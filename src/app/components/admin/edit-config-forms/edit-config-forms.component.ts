@@ -81,9 +81,6 @@ export class EditConfigFormsComponent {
   
   /* ---------------------------- configurator form --------------------------- */
   @ViewChild('file') fileInput!: ElementRef;
-  fileInputTrigger(){
-    this.fileInput.nativeElement.click()
-  }
   
   returnForms(){
     this.isFlipped = false

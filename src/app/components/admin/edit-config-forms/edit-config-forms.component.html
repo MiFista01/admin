@@ -4,30 +4,30 @@
         <div class="bg" (click)="galleryMenuClick(true)" (click)="returnForms()"></div>
         <form class="editor" [class.flipped]="isFlipped">
             <header>
-                <h2><span class="elementType"></span> editor</h2>
-                <p class="flippBtn editorBtn" (click)="flipCard()">Go to conf.</p>
+                <h2 class="OpacityColor Big"><span class="elementType"></span> editor</h2>
+                <p class="flippBtn editorBtn Color Small" (click)="flipCard()">Go to conf.</p>
             </header>
             <div class="body">
                 <div class="styles-options">
                     <div class="group" *ngFor="let group of styles">
-                        <p (click)="showStyleGroup(group.optGroupName)" [class.selectedStyle]="checkStyleSelectedGroup(group)">{{group.optGroupName}}</p>
+                        <p class="Color Small" (click)="showStyleGroup(group.optGroupName)" [class.selectedStyle]="checkStyleSelectedGroup(group)">{{group.optGroupName}}</p>
                         <div class="style-tokens" [class.show]="showStyleGroupArray.includes(group.optGroupName)" >
-                            <p [attr.value]="style.value" (click)="selectedStyle(style.value)" [attr.type]="style.type" *ngFor="let style of group.group">{{style.name}}</p>
+                            <p class="Color Tiny" [attr.value]="style.value" (click)="selectedStyle(style.value)" [attr.type]="style.type" *ngFor="let style of group.group">{{style.name}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="styles-changer">
-                    <p>{{ '{' }}</p>
+                    <p class="Color">{{ '{' }}</p>
                     <div class="style-changer" *ngFor="let group of styles" [class.show]="checkStyleSelectedGroup(group)">
                         <div *ngFor="let style of group.group" [class.show]="selectedStyles.includes(style.value)">
                             <ng-container [ngSwitch]="style.type">
                                 <article *ngSwitchCase="'user-color'" [attr.type]="style.type" [attr.styleName]="style.value">
-                                    <p class="label">{{style.name}}:</p>
+                                    <p class="label Color Small">{{style.name}}:</p>
                                     <input type="color">
                                     <input type="range" min="0" max="1" step="0.1">
                                 </article>
                                 <article *ngSwitchCase="'user-size'" [attr.type]="style.type" [attr.styleName]="style.value">
-                                    <p class="label">{{style.name}}:</p>
+                                    <p class="label Color Small">{{style.name}}:</p>
                                     <input type="number" value="0">
                                     <select>
                                         <option value="px" selected>px</option>
@@ -38,40 +38,40 @@
                                     </select>
                                 </article>
                                 <article *ngSwitchCase="'user-select'" [attr.type]="style.type" [attr.styleName]="style.value">
-                                    <p class="label">{{style.name}}:</p>
+                                    <p class="label Color Small">{{style.name}}:</p>
                                     <select>
                                         <option value="{{value}}" *ngFor="let value of style.values">{{value}}</option>
                                     </select>
                                 </article>
                                 <article *ngSwitchCase="'user-text'" [attr.type]="style.type" [attr.styleName]="style.value">
-                                    <p class="label">{{style.name}}:</p>
+                                    <p class="label Color Small">{{style.name}}:</p>
                                     <textarea name="" id="" cols="30" rows="10"></textarea>
                                 </article>
                                 <article *ngSwitchCase="'user-numb'" [attr.type]="style.type" [attr.styleName]="style.value">
-                                    <p class="label">{{style.name}}:</p>
+                                    <p class="label Color Small">{{style.name}}:</p>
                                     <input type="number" value="0">
                                 </article>
                             </ng-container>
                         </div>
                     </div>
-                    <p>{{ '}' }}</p>
+                    <p class="Color">{{ '}' }}</p>
                 </div>
                 <p id="selectStyles">update</p>
             </div>
         </form>
         <form class="configurator" [class.flipped]="!isFlipped">
             <header>
-                <h2><span class="elementType"></span> configurator</h2>
-                <p class="flippBtn" (click)="flipCard()">Go to editor</p>
+                <h2 class="OpacityColor Big"><span class="elementType"></span> configurator</h2>
+                <p class="flippBtn Color Small" (click)="flipCard()">Go to editor</p>
             </header>
             <div class="body">
                 <div class="conf conf-img">
-                    <p *ngIf="galleryLength > 0" (click)="galleryMenuClick(false)">select image</p>
+                    <p class="Small" *ngIf="galleryLength > 0" (click)="galleryMenuClick(false)">select image</p>
                     <div>
-                        <p (click)="fileInputTrigger()">uploade image</p>
+                        <p class="Small" (click)="file.click()">uploade image</p>
                         <input #file type="file" (change)="sendImage($event)">
                     </div>
-                    <textarea placeholder="Select image URL" (input)="setImageUrl($event)"></textarea>
+                    <textarea class="Small" placeholder="Select image URL" (input)="setImageUrl($event)"></textarea>
                 </div>
                 <div class="conf conf-list">
                     <input type="number" id="countItem" (change)="setListChildren($event)" value="0" placeholder="Set count list child" min="0">

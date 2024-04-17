@@ -17,6 +17,7 @@ export class PageSettingsComponent {
     private req: RequestsService
   ){}
   ngOnInit(){
+    console.log("JAAAAAAAAAA BLAT RABOTAIU POCHEMUTO")
     this.route.paramMap.subscribe(params => {
       const pageName = params.get('pageName');
       this.req.Get<any[]>(`${environment.apiUrl}/pages`).subscribe((data)=>{

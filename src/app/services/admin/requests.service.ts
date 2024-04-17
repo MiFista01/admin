@@ -12,7 +12,7 @@ export class RequestsService {
   Post<T>(url:string, body:any){
     return this.http.post<T>(url, body, { withCredentials: true });
   }
-  Patch<T>(url:string, body:any){
+  Patch<T>(url:string, body?:any){
     return this.http.patch<T>(url, body, { withCredentials: true });
   }
   Delete<T>(url:string){

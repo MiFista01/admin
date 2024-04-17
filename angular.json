@@ -34,8 +34,7 @@
             ],
             "scripts": [
               "src/assets/js/drag-drop.js",
-              "src/assets/js/editor.js",
-              "src/assets/js/configurator.js"
+              "src/assets/js/editor.js"
             ],
             "server": "src/main.server.ts",
             "prerender": true,
