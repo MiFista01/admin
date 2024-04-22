@@ -1,4 +1,3 @@
-var menuStatus = true
 var topMousePos = 0
 var leftMousePos = 0
 var insertMod = 0
@@ -6,49 +5,41 @@ var moveStatus = false
 var edititingElement = ""
 function initDragDrop(){
   // toggleMenuElements()
-  element(".element")
-  moveElement()
+  element(".element")  //создание элементов созданные для перетаскивания
+  moveElement()  //функция для перетаскивания элементов в диведля клонирования
   contextMenu()
-  $(".bg").click(()=>{
+  $(".bg").click(()=>{ //функция для закрытия формы для изменения
     hideForm()
     $("#countItem").val(0);
   });
 }
-function toggleMenuElements() {
-  $(".showHideBtnElement").click(function (e) {
-    e.preventDefault();
-    menuStatus = !menuStatus
-    $(".elements").css("right", menuStatus? "0px": "-20vw");
-  });
-}
 
-function moveElement(){
+function moveElement(){ //функция для перетаскивания
   $("body").mousemove(function (e) { 
     // values: e.clientX, e.clientY, e.pageX, e.pageY
-    var offset = $(".constructorMain").offset();
+    var offset = $(".constructorMain").offset();  //получение элемента в котором находится див для клонирования
     if(offset){
-      var top = offset.top;
-      var left = offset.left;
-      topMousePos = e.pageY-top
-      leftMousePos = e.pageX-left
-      $($(".clone-container").children()[0]).css("top", topMousePos+"px");
-      $($(".clone-container").children()[0]).css("left", leftMousePos+"px");
+      var top = offset.top;  //получение позиции по высоте
+      var left = offset.left;  //получение позиции по ширине
+      topMousePos = e.pageY-top  //позиция относительно мыши и контейнера по высоте
+      leftMousePos = e.pageX-left  //позиция относительно мыши и контейнера по ширине
+      $($(".clone-container").children()[0]).css("top", topMousePos+"px");  //установка позиции клонированному элементу
+      $($(".clone-container").children()[0]).css("left", leftMousePos+"px");  //установка позиции клонированному элементу
     }
   });
 }
-function contextMenu(){
+function contextMenu(){ //функция для изменения поведения правой кнопки мыши
   $(document).bind("contextmenu", function (e) {
-    if ($(".clone-container").children().length > 0) {
-      $(".clone-container").empty();
-      
-      return false;
+    if ($(".clone-container").children().length > 0) {  //проверка на клонированный элемент
+      $(".clone-container").empty();  //очистка контейнера для клонирования
+      return false;  // если контейнер не пуст то тогда отменяется обычное поведение
     }
     return true;
   });
 }
-function element(obj){
-  const borders = $(obj).children(".borders").children();
-  $(borders).click(function (e) { 
+function element(obj){  //функция для создания элементов
+  const borders = $(obj).children(".borders").children(); //получение бордеров элемента
+  $(borders).click(function (e) {  //присвоение прослушивателя клика для установки мода вставки
     e.preventDefault();
     let borderNmb = $(this).attr("class").split(" ")[1].replace("border","")
     if(borderNmb == 1 || borderNmb == 3){
@@ -59,13 +50,13 @@ function element(obj){
   });
   
   
-  $(obj).click(function (e) {
+  $(obj).click(function (e) {  //присвоение прослушивателя клика самому элементу
     e.preventDefault();
-    const cloneElement = $(".clone-container").children()
-    if(!moveStatus){
-      if (cloneElement.length == 0 && $(this).hasClass("prime") && $(this).attr("dropzone") !== "true") {
+    const cloneElement = $(".clone-container").children() //получение клонированного элемента
+    if(!moveStatus){  //проверка на перемещение элемента
+      if (cloneElement.length == 0 && $(this).hasClass("prime") && $(this).attr("dropzone") !== "true"){  //проверкана для вставки в контейнер клонирования
         appendtoClone(this)
-      }else if(($(this).attr("dropzone") === "true" || insertMod != 0) && cloneElement.length != 0){
+      }else if(($(this).attr("dropzone") === "true" || insertMod != 0) && cloneElement.length != 0){  //проверка уна вставку 
         insertTo(this)
       }
     }
@@ -73,88 +64,92 @@ function element(obj){
   });
 }
 
-function hover(obj){
+function hover(obj){  //функция для проверки наведённого элемента
   $(obj).hover(function (e) {
-    if($(this).hasClass("element")){
-      $($(this).parent()).removeClass("active");
-      if(!$($(this).children(".element")).hasClass("active")){
-        $(this).addClass("active");
+    if($(this).hasClass("element")){  //проверка на главный класс
+      $(".element").removeClass("active");  //удаление класса для выделения
+      if(!$($(this).children(".element")).hasClass("active")){  //проверка на класс выделения у детей нынешнего наведённого элемента
+        $(this).addClass("active");  //добавление класса актива нынешнему элементу
       }
     }
     
   }, function (e) {
-    if($(this).hasClass("element") && $(e.relatedTarget).hasClass("element")){
-      $(this).removeClass("active");
-      $(e.relatedTarget).addClass("active");
+    if($(this).hasClass("element") && $(e.relatedTarget).hasClass("element")){ //проверка на главный классу нынешнего наведённого и прошлого наведённого элемента
+      $(this).removeClass("active");  //удаление у нынешнего элемента класса актив
+      if(!$(e.relatedTarget).hasClass(".element")){  //проверка на не наличие главного класса у элемента к которому пришли
+        $($(e.relatedTarget).parents(".element")[0]).addClass("active");  //когда класса нету ищется первый родитель с главным классом и ему добавляется класс актив
+      }else{
+        $(e.relatedTarget).addClass("active"); //добавление класса актив к элементу к которому перешлт
+      }
     }
   });
 }
-function move(obj){
+function move(obj){  //функция для добавлении функции перемещения
   $($(obj).children(".funcBtns").children(".move")).click(function (e) {
     e.preventDefault();
     
-    if($(obj).parent().children(".element").length-1 <= 0){
-      $($(obj).parent()).attr("placeholder", $($(obj).parent()).attr("class").split(" ")[1]);
-      $($(obj).parent()).addClass("active");
+    if($(obj).parent().children(".element").length-1 <= 0){  //проверка на наличие детей с главным классом у родителя обьекта
+      $($(obj).parent()).attr("placeholder", $($(obj).parent()).attr("class").split(" ")[1]);  //если детей нету берётся главый класс типа и пихается в атрибут 
+      $($(obj).parent()).addClass("active");  //добавление класса актив родителю обьекта
     }
     moveStatus = true
-    appendtoClone(obj)
-    $(obj).remove();
+    appendtoClone(obj) // добавление обьекта в клонированный контейнер
+    $(obj).remove();  //удаление обьекта
   });
 }
-function deleteElement(obj){
+function deleteElement(obj){  //функция для удаление обьекта
   $($(obj).children(".funcBtns").children(".delete")).click(function (e) {
     e.preventDefault();
-    if($(obj).parent().children(".element").length-1 <= 0){
-      $($(obj).parent()).attr("placeholder", $($(obj).parent()).attr("class").split(" ")[1]);
+    if($(obj).parent().children(".element").length-1 <= 0){  //проверка на наличие детей с главным классом у родителя нынешнего обьекта
+      $($(obj).parent()).attr("placeholder", $($(obj).parent()).attr("class").split(" ")[1]);  //если детей нету берётся главый класс типа и пихается в атрибут 
     }
-    $(obj).hide(200, ()=>{
-      $(obj).remove();
+    $(obj).hide(200, ()=>{  //сокрытие обьекта
+      $(obj).remove();  //удаление обьекта
     });
   });
 }
-function initForms(obj) {
-  $($(obj).children(".funcBtns").children(".configurator")).click(function (e) { 
+function initForms(obj) {  //инициализация формы
+  $($(obj).children(".funcBtns").children(".configurator")).click(function (e) {  //присвоение прослушивателя для кнопки конфигуратора 
     e.preventDefault();
-    $(".elementType").text($(obj).attr("class").split(" ")[1]);
-    if($(obj).hasClass("paragraph") || $(obj).hasClass("section") || $(obj).hasClass("area")){
-      $(".editorBtn").hide(0);
+    $(".elementType").text($(obj).attr("class").split(" ")[1]); //присвоение текста в форме основываясь на тип обьекта
+    if($(obj).hasClass("paragraph") || $(obj).hasClass("section") || $(obj).hasClass("area")){ //проверка на тип обьекта
+      $(".editorBtn").hide(0);  //сокрытие кнопки для перехода
     }else{
-      $(".editorBtn").show(0);
+      $(".editorBtn").show(0); // показ кнопки
     }
     $(".forms").css("opacity", 1);
     $(".forms").css("pointer-events", "all");
-    edititingElement = obj
-    $(".conf").hide(0);
-    $(".conf-"+$(obj).attr("class").split(" ")[1]).show(0);
+    edititingElement = obj  //присвоение к переменной редактируемого элемента
+    $(".conf").hide(0);  //сокрытие всех полей конфигуратора
+    $(".conf-"+$(obj).attr("class").split(" ")[1]).show(0); //показ поля конфигуратора основываясь на типе обьекта
   });
 }
 function hideForm(){
   $(".forms").css("opacity", 0);
   $(".forms").css("pointer-events", "none");
 }
-function appendtoClone(obj){
-  const cloneElement = $(obj).clone();
-  $(cloneElement).css("top", topMousePos+"px");
-  $(cloneElement).css("left", leftMousePos+"px");
-  $(cloneElement).attr("placeholder", $(cloneElement).attr("class").split(" ")[1]);
-  $(cloneElement).removeClass("active");
-  $(".clone-container").empty();
-  $(".clone-container").append(cloneElement);
+function appendtoClone(obj){ //функция для вставки обьекта в контейнер для клонирования
+  const cloneElement = $(obj).clone();  //клонирование обьекта
+  $(cloneElement).css("top", topMousePos+"px");  //присвоение позиции мыши клонированному обьекту
+  $(cloneElement).css("left", leftMousePos+"px");  //присвоение позиции мыши клонированному обьекту
+  $(cloneElement).attr("placeholder", $(cloneElement).attr("class").split(" ")[1]);  //присвоение отрибута со значением типа обьекта
+  $(cloneElement).removeClass("active"); // очистака на всякий от класса актив
+  $(".clone-container").empty();  //очистка клонированного контейнера
+  $(".clone-container").append(cloneElement);  //запись обьекта в контейнер для клонирования
   insertMod = 0
 }
 
-function insertTo(obj){
-  const cloneElement = $($(".clone-container").children()[0]).clone();
-  const mainClass = $(cloneElement).attr("class").split(" ")[1]
-  if(mainClass == "section" || mainClass == "area" || mainClass == "btn"){
-    $(cloneElement).attr("dropzone", true);
+function insertTo(obj){ //вставка обьекта в другой обьекта
+  const cloneElement = $($(".clone-container").children()[0]).clone(); //клонирование обьекта с контейнера для клонирования
+  const mainClass = $(cloneElement).attr("class").split(" ")[1]  //получение главного класса
+  if(mainClass == "section" || mainClass == "area" || mainClass == "btn"){ //проверка на класс
+    $(cloneElement).attr("dropzone", true); //установка атрибута для повзоления вставки в сам элемент
   }
-  $(cloneElement).removeClass("prime");
-  $(cloneElement).css("top", "0px");
-  $(cloneElement).css("left", "0px");
-  const appendElement = assignEventListeners(cloneElement)
-  switch (insertMod) {
+  $(cloneElement).removeClass("prime");  //удаления класса с основанный на коструктор
+  $(cloneElement).css("top", "0px"); //обнуление высоты у элемента
+  $(cloneElement).css("left", "0px");  //обнуление высоты у элемента
+  const appendElement = assignEventListeners(cloneElement)  //присвоение слушателей для детей клонированного обьекта
+  switch (insertMod) {  //проверка на мод кставки
     case 0:
       $(obj).append(appendElement);
       $(obj).attr("placeholder", "");
@@ -169,7 +164,7 @@ function insertTo(obj){
   $(".clone-container").empty();
   insertMod = 0
 }
-function assignEventListeners(obj) {
+function assignEventListeners(obj) {//присвоение всех созданных слушателей
   hover(obj)
   move(obj)
   initForms(obj)

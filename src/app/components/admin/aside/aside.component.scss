@@ -1,7 +1,6 @@
-$size-index: calc(1vw + 1vh);
+@import "../../../../styles.scss";
 :host{
     width: 14%;
-    height: 100%;
 }
 aside{
     width: 100%;
@@ -15,14 +14,13 @@ aside{
         margin: 0px;
         padding: 0px;
         #focus{
-            background-color: rgb(153,102,204);
+            background-color: $color;
             a{
                 color: black !important;
             }
         }
         li{
             width: 100%;
-            background-color: rgb(51, 51, 51);
             border: 3px solid black;
             box-sizing: border-box;
             transition-duration: 0.2s;
@@ -34,7 +32,6 @@ aside{
                 padding: 10px;
                 color: white;
                 text-decoration: none;
-                font-size: calc($size-index * 1.1);
                 display: flex;
                 justify-content: space-between;
                 p{

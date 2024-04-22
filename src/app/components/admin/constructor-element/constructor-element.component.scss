@@ -1,6 +1,6 @@
-$color: rgba(114, 48, 180, 0.68);
+@import "../../../../styles.scss";
 .element{
-    box-shadow: inset 0px 0px 10px $color;
+    box-shadow: inset 0px 0px 10px $color-opacity;
     &>*{
         margin: 0px;
     }

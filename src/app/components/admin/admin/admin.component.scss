@@ -1,14 +1,18 @@
-$color: rgba(114, 48, 180, 0.68);
-$size-index: calc(1vw + 1vh);
+@import "../../../../styles.scss";
 :host {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     height: 100vh;
     width: 100vw;
     margin: 0px;
     padding: 0px;
     background: rgb(38, 38, 38);
-    background: rgb(41, 41, 41);
     overflow: hidden;
+    &>div{
+        display: flex;
+        justify-content: space-between;
+        flex-grow: 1;
+        height: calc(100vh - $size-index * 4.5);
+    }
 }
-

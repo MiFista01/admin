@@ -28,13 +28,6 @@ export class HeadComponent {
     });
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      for (let i of this.tagsNames) {
-        this.createComponent(i, TagsComponent)
-      }
-    });
-  }
   onSubmitUpdateBootstrap() {
 
   }
@@ -45,21 +38,12 @@ export class HeadComponent {
   }
   addTag() {
     if (this.tagName != "" && !this.tagsNames.includes(this.tagName)) {
-      this.createComponent(this.tagName, TagsComponent)
       this.tagName = ""
     }
   }
-  createComponent(value: string, component: Type<any>): void {
-    const tag = this.container.createComponent(component)
-    tag.setInput("value", value)
-    if (this.tagName != "" && !this.tagsNames.includes(value)) {
-      this.tagsNames.push(value)
-    }
-    tag.instance.delete.subscribe((res: any) => {
-      tag.destroy()
-      // delete this.tagsNames[this.tagsNames.indexOf(tag.instance.value)];
-      this.tagsNames.splice(this.tagsNames.indexOf(tag.instance.value), 1)
-    });
+  deleteTag(name:string){
+    const index = this.tagsNames.indexOf(name)
+    this.tagsNames.splice(index, 1)
   }
   onEnter() {
     this.addTag()

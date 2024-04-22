@@ -4,7 +4,6 @@ import {environment} from "@config"
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RequestsService } from 'app/services/admin/requests.service';
 import { RouterModule } from '@angular/router';
-import { ConstructorService } from '@services/constructor.service';
 
 @Component({
   selector: 'app-pages',
@@ -24,7 +23,6 @@ export class PagesComponent {
   constructor(
     private req:RequestsService,
     private fb:FormBuilder,
-    private constructorService: ConstructorService,
     @Inject(DOCUMENT) private document: any
   ){
     this.createrPages = this.fb.group({
