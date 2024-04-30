@@ -12,20 +12,26 @@ import { PageComponent } from './components/page/page.component';
 import { PagesComponent } from './components/admin/pages/pages.component';
 import { PageSettingsComponent } from './components/admin/page-settings/page-settings.component';
 import { PageConstructorComponent } from './components/admin/page-constructor/page-constructor.component';
+import { TemplatePageComponent } from './components/admin/template-page/template-page.component';
+import { DatabaseComponent } from './components/admin/database/database.component';
+import { FAQComponent } from './components/admin/faq/faq.component';
 
 export const routes: Routes = [
     {"path":"admin", component:AdminComponent, children:[
         {"path":"", component:HomeComponent},
         {"path":"dashboard", component:DashboardComponent},
         {"path":"head", component:HeadComponent},
-        {"path":"files", component:FilesComponent},
-        {"path":"messages", component:MessagesComponent},
-        {"path":"user", component:UsersComponent},
-        {"path":"templates", component:TemplatesComponent},
         {"path":"head-foot", component:HeaderFooterComponent},
+        {"path":"files", component:FilesComponent},
+        {"path":"pages", component:PagesComponent},
         {"path":"pages", component:PagesComponent},
         {"path":"pages/:pageName", component:PageSettingsComponent},
         {"path":"pages/:pageName/constructor", component:PageConstructorComponent},
+        {"path":"templates", component:TemplatesComponent},
+        {"path":"templates/:id", component:TemplatePageComponent},
+        {"path":"db", component:DatabaseComponent},
+        {"path":"user", component:UsersComponent},
+        {"path":"faq", component:FAQComponent},
     ]},
     {"path": "", redirectTo: "home", pathMatch: 'full'},
     {"path":":page", component: PageComponent},

@@ -36,9 +36,7 @@ export class PagesComponent {
     this.host = this.document.location.origin
     this.req.Get<[]>(`${environment.apiUrl}/pages/`).subscribe(data=>{
       for(const i of data){
-        if(this.showPages.length < 12){
-          this.showPages.push(i)
-        }
+        this.showPages.push(i)
         this.allPages.push(i)
       }
     })
@@ -56,9 +54,7 @@ export class PagesComponent {
   createPage(){
     this.req.Post<any>(`${environment.apiUrl}/pages/`,{pageName:this.createrPages.controls["pageName"].value}).subscribe(data=>{
       this.createrPages.controls["pageName"].value
-      if(this.showPages.length < 12){
-        this.showPages.push(data)
-      }
+      this.showPages.push(data)
       this.allPages.push(data)
     },
   error=>{

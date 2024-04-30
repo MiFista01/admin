@@ -8,7 +8,7 @@ import { RequestsService } from './admin/requests.service';
 export class PageService {
 
   constructor(private req:RequestsService) { }
-  getPageSchema(pageName:string){
-    return this.req.Get(`${environment.apiUrl}/pages/schema/${pageName}`)
+  getPageSchema<T>(pageName:string){
+    return this.req.Get<T>(`${environment.apiUrl}/pages/schema/${pageName}`)
   }
 }

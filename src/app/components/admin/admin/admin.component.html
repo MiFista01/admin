@@ -1,5 +1,5 @@
 <app-header></app-header>
 <div class="BackgroundColor">
-    <app-aside></app-aside>
+    <app-aside *ngIf="showAside" focusedItem="{{focusedItem}}"></app-aside>
     <router-outlet></router-outlet>
 </div>

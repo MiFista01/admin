@@ -1,1 +1,18 @@
-<p>templates works!</p>
+<header>
+    <h2 class="Color Large">Templates</h2>
+    <div class="search">
+        <input class="Small BorderColor BackgroundColorLight" type="text" placeholder="search for a template by name" (input)="searchTemplate($event)">
+    </div>
+    <div class="createTemplate">
+        <p class="ColorBackgroundOpacity OpacityBorderColor Small" (click)="toggleCreateInput()">create template</p>
+        <input class="BorderColor Small BackgroundColor" type="text" placeholder="name of the template" [ngStyle]="{'max-height': toggleTemplateInput? '100px': '0px', 'opacity': toggleTemplateInput? '1': '0', 'pointer-events': toggleTemplateInput? 'all': 'none'}" (change)="createTemplate($event)">
+    </div>
+</header>
+<div class="templates">
+    <div class="template BorderColor BackgroundColorLight" *ngFor="let item of showTemplates; let i = index">
+        <a class=" Color Middle" [routerLink]="['/admin/templates/',item.id]" [attr.createdAt]="'Created:'+item.createdAt.split('T')[0]">{{item.name}}</a>
+        <div class="objFunc">
+            <img src="./assets/imgs/files/delete.png" alt="" (click)="removeTemplate(item.id, i)">
+        </div>
+    </div>
+</div>

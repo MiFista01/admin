@@ -1,1 +1,38 @@
-<p>faq works!</p>
+<div class="search-block">
+    <h2 class="Large">How can we help?</h2>
+    <div class="input">
+        <input class="BackgroundColorLight BorderColor Small Color" #search type="text"  placeholder="Search questions" (input)="checkSearchInput($event)">
+        <img src="./assets/imgs/search.png" alt="" class="ColorBackground">
+    </div>
+    <p class="Tiny">Enter a question in the text field or select from the suggested</p>
+</div>
+<div class="main-questions">
+    <div class="basic" [ngClass]="{'hide': hideMainBlock }">
+        <div class="blocks">
+            <div class="block BorderColor" [ngClass]="{'selected': selectedQuestionBlock == 'basic'? 'selected': ''}" (click)="changeMainBlock('basic')">
+                <img src="./assets/imgs/faq/basic.png" alt="">
+                <p class="Small">Basic information </p>
+            </div>
+            <div class="block BorderColor" [ngClass]="{'selected': selectedQuestionBlock == 'project'? 'selected': ''}" (click)="changeMainBlock('project')">
+                <img src="./assets/imgs/faq/project.png" alt="">
+                <p class="Small">Project management</p>
+            </div>
+            <div class="block BorderColor" [ngClass]="{'selected': selectedQuestionBlock == 'support'? 'selected': ''}" (click)="changeMainBlock('support')">
+                <img src="./assets/imgs/faq/support.png" alt="">
+                <p class="Small">Support</p>
+            </div>
+        </div>
+        <div class="question-answer" [ngClass]="{'hide': hideFAQ}">
+            <article *ngFor="let item of showFAQBlock">
+                <h3 class="Color Middle">{{item.title}}</h3>
+                <p class="Small" *ngFor="let text of item.text">{{text}}</p>
+            </article>
+        </div>
+    </div>
+    <div class="search-questions-answer" [ngClass]="{'hide': hideSecondBlock}">
+        <article *ngFor="let item of showFAQBlock">
+            <h3 class="Color Middle">{{item.title}}</h3>
+            <p class="Small" *ngFor="let text of item.text">{{text}}</p>
+        </article>
+    </div>
+</div>

@@ -1,18 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {environment} from "@config"
 import { RequestsService } from '@services/admin/requests.service';
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
+import { environment } from "@config"
 
-interface Folder{
-  name:string,
-  createdDate: string
-  updatedDate: string
+interface Folder {
+  id: number
+  name: string,
+  main: boolean
+  createdAt: string
+  updatedAt: string
 }
-interface File{
+interface File {
   id?: number
   aliasName: string,
-  fileName:string,
+  fileName: string,
   createdAt: string
   updatedAt: string
   fileResolution: string
@@ -26,58 +32,69 @@ interface File{
   imports: [
     CommonModule,
     FormsModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule
   ],
   templateUrl: './files.component.html',
   styleUrl: './files.component.scss'
 })
 export class FilesComponent {
-  showFiles: File[]= []
-  allFiles: File[]= []
-  showFolders: Folder[]= []
-  allFolders: Folder[]= []
+  showFiles: File[] = []
+  allFiles: File[] = []
+  showFolders: Folder[] = []
+  allFolders: Folder[] = []
   dirName = ""
+  mediaShowPath = ""
+  showMediaPathStatus = false
   imgPreviewStatus = false
   uploadStatus = false
   selectedDir = false
-  config = {
-    name: "javascript", json: true,
-    value: "jjkh as dkjh ad"
-  }
+  toggleFolderInput = false
   constructor(
-    private req:RequestsService,
-  ){}
-  searchFiles(e:any){
+    private req: RequestsService,
+  ) { }
+  searchFiles(e: any) {
     const inputValue = e.target.value
-    this.showFiles = this.allFiles.filter(value=> {
-      return value.aliasName.includes(inputValue) || value.createdAt.includes(inputValue) || value.updatedAt.includes(inputValue)}).map((item, index) => {
-        return { ...item, path: `${environment.apiUrl}/static/${this.dirName.replace("-","/")}/${item.fileName}` }; 
-      });
+    this.showFiles = this.allFiles.filter(value => {
+      return value.aliasName.includes(inputValue) || value.createdAt.includes(inputValue) || value.updatedAt.includes(inputValue)
+    }).map((item, index) => {
+      return { ...item, path: `${environment.apiUrl}/static/${this.dirName.replace("-", "/")}/${item.fileName}` };
+    });
   }
-  changeFilesDirs(dir:string){
+  changeFilesDirs(dir: string, main = true) {
     const oldDirName = this.dirName
-    if(dir != this.dirName){
-      this.dirName = dir
-    }else{
-      this.dirName = ''
-    }
     this.selectedDir = false
     setTimeout(() => {
+      if (dir != this.dirName) {
+        if (main) {
+          this.dirName = dir
+        } else {
+          this.dirName += "-" + dir
+        }
+      } else {
+        this.dirName = ''
+      }
       if (this.dirName != "") this.getAllFilesDirs()
       this.imgPreviewStatus = this.dirName.includes('imgs-uploads') || this.dirName.includes('imgs-swipers')
-    }, oldDirName == ""? 0: 500);
+    }, oldDirName == "" ? 0 : 500);
   }
-  getAllFilesDirs(){
-    this.req.Get<[Folder[],File[]]>(`${environment.apiUrl}/files/${this.dirName}`).subscribe(data=>{
-      this.showFolders = data[0];
-      this.allFolders = data[0];
+  getAllFilesDirs() {
+    this.req.Get<[Folder[], File[]]>(`${environment.apiUrl}/files/${this.dirName}`).subscribe(data => {
+      this.showFolders = [...data[0]]
+      this.allFolders = [...data[0]]
+
       this.showFiles = data[1].map((item, index) => {
-        return { ...item, path: `${environment.apiUrl}/static/${this.dirName.replace("-","/")}/${item.fileName}` }; 
+        return { ...item, path: `${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${item.fileName}` };
       });
-      this.allFiles = data[1];
+      this.allFiles = data[1].map((item, index) => {
+        return { ...item, path: `${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${item.fileName}` };
+      });
       this.selectedDir = true
     })
   }
-  createImageFile(e:any){
+  createImageFile(e: any) {
     let fileList: FileList = e.target.files;
     if (fileList.length < 1) {
       return;
@@ -90,21 +107,21 @@ export class FilesComponent {
       image.onload = () => {
         const width = image.width;
         const height = image.height;
-        let formData:FormData = new FormData();
+        let formData: FormData = new FormData();
         formData.append('uploadImage', file, file.name)
         formData.append("fileResolution", `${width}x${height}`)
         formData.append("fileSize", String(file.size))
-        this.req.Post<File>(`${environment.apiUrl}/files/${this.dirName}`, formData).subscribe(data =>{
-          this.showFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replace("-","/")}/${data.fileName}` })
-          this.allFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replace("-","/")}/${data.fileName}` })
-          if(i == fileList.length -1){
+        this.req.Post<File>(`${environment.apiUrl}/files/${this.dirName}`, formData).subscribe(data => {
+          this.showFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${data.fileName}` })
+          this.allFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${data.fileName}` })
+          if (i == fileList.length - 1) {
             this.uploadStatus = false
           }
         })
       };
     }
   }
-  createOtherFile(e:any){
+  createOtherFile(e: any) {
     let fileList: FileList = e.target.files;
     if (fileList.length < 1) {
       return;
@@ -112,47 +129,47 @@ export class FilesComponent {
     this.uploadStatus = true
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
-      let formData:FormData = new FormData();
+      let formData: FormData = new FormData();
       formData.append('uploadImage', file, file.name)
       formData.append("fileSize", String(file.size))
-      this.req.Post<File>(`${environment.apiUrl}/files/${this.dirName}`, formData).subscribe(data =>{
-        this.showFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replace("-","/")}/${data.fileName}` })
-        this.allFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replace("-","/")}/${data.fileName}` })
-        if(i == fileList.length -1){
+      this.req.Post<File>(`${environment.apiUrl}/files/${this.dirName}`, formData).subscribe(data => {
+        this.showFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${data.fileName}` })
+        this.allFiles.push({ ...data, path: `${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${data.fileName}` })
+        if (i == fileList.length - 1) {
           this.uploadStatus = false
         }
       })
     }
   }
-  changeFileName(e:any){
+  changeFileName(e: any) {
     const currentName = e.target.getAttribute('currentName')
     const renamedFile = `${e.target.value}.${currentName.split('.').pop()}`
-    this.req.Patch<File | null>(`${environment.apiUrl}/files/${this.dirName}`,{currentName, renamedFile }).subscribe(data=>{
-      if(data){
-        const editingElement = this.allFiles.filter(value=> value.fileName == data.fileName)[0]
+    this.req.Patch<File | null>(`${environment.apiUrl}/files/${this.dirName}`, { currentName, renamedFile }).subscribe(data => {
+      if (data) {
+        const editingElement = this.allFiles.filter(value => value.fileName == data.fileName)[0]
         editingElement.aliasName = data.aliasName
         editingElement.updatedAt = data.updatedAt
-        const showEditingElement = this.showFiles.filter(value=> value.fileName == data.fileName)[0]
+        const showEditingElement = this.showFiles.filter(value => value.fileName == data.fileName)[0]
         showEditingElement.aliasName = data.aliasName
         showEditingElement.updatedAt = data.updatedAt
         e.target.style.color = "darkgreen"
         setTimeout(() => {
-          e.target.style.color = "rgb(153, 102, 204)"
+          e.target.style.color = ""
         }, 600);
-      }else{
+      } else {
         e.target.style.color = "darkred"
         setTimeout(() => {
-          e.target.style.color = "rgb(153, 102, 204)"
+          e.target.style.color = ""
         }, 600);
       }
     })
   }
-  deleteFile(id:number | undefined){
-    if(id){
-      this.req.Delete(`${environment.apiUrl}/files/${this.dirName}/${id}`).subscribe(data=>{
-        if(data){
+  deleteFile(id: number | undefined) {
+    if (id) {
+      this.req.Delete(`${environment.apiUrl}/files/${this.dirName}/${id}`).subscribe(data => {
+        if (data) {
           const indexShow = this.showFiles.findIndex(obj => obj.id === id);
-          const indexAll = this.showFiles.findIndex(obj => obj.id === id);
+          const indexAll = this.allFiles.findIndex(obj => obj.id === id);
           if (indexShow !== -1) {
             this.showFiles.splice(indexShow, 1);
           }
@@ -162,5 +179,63 @@ export class FilesComponent {
         }
       })
     }
+  }
+  toggleFolderForm() {
+    this.toggleFolderInput = !this.toggleFolderInput
+  }
+  createFolder(e: any) {
+    this.req.Post<Folder>(`${environment.apiUrl}/files/folder/${this.dirName}`, { name: e.target.value }).subscribe(data => {
+      if (data) {
+        console.log(data)
+        this.showFolders.push(data)
+        this.allFolders.push(data)
+        console.log(this.showFolders)
+        console.log(this.allFolders)
+        e.target.value = ""
+      } else {
+        e.target.style.color = "red"
+        setTimeout(() => {
+          e.target.style.color = ""
+
+        }, 600);
+      }
+    })
+  }
+  getFolderName(item: Folder): string {
+    if (item.name) {
+      const parts = item.name.split('-');
+      if (parts.length > 0) {
+        return parts.pop()!;
+      }
+    }
+    return '';
+  }
+  deleteFolder(id: number | undefined) {
+    if (id) {
+      this.req.Delete(`${environment.apiUrl}/files/folder/${id}`).subscribe(data => {
+        const indexShow = this.showFolders.findIndex(obj => obj.id === id);
+        const indexAll = this.allFolders.findIndex(obj => obj.id === id);
+        if (indexShow !== -1) {
+          console.log(this.showFolders.splice(indexShow, 1))
+        }
+        if (indexAll !== -1) {
+          this.allFolders.splice(indexAll, 1);
+        }
+      })
+    }
+  }
+  showWindow(path: string) {
+    if (this.dirName == "imgs-uploads" || this.dirName.includes("imgs-swipers") || this.dirName == "videos" && this.mediaShowPath == "") {
+      this.mediaShowPath = path
+      setTimeout(() => {
+        this.showMediaPathStatus = true
+      }, 400);
+    }
+  }
+  hideWindow() {
+    this.showMediaPathStatus = false
+    setTimeout(() => {
+      this.mediaShowPath = ""
+    }, 500);
   }
 }

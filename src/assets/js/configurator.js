@@ -35,12 +35,5 @@ function emitTitleType(type){
 }
 
 function emitBtnSrc(path){
-    const host = $(location).attr('hostname')
-    const port = $(location).attr('port'); 
-    let URLpath = host
-    if(host== "localhost"){
-        URLpath += ":"+port
-    }
-    URLpath += `/${path}`
-    $($(edititingElement).children().last()).attr("href", URLpath);
+    $($(edititingElement).children().last()).attr("href", path);
 }

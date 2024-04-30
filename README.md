@@ -1,27 +1,86 @@
-# Admin CMS
+# ManualMaker Frontend
+LifeForge - сервис для создания сайтов типом: портфолио, лендинг, визитки. Тогда когда сайт нужен вчера 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
+# Список технологий
+1. Angular - Typescript фреймворк для создания пользовательских интерфейсов
+3. TypeScript - язык программирования
+4. Scss - css препроцессор
 
-## Development server
+# Статус проекта: В разработке
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Как запускать
+## Необходимое ПО
+Для запуска проекта необходимо установить 
+- [NodeJS](https://nodejs.org/en/download)
+- [Git](https://git-scm.com/downloads)
 
-## Code scaffolding
+## Клонировать проект
+```
+git clone https://github.com/CosmosForge/admin.git
+cd admin
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Установить зависимости
+Через pnpm
+```
+pnpm i
+```
 
-## Build
+или npm
+```
+npm i
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+или yarn
+```
+yarn install
+```
 
-## Running unit tests
+## Запустить
+```
+npm run dev
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Функционал
+Просмотр контента созданный админом
+![Просмотр контента созданного админом](readMeImg/guest.png)
 
-## Running end-to-end tests
+Вкладка для просмотра основных атрибутов сайта и связь с разработчиками
+![Вкладка Dahsboard](readMeImg/dashboard.png)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Вкладка в которой можно изменять SEO атрибуты такие как: title, description, tags
+![Вкладка редактирования head сайта](readMeImg/head.png)
 
-## Further help
+Вкладки в которой при помощи конструктора можно изменять контент шапки и подвала сайта
+![Вкладка редактирование header/footer](readMeImg/header_footer.png)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Вкладка в которой можжно загружать и удалть такие файлы как: медиаконтент(картинки, видео...), css, js
+![Вкладка для работы с файлами](readMeImg/files.png)
+
+Вкладка в которой можно создавать просматривать страницы сайта
+![Вкладка создания страниц](readMeImg/pages.png)
+
+Страница для редактирования SEO и файлы локально для одной страницы
+![Страница редактирования head локально для одной страницы](readMeImg/page_settings.png)
+
+Страница изменения контента используя конструктор CMS
+![Страница изменения контента страницы](readMeImg/page_constructor.png)
+
+Вкладка для создания шаблонов и просмотр
+![Вкладка создания шаблонов](readMeImg/templates.png)
+
+Страница изменения контента шаблона
+![Страница изменения контента шаьлона](readMeImg/template_constructor.png)
+
+Вкладка для создания, редактирования и CRUD созданных админом таблиц
+![Вкладка редактирования и CRUD таблиц созданных юзером]( readMeImg/db.png)
+
+Вкладка для просмотра и редактирования профиля админа
+![Вкладка просмотря и редактирования профиля](readMeImg/user.png)
+
+Вкладка для просмотра FAQ
+![Вкладка просмотра FAQ](readMeImg/faq.png)
+
+# Благодарности
+- [Двитрий Крейвальд Вальеривич](https://github.com/DJDims) - за полезные советы, тестирование проекта
+- [Юрий Валентинович Мельников](https://github.com/Dew25) - за полезные советы

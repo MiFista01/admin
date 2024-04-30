@@ -1,4 +1,4 @@
-<div id="search">
+<header id="search">
     <form>
         <h2 class="Color Large">Pages</h2>
         <div class="searchField">
@@ -7,17 +7,17 @@
     </form>
     <div>
         <div class="btn">
-            <p class="Small" (click)="togglePageNameForm()">create page</p>
+            <p class="ColorBackgroundOpacity OpacityBorderColor Small" (click)="togglePageNameForm()">create page</p>
             <form [formGroup]="createrPages" id="createrPages" (submit)="createPage()" [ngStyle]="{'height': pageNameFormToggle? '50px': '0px', 'pointer-events': pageNameFormToggle? 'all': 'none', 'opacity': pageNameFormToggle? '1': '0'}">
                 <input type="text" id="pageName" required formControlName="pageName" [ngStyle]="{'color': errorPageName ? 'red': 'white'}">
                 <button class="ColorBackgroundOpacityOpacity" [disabled]="!createrPages.valid">create</button>
             </form>
         </div>
         <div class="btn">
-            <p class="Small" (click)="updateCardsSnapshot()" >update cards</p>
+            <p class="ColorBackgroundOpacity OpacityBorderColor Small" (click)="updateCardsSnapshot()" >update cards</p>
         </div>
     </div>
-</div>
+</header>
 <section>
     <div class="pages">
         <article *ngFor="let item of showPages">

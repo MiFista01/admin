@@ -2,6 +2,7 @@
 :host{
     flex-grow: 1;
     max-width: 86%;
+    height: 95%;
     box-sizing: border-box;
     padding: 35px;
     padding-top: 0px;
@@ -48,6 +49,7 @@
             transition-duration: 0.5s;
             text-align: center;
             margin: 0px;
+            border: 3px solid;
             &:hover{
                 scale: 1.1;
             }
@@ -141,6 +143,10 @@ section{
         display: flex;
         justify-content: start;
         flex-wrap: wrap;
+        overflow: scroll;
+        &::-webkit-scrollbar{
+            display: none;
+        }
         article{
             position: relative;
             width: 23%;
@@ -150,6 +156,7 @@ section{
             align-items: center;
             justify-content: center;
             transition-duration: .5s;
+            box-shadow:  0px 0px 5px 1px $color-opacity-opacity, inset 0px 0px 5px 1px $color-opacity-opacity;
             a{
                 position: absolute;
                 width: 100%;
@@ -192,7 +199,7 @@ section{
             }
             &:hover{
                 z-index: 2;
-                scale: 1.1;
+                scale: 1.05;
             }
         }
     }

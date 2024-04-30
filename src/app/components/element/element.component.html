@@ -1,22 +1,23 @@
 <ng-container [ngSwitch]="element.type">
-    <section *ngSwitchCase="'section'" [id]="element.properties?.id" [ngClass]="element.properties?.className">
+    <section *ngSwitchCase="'section'" [id]="element.properties?.id" [ngClass]="element.properties?.class">
       <app-element *ngFor="let item of element.children" [element]="item"></app-element>
     </section>
-    <div *ngSwitchCase="'area'" class="area" [id]="element.properties?.id " [ngClass]="element.properties?.className">
+    <div *ngSwitchCase="'area'" [id]="element.properties?.id" [ngClass]="element.properties?.class">
       <app-element *ngFor="let item of element.children" [element]="item"></app-element>
     </div>
-    <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.config" >
-        <h1 *ngSwitchCase="'h1'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</h1>
-        <h2 *ngSwitchCase="'h2'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</h2>
-        <h3 *ngSwitchCase="'h3'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</h3>
-        <h4 *ngSwitchCase="'h4'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</h4>
-        <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</h5>
-        <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</h6>
+    <ul *ngSwitchCase="'list'" [id]="element.properties?.id" [ngClass]="element.properties?.class">
+      <li *ngFor="let item of element.children">
+        <app-element  [element]="item"></app-element>
+      </li>
+    </ul>
+    <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.properties.titleType" >
+        <h1 *ngSwitchCase="'h1'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h1>
+        <h2 *ngSwitchCase="'h2'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h2>
+        <h3 *ngSwitchCase="'h3'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h3>
+        <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h5>
+        <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h6>
     </ng-container>
-    <p *ngSwitchCase="'text'" [id]="element.properties?.id " [ngClass]="element.properties?.className">{{element.text}}</p>
-    <img *ngSwitchCase="'img'" [src]="element.src" alt="" [id]="element.properties?.id " [ngClass]="element.properties?.className">
-    <a *ngSwitchCase="'btn'" href="{{element.src}}" [id]="element.properties?.id " [ngClass]="element.properties?.className"> {{element.text}}</a>
-    <a *ngSwitchCase="'social_btn'" target="_blank" href="{{element.src}}" [id]="element.properties?.id " [ngClass]="element.properties?.className"> {{element.text}}</a>
-    <div *ngSwitchDefault>
-    </div>
+    <p *ngSwitchCase="'paragraph'" [id]="element.properties?.id" [ngClass]="element.properties?.class">{{element.properties.text}}</p>
+    <img *ngSwitchCase="'img'"  [src]="element.properties?.src" [ngClass]="element.properties?.class">
+    <a *ngSwitchCase="'btn'" [href]="'./'+element.properties?.href">{{element.properties.text}}</a>
 </ng-container>

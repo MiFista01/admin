@@ -1,0 +1,19 @@
+@import "../../../../styles.scss";
+:host {
+    position: relative;
+    flex-grow: 1;
+    max-width: 86%;
+    box-sizing: border-box;
+    padding-left: 35px;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    overflow: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}
+.element{
+    box-shadow: inset 0px 0px 10px $color;
+}

@@ -1,28 +1,31 @@
 <aside>
     <ul>
         <li [id]="focusedItem === 'dashboard' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/dashboard" (click)="ChangeFocus('dashboard')" class="Small"><p>DashBoard</p></a>
+            <a routerLink="/admin/dashboard" class="Small"><p>DashBoard</p></a>
         </li>
         <li [id]="focusedItem === 'head' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/head" (click)="ChangeFocus('head')" class="Small"><p>Head</p></a>
+            <a routerLink="/admin/head" class="Small"><p>Head</p></a>
         </li>
         <li [id]="focusedItem === 'head-foot' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/head-foot" (click)="ChangeFocus('head-foot')" class="Small"><p>Header/Footer</p></a>
-        </li>
-        <li [id]="focusedItem === 'pages' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/pages" (click)="ChangeFocus('pages')" class="Small"><p>Pages</p> <p>{{pages}}</p></a>
+            <a routerLink="/admin/head-foot" class="Small"><p>Header/Footer</p></a>
         </li>
         <li [id]="focusedItem === 'files' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/files" (click)="ChangeFocus('files')" class="Small"><p>Files</p> <p>{{files}}</p></a>
+            <a routerLink="/admin/files" class="Small"><p>Files</p></a>
+        </li>
+        <li [id]="focusedItem === 'pages' ? 'focus' : null" class="BackgroundColorLight">
+            <a routerLink="/admin/pages" class="Small"><p>Pages</p> <p>{{pages}}</p></a>
         </li>
         <li [id]="focusedItem === 'templates' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/templates" (click)="ChangeFocus('templates')" class="Small"><p>Templates</p> <p>{{templates}}</p></a>
+            <a routerLink="/admin/templates" class="Small"><p>Templates</p> <p>{{templates}}</p></a>
         </li>
-        <li [id]="focusedItem === 'database' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/database" (click)="ChangeFocus('database')" class="Small"><p>Database</p></a>
+        <li [id]="focusedItem === 'db' ? 'focus' : null" class="BackgroundColorLight">
+            <a routerLink="/admin/db" class="Small"><p>Database</p></a>
+        </li>
+        <li [id]="focusedItem === 'user' ? 'focus' : null" class="BackgroundColorLight">
+            <a routerLink="/admin/user" class="Small"><p>User</p></a>
         </li>
         <li [id]="focusedItem === 'faq' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/faq" (click)="ChangeFocus('faq')" class="Small"><p>FAQ</p></a>
+            <a routerLink="/admin/faq" class="Small"><p>FAQ</p></a>
         </li>
     </ul>
 </aside>

@@ -1,7 +1,11 @@
-<aside class="uploadedGallery">
-    <button (click)="toggleAside(true)" id="toggleGallery">hide menu</button>
-    <div #imagesDiv class="images"[ngStyle]="{ 'right': flipped? '-20vw': '0px' }" (scroll)="onScroll($event)">
+<div class="window uploadedGallery" [ngStyle]="{ 'opacity': showGallery? 1: 0, 'pointer-events': showGallery? 'all':''}">
+    <div class="bg" (click)="toggleAside(false)"></div>
+    <div #imagesDiv class="images" >
         <div *ngIf="images.length == 0" class="empty" placeholder="you don't have images"></div>
-        <app-gallery-item *ngFor="let src of images" [src]="src" (toggleAsideEvent)="setImage($event)" (toggleAsideEvent)="toggleAside(true)"></app-gallery-item>
+        <div class="img-card" *ngFor="let src of images">
+            <div class="back-img" [ngStyle]="{'background-image':'url('+src+')'}"></div>
+            <img  [src]="src" alt="" (click)="setImage(src)" (click)="toggleAside(false)">
+        </div>
     </div>
-</aside>
+    <button (click)="toggleAside(true)" id="toggleGallery">hide menu</button>
+</div>
