@@ -1,13 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
+interface $script {
+  (paths: string | string[], idOrDone: string | (() => void), optDone?: () => void): $script;
+  get(path: string, fn: () => void): void;
+  order(scripts: string[], id: string, done: () => void): void;
+  path(p: string): void;
+  urlArgs(str: string): void;
+  ready(deps: string | string[], ready: () => void, req?: (missing: string[]) => void): $script;
+}
 @Injectable({
   providedIn: 'root'
 })
 export class RequestsService {
   constructor(private http: HttpClient) { }
-  Get<T>(url:string){
-    return this.http.get<T>(url, { withCredentials: true });
+  Get<T>(url: string) {
+    return this.http.get<T>(url, {withCredentials: true, });
   }
   Post<T>(url:string, body:any){
     return this.http.post<T>(url, body, { withCredentials: true });

@@ -5,7 +5,28 @@ import { ConstructorElementComponent } from '../constructor-element/constructor-
 import { ScriptloaderService } from '@services/scriptloader.service';
 import { ConstructorService } from '@services/constructor.service';
 import { ActivatedRoute } from '@angular/router';
-declare function emitCreateCondtructorTree():any
+import { RequestsService } from '@services/admin/requests.service';
+import { environment } from '@config';
+declare function emitCreateCondtructorTree(): any
+declare function setHTML(parent:any, html:any): any
+declare function initBody():any
+interface pageShema {
+  body: {
+    main: {
+      update: boolean,
+      children: any,
+      html:string
+    }
+  }
+}
+interface page {
+  id: number
+  pageName: string
+  pageImg: string
+  popular: number
+  createdAt: string
+  updatedAt: string
+}
 @Component({
   selector: 'app-page-constructor',
   standalone: true,
@@ -19,30 +40,44 @@ declare function emitCreateCondtructorTree():any
 })
 export class PageConstructorComponent {
   name = ""
-  constructorElements:unknown[] = []
+  pageObj: any = {}
+  pageShema:any = {}
+  constructorElements: unknown[] = []
   constructor(
-    private sl:ScriptloaderService,
-    private constructorService:ConstructorService,
-    private route: ActivatedRoute
-  ){
-    for( const key of Object.keys(constructorService.elements)){
+    private sl: ScriptloaderService,
+    private constructorService: ConstructorService,
+    private route: ActivatedRoute,
+    private req: RequestsService
+  ) {
+    for (const key of Object.keys(constructorService.elements)) {
       const element = {
-        type:key,
+        type: key,
         ...constructorService.elements[key]
       }
       this.constructorElements.push(element)
     }
-    afterNextRender (() => {
+    afterNextRender(() => {
       this.sl.createConstructor()
-      
     });
   }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-     this.name =  params['pageName']
+      this.name = params['pageName']
+      this.req.Get<page[]>(`${environment.apiUrl}/pages`).subscribe((data) => {
+        this.pageObj = data.filter(value => value.pageName == this.name)[0]
+      })
+      this.req.Get<pageShema>(`${environment.apiUrl}/pages/schema/${this.name}`).subscribe((data) => {
+        this.pageShema = data
+        setHTML("main", this.pageShema.body.main.html)
+      })
     });
   }
-  updateImage(){
-    emitCreateCondtructorTree()
+  updateImage() {
+    const constructor = emitCreateCondtructorTree()
+    this.pageShema.body.main.children = constructor[0]
+    this.pageShema.body.main.html = constructor[1]
+    this.req.Patch(`${environment.apiUrl}/pages/schema/${this.pageObj.id}`, this.pageShema).subscribe(data=>{
+      console.log(data)
+    })
   }
 }

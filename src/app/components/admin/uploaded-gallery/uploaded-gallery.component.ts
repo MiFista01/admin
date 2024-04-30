@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
-import { GalleryItemComponent } from '../gallery-item/gallery-item.component';
 import {environment} from "@config"
 import { RequestsService } from '@services/admin/requests.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Component({
   selector: 'app-uploaded-gallery',
   standalone: true,
-  imports: [CommonModule, GalleryItemComponent],
+  imports: [CommonModule],
   templateUrl: './uploaded-gallery.component.html',
   styleUrl: './uploaded-gallery.component.scss'
 })
@@ -16,47 +15,35 @@ export class UploadedGalleryComponent {
   images:string[] = []
   private imagesLengthSubject = new BehaviorSubject<number>(0);
   imagesLength$ = this.imagesLengthSubject.asObservable();
-  flipped = true
+  showGallery = false
   uploadImageStatus = false
-  party = 0
   @ViewChild('imagesDiv') imagesDiv!: ElementRef;
   @Output() setImageInput = new EventEmitter<string>();
   constructor(private req: RequestsService){}
   ngOnInit(){
-    this.req.Get<[]>(`${environment.apiUrl}/images/0`).subscribe(data=>{
-      data.forEach(imageSrc=>{
-        this.images.push(`${environment.apiUrl}/static/imgs/uploads/${imageSrc}`)
+    this.req.Get<[any[], any[]]>(`${environment.apiUrl}/files/imgs-uploads`).subscribe(data=>{
+      this.images = data[1].map(value=>{
+        return `${environment.apiUrl}/static/imgs/uploads/${value.fileName}`
       })
-      this.imagesLengthSubject.next(this.images.length)
+      this.imagesLengthSubject.next(data[1].length)
     })
   }
-
   public toggleAside(status:boolean){
-    this.flipped = status
-  }
-  onScroll(event: any) {
-    const element = event.target;
-    if (element.scrollHeight - element.scrollTop < element.clientHeight+40 && !this.uploadImageStatus) {
-      this.req.Get<number>(`${environment.apiUrl}/images/length`).subscribe(value=>{
-        if( value != this.images.length){
-          this.uploadImageStatus = true
-          if(this.images.length % 4 == 0){
-            this.party++
-          }else{
-            const desiredLength = Math.floor(this.images.length / 4) * 4;
-            this.images.splice(desiredLength);
-          }
-          this.req.Get<[]>(`${environment.apiUrl}/images/${this.party}`).subscribe(data=>{
-            data.forEach((value) => {
-              this.images.push(`${environment.apiUrl}/static/imgs/uploads/${value}`)
-            })
-            this.uploadImageStatus = false
-          })
-        }
+    if(status){
+      this.req.Get<[any[], any[]]>(`${environment.apiUrl}/files/imgs-uploads`).subscribe(data=>{
+        this.images = data[1].map(value=>{
+          return `${environment.apiUrl}/static/imgs/uploads/${value.fileName}`
+        })
+        this.imagesLengthSubject.next(data[1].length)
+        this.showGallery = status
       })
+      
+    }else{
+      this.showGallery = status
     }
   }
   setImage(imagePath: string){
     this.setImageInput.emit(imagePath)
   }
+  
 }

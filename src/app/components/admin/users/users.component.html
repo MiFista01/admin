@@ -1,1 +1,60 @@
-<p>users works!</p>
+<div class="window" [ngStyle]="{'opacity': modalWindowName == 'selectImg'? 1:0, 'pointer-events': modalWindowName == 'selectImg'? 'all':''}">
+    <div class="bg" (click)="returnModalWindow()"></div>
+    <div class="body">
+        <div class="img-card" *ngFor="let item of imgs">
+            <div class="back-img" [ngStyle]="{'background-image':'url('+item.path+')'}"></div>
+            <img src="{{item.path}}" alt=""  (click)="changeUserAvatar(item.path)">
+        </div>
+    </div>
+</div>
+<div class="profile BackgroundColorLight BorderColor">
+    <div class="profile-image" [attr.noImg]="profile.imgPath == null? 'set the picture':''" [ngStyle]="{'box-shadow': profile.imgPath == null? 'inset 0px 0px 50px 10px rgba(51, 220, 208, 0.35)': ''}" (click)="openWindowSelectImg()">
+        <img src="{{profile.imgPath}}" alt="" [ngStyle]="{'width': profile.imgPath != null? '100%': '','height': profile.imgPath != null? '100%': ''}">
+    </div>
+    <div class="stats">
+        <h2 class="Color Middle">My profile</h2>
+        <div class="date">
+            <p class="Small">Registration date</p>
+            <p class="Small">{{profile.createdAt ? profile.createdAt.split('T')[0] : ''}}</p>
+        </div>
+        <div class="date">
+            <p class="Small">Last edit</p>
+            <p class="Small">{{profile.updatedAt ? profile.updatedAt.split('T')[0] : ''}}</p>
+        </div>
+    </div>
+</div>
+<div class="steps BackgroundColorLight BorderColor">
+    <div class="step1">
+        <h3 class="Color Middle" (click)="changeShowStep(1)">Basic data</h3>
+        <div class="inputs" [ngStyle]="{'max-height': showStep == 1? '40vh': '0vh'}">
+            <input class="Small BorderColor Color" type="text" value="{{profile.name}}" name="name" placeholder="Username" (input)="changeProfuleFieldValue($event, 'name')" tabindex="-1">
+            <input class="Small BorderColor Color" type="email" value="{{profile.email}}" name="email" placeholder="Email" (input)="changeProfuleFieldValue($event, 'email')" tabindex="-1"> 
+            <div class="password">
+                <input class="Small BorderColor Color" [type]="passwordType" value="{{profile.password}}" name="password" placeholder="Password" (input)="changeProfuleFieldValue($event, 'password')" tabindex="-1">
+                
+            </div>
+        </div>
+    </div>
+    <div class="step2">
+        <h3 class="Color Middle" (click)="changeShowStep(2)">Social links</h3>
+        <div class="inputs" [ngStyle]="{'max-height': showStep == 2? '40vh': '0vh'}" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.facebook_link}}" name="facebook" placeholder="Facebook link" (input)="changeProfuleFieldValue($event, 'facebook_link')" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.instagramm_link}}" name="instagramm" placeholder="Instagramm link" (input)="changeProfuleFieldValue($event, 'instagramm_link')" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.github_link}}" name="github" placeholder="Github link" (input)="changeProfuleFieldValue($event, 'github_link')" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.itchio_link}}" name="ithcio" placeholder="Itchio link" (input)="changeProfuleFieldValue($event, 'itchio_link')" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.google_link}}" name="google" placeholder="Google link" (input)="changeProfuleFieldValue($event, 'google_link')" tabindex="-1">
+        </div>
+    </div>
+    <div class="step3">
+        <h3 class="Color Middle" (click)="changeShowStep(3)">Personal data</h3>
+        <div class="inputs" [ngStyle]="{'max-height': showStep == 3? '40vh': '0vh'}">
+            <input class="Small BorderColor Color" type="text" value="{{profile.first_name}}" name="first_name" placeholder="First name" (input)="changeProfuleFieldValue($event, 'first_name')" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.last_name}}" name="last_name" placeholder="Last name" (input)="changeProfuleFieldValue($event, 'last_name')" tabindex="-1">
+            <input class="Small BorderColor Color" type="text" value="{{profile.phone}}" name="phone" placeholder="Phone" (input)="changeProfuleFieldValue($event, 'phone')" tabindex="-1">
+        </div>
+    </div>
+    <div class="saveBtn">
+        <button class="Small ColorBackground" (click)="updateUserProfile()">save</button>
+        <p class="Color Small" [ngStyle]="{'opacity': updateStatus? 1: 0, 'pointer-events': updateStatus? 'all': 'none', 'transform': updateStatus? 'translate(-50%, -250%)': ''}">Updated</p>
+    </div>
+</div>

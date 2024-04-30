@@ -1,7 +1,7 @@
 <app-uploaded-gallery #gallery (setImageInput)="setImage($event)"></app-uploaded-gallery>
 <div class="forms">
     <div class="card" >
-        <div class="bg" (click)="galleryMenuClick(true)" (click)="returnForms()"></div>
+        <div class="bg" (click)="returnForms()"></div>
         <form class="editor" [class.flipped]="isFlipped">
             <header>
                 <h2 class="OpacityColor Big"><span class="elementType"></span> editor</h2>
@@ -66,10 +66,10 @@
             </header>
             <div class="body">
                 <div class="conf conf-img">
-                    <p class="Small" *ngIf="galleryLength > 0" (click)="galleryMenuClick(false)">select image</p>
+                    <p class="Color Small" *ngIf="galleryLength > 0" (click)="galleryMenuClick(true)">select image</p>
                     <div>
-                        <p class="Small" (click)="file.click()">uploade image</p>
-                        <input #file type="file" (change)="sendImage($event)">
+                        <p class="Color Small" (click)="file.click()">uploade image</p>
+                        <input #file type="file" (change)="sendImage($event)" (click)="galleryMenuClick(false)">
                     </div>
                     <textarea class="Small" placeholder="Select image URL" (input)="setImageUrl($event)"></textarea>
                 </div>

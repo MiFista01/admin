@@ -1,0 +1,17 @@
+<app-edit-config-forms></app-edit-config-forms>
+<div class="constructor">
+    <h2 class="Color Large">Header/Footer constructor</h2>
+    <div class="constructorMain">
+        <div class="clone-container" id="clone-container"></div>
+        <div class="element template-body" dropzone="true" placeholder="template body"></div>
+    </div>
+</div>
+
+<div class="constructorAside">
+    <div class="constructorAsideBtn">
+        <p (click)="updateImage()">Upade Template</p>
+    </div>
+    <div class="elements">
+        <app-constructor-element *ngFor="let elementConf of constructorElements" [element]="elementConf"></app-constructor-element>
+    </div>
+</div>
