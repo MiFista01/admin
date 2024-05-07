@@ -78,7 +78,6 @@ function element(obj) {
       //проверка на вставку
       insertTo(this);
     }
-    console.log();
   });
 }
 
@@ -86,7 +85,10 @@ function hover(obj) {
   //функция для проверки наведённого элемента
   $(obj).hover(
     function (e) {
-      if ($(this).hasClass("element")) {
+      if (
+        $(this).hasClass("element") &&
+        $(obj)[0].nodeName.toLowerCase() != "li"
+      ) {
         //проверка на главный класс
         $(".element").removeClass("active"); //удаление класса для выделения
         if (!$($(this).children(".element")).hasClass("active")) {
@@ -98,7 +100,7 @@ function hover(obj) {
     function (e) {
       if (
         $(this).hasClass("element") &&
-        $(e.relatedTarget).hasClass("element")
+        ($(obj)[0].nodeName.toLowerCase() != "li") != "li"
       ) {
         //проверка на главный классу нынешнего наведённого и прошлого наведённого элемента
         $(this).removeClass("active"); //удаление у нынешнего элемента класса актив
@@ -168,11 +170,26 @@ function initForms(obj) {
     edititingElement = obj; //присвоение к переменной редактируемого элемента
     $(".conf").hide(0); //сокрытие всех полей конфигуратора
     $(".conf-" + $(obj).attr("class").split(" ")[1]).show(0); //показ поля конфигуратора основываясь на типе обьекта
+    $("#styles").click();
+    if ($(obj).hasClass("video")) {
+      $("#preview").click();
+    }
   });
 }
 function hideForm() {
   $(".forms").css("opacity", 0);
   $(".forms").css("pointer-events", "none");
+}
+function returnActiveStyles() {
+  const objStyle = $(edititingElement)
+    .attr("style")
+    .split(";")
+    .map((value) => {
+      return value.split(":")[0].replace(" ", "");
+    });
+  return objStyle.filter((value, index, array) => {
+    return value != "";
+  });
 }
 function appendtoClone(obj) {
   //функция для вставки обьекта в контейнер для клонирования
@@ -193,13 +210,21 @@ function insertTo(obj) {
   //вставка обьекта в другой обьекта
   const cloneElement = $($(".clone-container").children()[0]).clone(); //клонирование обьекта с контейнера для клонирования
   const mainClass = $(cloneElement).attr("class").split(" ")[1]; //получение главного класса
-  if (mainClass == "section" || mainClass == "area" || mainClass == "btn") {
+  if (mainClass == "section" || mainClass == "area") {
     //проверка на класс
     $(cloneElement).attr("dropzone", true); //установка атрибута для повзоления вставки в сам элемент
   }
   $(cloneElement).removeClass("prime"); //удаления класса с основанный на коструктор
-  $(cloneElement).css("top", "0px"); //обнуление высоты у элемента
-  $(cloneElement).css("left", "0px"); //обнуление высоты у элемента
+  $(cloneElement).attr(
+    "style",
+    $(cloneElement)
+      .attr("style")
+      .split(";")
+      .filter((item) => {
+        return !item.includes("top:") && !item.includes("left:") && item != "";
+      })
+      .join(";")
+  );
   const appendElement = assignEventListeners(cloneElement); //присвоение слушателей для детей клонированного обьекта
   switch (
     insertMod //проверка на мод кставки
@@ -239,16 +264,16 @@ function assignEventListeners(obj) {
   return obj;
 }
 
-function emitCreateCondtructorTree() {
+function emitCreateCondtructorTree(parent) {
   const children = [];
-  $(".constructorMain main, .constructorMain header, .constructorMain footer")
+  $(`.constructorMain ${parent}`)
     .children(".element")
     .each((i, v) => {
       children.push(getStructure(v));
     });
   return [
     children,
-    $(".constructorMain main")
+    $(`.constructorMain ${parent}`)
       .clone()
       .html()
       .replaceAll(
@@ -259,16 +284,13 @@ function emitCreateCondtructorTree() {
   ];
 }
 function getStructure(element) {
+  
   const obj = {
     type: $(element).attr("class").split(" ")[1],
     properties: {},
     styles: [],
     children: [],
   };
-  let inlineStyles = $(element)
-    .attr("style")
-    .split(";")
-    .slice(0, $(element).attr("style").split(";").length - 1);
   if (
     $(element).hasClass("section") ||
     $(element).hasClass("area") ||
@@ -277,40 +299,49 @@ function getStructure(element) {
   } else {
     obj.properties["text"] = $($(element).children().last()).text();
   }
-  inlineStyles.forEach((value, index, array) => {
-    obj.styles.push({
-      styleName: value.split(": ")[0],
-      styleValue: value.split(": ")[1],
-    });
-  });
-
   obj.properties["class"] = $(element)
     .attr("class")
-    .replace("element ", "")
-    .replace("active", "");
+    .replace("active", "")
+    .replace("element", "");
   obj.properties["id"] = $(element).attr("id");
-  obj.properties["src"] = $($(element).children().last()).attr("src");
+  if ($(element).hasClass("social-btn")) {
+    obj.properties["src"] = $($(element).children().last().find("img")).attr(
+      "src"
+    );
+  } else {
+    obj.properties["src"] = $($(element).children().last()).attr("src");
+  }
   obj.properties["href"] = $($(element).children().last()).attr("href");
-  if ($(element).hasClass("title"))
-    obj.properties["titleType"] = $($(element).children().last())[0].nodeName.toLowerCase();
+  if ($(element).hasClass("title")) {
+    obj.properties["titleType"] = $(
+      $(element).children().last()
+    )[0].nodeName.toLowerCase();
+  }
+  if ($(element).hasClass("swipers")) {
+    obj.properties["slides"] = $(element).attr("slides");
+  }
+  obj.styles = $(element).attr("style");
 
-  if ($(element).children(".element").length == 0) {
+  if ($(element).hasClass("list")) {
+    ;
     $(element)
       .children()
       .last()
       .children("li")
-      .children(".element")
       .each((i, v) => {
-        obj.children.push(getStructure(v));
+        const liChildren = []
+        $(v).children(".element").each((i, v) => {
+          liChildren.push(getStructure(v));
+        });;
+        obj.children.push(liChildren)
       });
-  } else {
+  }else {
     $(element)
       .children(".element")
       .each((i, v) => {
         obj.children.push(getStructure(v));
       });
   }
-  console.log(obj)
   return obj;
 }
 function setHTML(parent, schema) {

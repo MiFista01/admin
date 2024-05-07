@@ -6,12 +6,12 @@
     <div class="constructorMain">
         <div class="clone-container" id="clone-container"></div>
         <header class="element header" dropzone="true" placeholder="header"></header>
-        <footer class="element header" dropzone="true" placeholder="footer"></footer>
+        <footer class="element footer" dropzone="true" placeholder="footer"></footer>
     </div>
 </div>
 <div class="constructorAside">
     <div class="constructorAsideBtn">
-        <p (click)="updateImage()">UpadePage</p>
+        <p (click)="updateStructure()" #update>Update Page</p>
     </div>
     <div class="elements">
         <app-constructor-element *ngFor="let elementConf of constructorElements" [element]="elementConf"></app-constructor-element>

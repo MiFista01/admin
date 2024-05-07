@@ -3,12 +3,12 @@
     <h2 class="Color Large">{{name}} constructor</h2>
     <div class="constructorMain">
         <div class="clone-container" id="clone-container"></div>
-        <main class="element main" dropzone="true" ></main>
+        <main class="element main" dropzone="true" placeholder="main"></main>
     </div>
 </div>
 <div class="constructorAside">
     <div class="constructorAsideBtn">
-        <p (click)="updateImage()">UpadePage</p>
+        <p (click)="updateStructure()" #update>Update Page</p>
     </div>
     <div class="elements">
         <app-constructor-element *ngFor="let elementConf of constructorElements" [element]="elementConf"></app-constructor-element>

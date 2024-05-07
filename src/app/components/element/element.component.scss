@@ -1,3 +1,126 @@
-:host>*{
+$size-index: calc(1vw + 1svh );
+:host {
+    display: contents;
+    overflow: visible !important;
+}
+.section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
     width: 100%;
+    overflow: visible;
+}
+
+.area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    min-width: 15%;
+    flex-grow: 2;
+    overflow: visible;
+}
+
+.img {
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+    height: max-content;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px 5px rgba(0, 0, 0, 0.455);
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100%;
+    li {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 15%;
+        flex-grow: 1;
+        margin: 5px;
+        align-self: stretch;
+    }
+}
+.title {
+    width: 100%;
+    margin: 0;
+}
+.btn {
+    display: block;
+    transition-duration: .3s;
+    
+}
+.social-btn{
+    width: fit-content;
+    height: fit-content;
+    box-sizing: content-box;
+    img{
+        box-sizing: content-box;
+        width: calc($size-index * 1.5);
+        background-color: black;
+        padding: 5px;
+        border-radius: 5px;
+    }
+}
+.download-btn{
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border: 5px solid rgba(0, 0, 0, 0.761);
+    text-transform: uppercase;
+    transition-duration: .3s;
+    font-weight: 700;
+    border-radius: 5px;
+    &:hover{
+        scale: 1.1;
+    }
+}
+.video-js{
+    width: calc($size-index * 31.5);
+    height:  calc($size-index * 19.5);
+    border-radius: 10px;
+}
+.swiper{
+    width: 30%;
+    margin: 0;
+    .swiper-wrapper{
+        align-items: center;
+    }
+    .swiper-slide{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        img{
+            max-width: 95%;
+            border-radius: 10px;
+        }
+    }
+    .swiper-pagination{
+        .swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background-color: blue;
+            opacity: 1;
+          }
+          
+          /* target all bullets */
+          .swiper-pagination-bullet {
+            background-color: red;
+            opacity: 1;
+          }
+    }
+}
+.paragraph,
+.btn {
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }

@@ -1,16 +1,13 @@
 @import "../../../../styles.scss";
 :host{
-    position: relative;
     flex-grow: 1;
     max-width: 86%;
-    height: 95%;
+    height: 100%;
     box-sizing: border-box;
     padding: 35px;
     padding-top: 0px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    // overflow: scroll;
     &::-webkit-scrollbar{
         display: none;
     }
@@ -35,12 +32,13 @@
             outline: none;
             border-top-left-radius: 15px;
             border-bottom-left-radius: 15px;
-            padding: 10px;
+            padding: 5px;
+            padding-left: 10px;
         }
         img{
             width: calc($size-index * 1.5);
             object-fit: contain;
-            padding: 10px 25px;
+            padding: 5px 25px;
             box-sizing: content-box;
             border-radius: 15px;
             margin-left: -15px;
@@ -59,11 +57,17 @@
     flex-direction: column;
     width: 100%;
     flex-grow: 1;
+    overflow: scroll;
     margin-top: 10px;
     transition-duration: .25s;
-    overflow: hidden;
+    // overflow: hidden;
+    &::-webkit-scrollbar{
+        display: none;
+    }
     .basic{
         position: absolute;
+        display: flex;
+        flex-direction: column;
         width: 100%;
         transition-duration: .25s;
         .blocks{
@@ -73,12 +77,13 @@
             justify-content: space-around;
             align-items: center;
             padding-bottom: 25px;
+            flex-grow: 1;
             .block{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                width: calc(100% / 5);
+                width: calc(100% / 6);
                 padding: 25px 15px;
                 border: 2px solid ;
                 cursor: pointer;
@@ -97,9 +102,9 @@
             }
         }
         .question-answer{
-            position: absolute;
             width: 100%;
             transition-duration: .25s;
+            flex-grow: 4;
             article{
                 margin-bottom: 10px;
                 &:last-child{

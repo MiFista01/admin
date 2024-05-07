@@ -37,3 +37,24 @@ function emitTitleType(type){
 function emitBtnSrc(path){
     $($(edititingElement).children().last()).attr("href", path);
 }
+
+function emitSocialBtn(path, social_link){
+    $($(edititingElement).children().last()).attr("href", social_link);
+    $($(edititingElement).children().last().find("img")).attr("src", path);
+}
+function emitDownloadBtn(path){
+    $($(edititingElement).children().last()).attr("href", path);
+}
+
+function emitVideoPreview(href){
+    $($(edititingElement).children().last()).attr("href", href);
+    $($(edititingElement).children().last()).attr("poster", href);
+}
+function emitVideoSrc(src){
+    $($(edititingElement).children().last()).attr("src", src);
+}
+function emitSwiper(slides){
+    $($(edititingElement).children().last()).empty();
+    $(edititingElement).attr("slides", JSON.stringify(slides.map(value=>{return value.path})));
+
+}

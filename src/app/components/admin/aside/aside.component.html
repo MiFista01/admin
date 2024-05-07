@@ -9,14 +9,14 @@
         <li [id]="focusedItem === 'head-foot' ? 'focus' : null" class="BackgroundColorLight">
             <a routerLink="/admin/head-foot" class="Small"><p>Header/Footer</p></a>
         </li>
-        <li [id]="focusedItem === 'files' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/files" class="Small"><p>Files</p></a>
-        </li>
         <li [id]="focusedItem === 'pages' ? 'focus' : null" class="BackgroundColorLight">
             <a routerLink="/admin/pages" class="Small"><p>Pages</p> <p>{{pages}}</p></a>
         </li>
         <li [id]="focusedItem === 'templates' ? 'focus' : null" class="BackgroundColorLight">
             <a routerLink="/admin/templates" class="Small"><p>Templates</p> <p>{{templates}}</p></a>
+        </li>
+        <li [id]="focusedItem === 'files' ? 'focus' : null" class="BackgroundColorLight">
+            <a routerLink="/admin/files" class="Small"><p>Files</p></a>
         </li>
         <li [id]="focusedItem === 'db' ? 'focus' : null" class="BackgroundColorLight">
             <a routerLink="/admin/db" class="Small"><p>Database</p></a>

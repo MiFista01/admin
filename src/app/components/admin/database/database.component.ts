@@ -64,7 +64,7 @@ export class DatabaseComponent {
 
   constructor(private req: RequestsService) { }
   ngOnInit() {
-    this.req.Get<Table[]>(`${environment.apiUrl}/db`).subscribe(value => {
+    this.req.Get<Table[]>(`${environment.apiUrl}/db`, true).subscribe(value => {
       this.allTables = [...value]
       this.showTables = [...value]
       this.getLastTables(5)
@@ -108,7 +108,7 @@ export class DatabaseComponent {
     }, 500);
   }
   changeTableName(e: any) {
-    if (e.target.value != "users" && e.target.value != "files" && e.target.value != "folders" && e.target.value != "pages" && e.target.value != "regtables" && e.target.value != "templates")
+    if (e.target.value != "users" && e.target.value != "files" && e.target.value != "folders" && e.target.value != "pages" && e.target.value != "regtables" && e.target.value != "templates" && e.target.value != "loggers")
       this.tableName = e.target.value
   }
   addField() {

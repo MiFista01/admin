@@ -46,7 +46,7 @@ export class UsersComponent {
   imgs:Img[] = []
   constructor(private req:RequestsService){}
   ngOnInit(){
-    this.req.Get<profile>(`${environment.apiUrl}/users/1`).subscribe(data=>{
+    this.req.Get<profile>(`${environment.apiUrl}/users/1`, true).subscribe(data=>{
       this.profile = data
       this.profile.password = ""
     })

@@ -109,9 +109,54 @@
             <img src="assets/imgs/constructor/configuration.png" alt="" class="configurator">
             <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
         </div>
-        <a target="_blank"></a>
+        <a target="_blank"><img src="" alt=""></a>
     </div>
-
+    <div *ngSwitchCase="'download-btn'"  [ngClass]="element.properties?.className" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configurator">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <a target="_blank" download contenteditable="true"></a>
+    </div>
+    <div *ngSwitchCase="'video'" [ngClass]="element.properties?.className" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configurator">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <video src=""></video>
+    </div>
+    <div *ngSwitchCase="'swiper'" [ngClass]="element.properties?.className" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configurator">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+            </div>
+        </div>
+    </div>
     <div *ngSwitchDefault>
     </div>
 </ng-container>

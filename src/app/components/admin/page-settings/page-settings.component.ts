@@ -65,11 +65,11 @@ export class PageSettingsComponent {
   ) { }
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const pageName = params.get('pageName');
-      this.req.Get<page[]>(`${environment.apiUrl}/pages`).subscribe((data) => {
-        this.pageObj = data.filter(value => value.pageName == pageName)[0]
+      const id = params.get('id');
+      this.req.Get<page>(`${environment.apiUrl}/pages/${id}`, true).subscribe((data) => {
+        this.pageObj = data
       })
-      this.req.Get<pageShema>(`${environment.apiUrl}/pages/schema/${pageName}`).subscribe((data) => {
+      this.req.Get<pageShema>(`${environment.apiUrl}/pages/schema/${id}`).subscribe((data) => {
         this.pageShema = data
         this.req.Get<[any, headFile[]]>(`${environment.apiUrl}/files/css`).subscribe(data => {
           this.allCss = data[1]
