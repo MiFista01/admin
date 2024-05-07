@@ -1,10 +1,7 @@
-<div class="window" [ngStyle]="{'opacity': showMediaPathStatus? 1 : 0, 'pointer-events': showMediaPathStatus? 'all': 'none'}">
+<div class="window"
+    [ngStyle]="{'opacity': showMediaPathStatus? 1 : 0, 'pointer-events': showMediaPathStatus? 'all': 'none'}">
     <div class="bg" (click)="hideWindow()"></div>
-    <vg-player *ngIf="dirName == 'videos'">
-        <video [vgMedia]="$any(media)" #media id="singleVideo" controls [src]="mediaShowPath">
-            <source [src]="mediaShowPath" type="video/mp4">
-        </video>
-    </vg-player>
+    <app-video  *ngIf="videoSrc != ''" [videoSrc]="videoSrc"></app-video>
     <div class="img-card">
         <div class="back-img" [ngStyle]="{'background-image':'url('+mediaShowPath+')'}" loading="lazy"></div>
         <img [src]="mediaShowPath" alt="" *ngIf="dirName == 'imgs-uploads' || dirName.includes('imgs-swipers')">
@@ -16,36 +13,43 @@
 <div class="mainDirs BackgroundColorLight">
     <p>main dirs:</p>
     <ul>
-        <li class="Tiny" (click)="changeFilesDirs('imgs-uploads')" [ngStyle]="{'background-color': dirName == 'imgs-uploads'? 'rgba(255, 255, 255, 0.1':''}">
+        <li class="Tiny" (click)="changeFilesDirs('imgs-uploads')"
+            [ngStyle]="{'background-color': dirName == 'imgs-uploads'? 'rgba(255, 255, 255, 0.1)':''}">
             <p>uploads</p>
         </li>
-        <li class="Tiny" (click)="changeFilesDirs('imgs-swipers')" [ngStyle]="{'background-color': dirName == 'imgs-swipers'? 'rgba(255, 255, 255, 0.1':''}">
-            <p>swiper</p>
+        <li class="Tiny" (click)="changeFilesDirs('imgs-swipers')"
+            [ngStyle]="{'background-color': dirName == 'imgs-swipers'? 'rgba(255, 255, 255, 0.1)':''}">
+            <p>swipers</p>
         </li>
-        <li class="Tiny" (click)="changeFilesDirs('css')" [ngStyle]="{'background-color': dirName == 'css'? 'rgba(255, 255, 255, 0.1':''}">
+        <li class="Tiny" (click)="changeFilesDirs('css')"
+            [ngStyle]="{'background-color': dirName == 'css'? 'rgba(255, 255, 255, 0.1)':''}">
             <p>css</p>
         </li>
-        <li class="Tiny" (click)="changeFilesDirs('js')" [ngStyle]="{'background-color': dirName == 'js'? 'rgba(255, 255, 255, 0.1':''}">
+        <li class="Tiny" (click)="changeFilesDirs('js')"
+            [ngStyle]="{'background-color': dirName == 'js'? 'rgba(255, 255, 255, 0.1)':''}">
             <p>js</p>
         </li>
-        <li class="Tiny" (click)="changeFilesDirs('videos')" [ngStyle]="{'background-color': dirName == 'videos'? 'rgba(255, 255, 255, 0.1':''}">
+        <li class="Tiny" (click)="changeFilesDirs('videos')"
+            [ngStyle]="{'background-color': dirName == 'videos'? 'rgba(255, 255, 255, 0.1)':''}">
             <p>videos</p>
         </li>
-        <li class="Tiny" (click)="changeFilesDirs('archives')" [ngStyle]="{'background-color': dirName == 'archives'? 'rgba(255, 255, 255, 0.1':''}">
+        <li class="Tiny" (click)="changeFilesDirs('archives')"
+            [ngStyle]="{'background-color': dirName == 'archives'? 'rgba(255, 255, 255, 0.1)':''}">
             <p>archives</p>
         </li>
     </ul>
 </div>
 <div class="files-dirs BackgroundColorLight" [ngStyle]="{'width': selectedDir? '100%':'0%'}">
     <header class="BackgroundColorLight">
-        <div class="search" >
-            <input class="Small BackgroundColor" type="text" placeholder="search files (name/date/type)" (input)="searchFiles($event)">
+        <div class="search">
+            <input #search class="Small BackgroundColor" type="text" placeholder="search files (name/date/type)"
+                (input)="searchFiles($event)">
             <div class="upload" *ngIf="dirName != 'imgs-swipers'">
                 <div class="image" *ngIf="imgPreviewStatus? 1:0">
                     <p class="OpacityBorderColor" (click)="fileImages.click()">upload file</p>
-                    <input type="file" #fileImages  accept="image/*" multiple (change)="createImageFile($event)">
+                    <input type="file" #fileImages accept="image/*" multiple (change)="createImageFile($event)">
                 </div>
-                <div class="css"  *ngIf="dirName.includes('css')">
+                <div class="css" *ngIf="dirName.includes('css')">
                     <p class="OpacityBorderColor" (click)="fileCSS.click()">upload file</p>
                     <input type="file" #fileCSS accept=".css" multiple (change)="createOtherFile($event)">
                 </div>
@@ -64,7 +68,9 @@
             </div>
             <div class="createFolder" *ngIf="dirName == 'imgs-swipers'">
                 <p class="OpacityBorderColor" (click)="toggleFolderForm()">create folder</p>
-                <input class="BorderColor Small BackgroundColor" type="text" (change)="createFolder($event)" placeholder="Create folder" [ngStyle]="{'max-height': toggleFolderInput? '100px': '0px', 'opacity': toggleFolderInput? '1': '0', 'pointer-events': toggleFolderInput? 'all': 'none'}">
+                <input  class="BorderColor Small BackgroundColor" type="text" (change)="createFolder($event)"
+                    placeholder="Create folder"
+                    [ngStyle]="{'max-height': toggleFolderInput? '100px': '0px', 'opacity': toggleFolderInput? '1': '0', 'pointer-events': toggleFolderInput? 'all': 'none'}">
             </div>
         </div>
         <div class="columnTitle">
@@ -72,13 +78,15 @@
             <p class="Color Small" *ngIf="dirName != 'imgs-swipers'">type</p>
             <p class="Color Small">created date</p>
             <p class="Color Small">updated date</p>
-            <p class="Color Small" *ngIf="imgPreviewStatus && dirName != 'imgs-swipers' || dirName == 'videos'">preview</p>
+            <p class="Color Small" *ngIf="imgPreviewStatus && dirName != 'imgs-swipers' || dirName == 'videos'">preview
+            </p>
             <hr>
         </div>
     </header>
     <section *ngFor="let folder of showFolders">
-        <div class="folder" >
-            <p class="Color Small" (click)="changeFilesDirs(getFolderName(folder), false)">{{folder.name.split('-').pop()}}</p>
+        <div class="folder">
+            <p class="Color Small" (click)="changeFilesDirs(getFolderName(folder), false)">
+                {{folder.name.split('-').pop()}}</p>
             <p class="Color Small">{{folder.createdAt.split("T")[0]}}</p>
             <p class="Color Small">{{folder.updatedAt.split("T")[0]}}</p>
             <div class="funcBtn">
@@ -87,14 +95,14 @@
         </div>
     </section>
     <section *ngFor="let item of showFiles">
-        <div class="file" [attr.fileSize]="(item.fileSize/1024).toFixed(2)+'KB'" [attr.fileResolution]="item.fileResolution">
-            <input class="Color Small" type="text" [value]="item.aliasName.split('.')[0]" [attr.currentName]="item.aliasName" (change)="changeFileName($event)">
+        <div class="file" [attr.fileSize]="(item.fileSize/1024).toFixed(2)+'KB'"[attr.fileResolution]="item.fileResolution">
+            <input class="Color Small" type="text" [value]="item.aliasName.split('.')[0]"[attr.currentName]="item.aliasName" (change)="changeFileName($event)">
             <p class="Color Small">{{item.fileName.split(".").pop()}}</p>
             <p class="Meta Small">{{item.createdAt.split("T")[0]}}</p>
             <p class="Meta Small">{{item.updatedAt.split("T")[0]}}</p>
             <img src="{{item.path}}" alt="" *ngIf="imgPreviewStatus" (click)="showWindow(item.path)">
             <div class="funcBtn">
-                <!-- <img src="./assets/imgs/files/editor.png" alt="" *ngIf="!imgPreviewStatus"> -->
+                <img src="./assets/imgs/files/watch_video.png" alt="" *ngIf="dirName == 'videos'" (click)="showWindow(item.path)">
                 <img src="./assets/imgs/files/delete.png" alt="" (click)="deleteFile(item.id)">
             </div>
         </div>

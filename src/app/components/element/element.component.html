@@ -1,23 +1,57 @@
 <ng-container [ngSwitch]="element.type">
-    <section *ngSwitchCase="'section'" [id]="element.properties?.id" [ngClass]="element.properties?.class">
-      <app-element *ngFor="let item of element.children" [element]="item"></app-element>
-    </section>
-    <div *ngSwitchCase="'area'" [id]="element.properties?.id" [ngClass]="element.properties?.class">
-      <app-element *ngFor="let item of element.children" [element]="item"></app-element>
+  <section *ngSwitchCase="'section'" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">
+    <app-element *ngFor="let item of element.children" [element]="item"></app-element>
+  </section>
+
+  <div *ngSwitchCase="'area'" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">
+    <app-element *ngFor="let item of element.children" [element]="item"></app-element>
+  </div>
+
+  <ul *ngSwitchCase="'list'" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">
+    <li *ngFor="let items of element.children">
+      <app-element [element]="item" *ngFor="let item of items"></app-element>
+    </li>
+  </ul>
+
+  <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.properties.titleType">
+    <h1 class="Large" *ngSwitchCase="'h1'" [id]="element.properties?.id " [ngClass]="element.properties?.class"
+      [style]="element.styles">{{element.properties.text}}</h1>
+    <h2 class="Big" *ngSwitchCase="'h2'" [id]="element.properties?.id " [ngClass]="element.properties?.class"
+      [style]="element.styles">{{element.properties.text}}</h2>
+    <h3 class="Small" *ngSwitchCase="'h3'" [id]="element.properties?.id " [ngClass]="element.properties?.class"
+      [style]="element.styles">{{element.properties.text}}</h3>
+    <h4 class="Small" *ngSwitchCase="'h4'" [id]="element.properties?.id " [ngClass]="element.properties?.class"
+      [style]="element.styles">{{element.properties.text}}</h4>
+    <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id " [ngClass]="element.properties?.class"
+      [style]="element.styles">{{element.properties.text}}</h5>
+    <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id " [ngClass]="element.properties?.class"
+      [style]="element.styles">{{element.properties.text}}</h6>
+  </ng-container>
+
+  <p class="Small" *ngSwitchCase="'paragraph'" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">{{element.properties.text}}</p>
+
+  <img *ngSwitchCase="'img'" [src]="element.properties?.src" [ngClass]="element.properties?.class"[style]="element.styles">
+
+  <a *ngSwitchCase="'btn'" class="Small" [routerLink]="['/', element.properties?.href]" routerLinkActive="link-active" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">{{element.properties.text}}</a>
+
+  <a *ngSwitchCase="'social-btn'" class="Small" [id]="element.properties?.id" [ngClass]="element.properties?.class" [href]="element.properties?.href" [style]="element.styles"><img src="{{element.properties?.src}}" alt=""></a>
+
+  <a *ngSwitchCase="'download-btn'" class="Small" [href]="element.properties?.href" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles" download="{{element.properties.text}}">{{element.properties.text}}</a>
+
+  <video *ngSwitchCase="'video'" #player id="player" class="video-js vjs-default-skin vjs-big-play-centered" poster="{{element.properties?.href}}" controls preload="auto" data-setup='{"controls": "true", "autoplay": "false", "preload": "auto" }' [ngClass]="element.properties?.class" [style]="element.styles">
+    <source src="{{element.properties?.src}}" type="video/mp4">
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+    </p>
+  </video>
+
+  <div *ngSwitchCase="'swipers'" class="swiper" #swiper [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide" *ngFor="let item of this.element.properties.slides"><img src="{{item}}" alt=""></div>
     </div>
-    <ul *ngSwitchCase="'list'" [id]="element.properties?.id" [ngClass]="element.properties?.class">
-      <li *ngFor="let item of element.children">
-        <app-element  [element]="item"></app-element>
-      </li>
-    </ul>
-    <ng-container *ngSwitchCase="'title'" [ngSwitch]="element.properties.titleType" >
-        <h1 *ngSwitchCase="'h1'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h1>
-        <h2 *ngSwitchCase="'h2'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h2>
-        <h3 *ngSwitchCase="'h3'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h3>
-        <h5 *ngSwitchCase="'h5'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h5>
-        <h6 *ngSwitchCase="'h6'" [id]="element.properties?.id " [ngClass]="element.properties?.class">{{element.properties.text}}</h6>
-    </ng-container>
-    <p *ngSwitchCase="'paragraph'" [id]="element.properties?.id" [ngClass]="element.properties?.class">{{element.properties.text}}</p>
-    <img *ngSwitchCase="'img'"  [src]="element.properties?.src" [ngClass]="element.properties?.class">
-    <a *ngSwitchCase="'btn'" [href]="'./'+element.properties?.href">{{element.properties.text}}</a>
+    <!-- <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div> -->
+    <div class="swiper-pagination"></div>
+  </div>
 </ng-container>

@@ -1,15 +1,18 @@
 @import "../../../../styles.scss";
-:host{
+:host {
     flex-grow: 1;
     max-width: 86%;
-    height: 95%;
+    height: 100%;
     box-sizing: border-box;
     padding: 35px;
     padding-top: 0px;
     display: flex;
     flex-direction: column;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }
-.block{
+.block {
     display: flex;
     justify-content: space-between;
     align-items: start;
@@ -20,38 +23,38 @@
     border: 5px solid;
     flex-grow: 1;
     margin: 10px;
-    
+    box-shadow:  0px 0px 5px 1px $color-opacity-opacity, inset 0px 0px 5px 1px $color-opacity-opacity;
 }
-#stats-actions{
+#stats-actions {
     width: 100%;
     height: 38%;
     display: flex;
     justify-content: space-between;
 
-    #start{
+    #start {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
-        #stats{
+        #stats {
             width: 55%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            .stat{
+            .stat {
                 display: flex;
                 align-items: center;
                 margin: 0px 5px;
                 flex-grow: 1;
                 width: max-content;
-                p{
+                p {
                     margin: 0px;
                     margin-left: 5px;
                 }
             }
         }
-        a{
+        a {
             display: block;
             width: max-content;
             font-size: calc($size-index * 0.8);
@@ -63,56 +66,65 @@
             padding: 10px 5%;
         }
     }
-    #actions{
+    #actions {
         width: 100%;
         display: flex;
-        align-items: start;
         flex-wrap: wrap;
-        justify-content: space-between;
-        overflow: scroll;
-        
-        .action{
+        .action {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 30%;
             margin: 5px;
-            padding: 10px;
+            flex-grow: 1;
             border-radius: 10px;
             border: 3px solid $color;
-            cursor: pointer;
-            flex-grow: 1;
-            p{
-                margin: 0px;
+            transition-duration: .3s;
+            &:hover{
+                scale: 1.1;
+            }
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                padding: 10px;
+                cursor: pointer;
+                flex-grow: 1;
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: 500;
+                letter-spacing: 5px;
+                text-decoration: none;
             }
         }
     }
-    #actions::-webkit-scrollbar{
+    #actions::-webkit-scrollbar {
         display: none;
     }
 }
-#stats-actions>div{
+#stats-actions > div {
     width: 49%;
 }
-#wishes{
+#wishes {
     width: 100%;
     height: 40%;
     margin-top: 20px;
     padding: 20px;
-    form{
+    form {
         width: 100%;
         height: 100%;
         display: flex;
         flex-wrap: wrap;
         align-items: end;
         justify-content: space-between;
-        h3{
+        h3 {
             width: 100%;
             margin: 0px;
             font-size: calc($size-index * 1.3);
             font-weight: 400;
         }
-        textarea{
+        textarea {
             resize: none;
             width: 80%;
             height: 80%;
@@ -124,11 +136,11 @@
             background-color: rgb(41, 41, 41);
             color: white;
             font-size: calc($size-index * 1);
-            &::placeholder{
+            &::placeholder {
                 color: $color-opacity;
             }
         }
-        button{
+        button {
             text-transform: uppercase;
             font-size: calc($size-index * 1.3);
             padding: 5px 0px;
@@ -139,15 +151,14 @@
             font-weight: 700;
             border-radius: 15px;
         }
-        button:not(:disabled){
+        button:not(:disabled) {
             border: 5px solid $color;
             color: $color;
             cursor: pointer;
         }
-        button:disabled{
+        button:disabled {
             border: 5px solid rgba(0, 0, 0, 0.3);
             color: rgba(0, 0, 0, 0.3);
         }
     }
-    
 }

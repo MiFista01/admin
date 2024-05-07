@@ -20,12 +20,13 @@ interface template{
 })
 
 export class TemplatesComponent {
+  
   showTemplates:template[] = []
   allTemplates:template[] = []
   toggleTemplateInput = false
   constructor(private req: RequestsService){}
   ngOnInit(){
-    this.req.Get<template[]>(`${environment.apiUrl}/templates`).subscribe(data=>{
+    this.req.Get<template[]>(`${environment.apiUrl}/templates`, true).subscribe(data=>{
       this.showTemplates = [...data]
       this.allTemplates = [...data]
     })
@@ -38,6 +39,7 @@ export class TemplatesComponent {
       if(data){
         this.showTemplates.push(data)
         this.allTemplates.push(data)
+        this.toggleTemplateInput = false
         e.target.value = ""
       }else{
         e.target.style.color = "darkred"

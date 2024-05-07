@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RequestsService } from '@services/admin/requests.service';
 import { VgCoreModule } from '@videogular/ngx-videogular/core';
@@ -7,6 +7,7 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { environment } from "@config"
+import { VideoComponent } from '../video/video.component';
 
 interface Folder {
   id: number
@@ -32,15 +33,13 @@ interface File {
   imports: [
     CommonModule,
     FormsModule,
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule
+    VideoComponent
   ],
   templateUrl: './files.component.html',
   styleUrl: './files.component.scss'
 })
 export class FilesComponent {
+  @ViewChild('search', { static: false }) searchInput!: ElementRef;
   showFiles: File[] = []
   allFiles: File[] = []
   showFolders: Folder[] = []
@@ -52,6 +51,7 @@ export class FilesComponent {
   uploadStatus = false
   selectedDir = false
   toggleFolderInput = false
+  videoSrc = ""
   constructor(
     private req: RequestsService,
   ) { }
@@ -77,11 +77,12 @@ export class FilesComponent {
         this.dirName = ''
       }
       if (this.dirName != "") this.getAllFilesDirs()
+        this.searchInput.nativeElement.value = ""
       this.imgPreviewStatus = this.dirName.includes('imgs-uploads') || this.dirName.includes('imgs-swipers')
     }, oldDirName == "" ? 0 : 500);
   }
   getAllFilesDirs() {
-    this.req.Get<[Folder[], File[]]>(`${environment.apiUrl}/files/${this.dirName}`).subscribe(data => {
+    this.req.Get<[Folder[], File[]]>(`${environment.apiUrl}/files/${this.dirName}`, true).subscribe(data => {
       this.showFolders = [...data[0]]
       this.allFolders = [...data[0]]
 
@@ -186,17 +187,14 @@ export class FilesComponent {
   createFolder(e: any) {
     this.req.Post<Folder>(`${environment.apiUrl}/files/folder/${this.dirName}`, { name: e.target.value }).subscribe(data => {
       if (data) {
-        console.log(data)
         this.showFolders.push(data)
         this.allFolders.push(data)
-        console.log(this.showFolders)
-        console.log(this.allFolders)
         e.target.value = ""
+        this.toggleFolderInput = false
       } else {
         e.target.style.color = "red"
         setTimeout(() => {
           e.target.style.color = ""
-
         }, 600);
       }
     })
@@ -226,6 +224,7 @@ export class FilesComponent {
   }
   showWindow(path: string) {
     if (this.dirName == "imgs-uploads" || this.dirName.includes("imgs-swipers") || this.dirName == "videos" && this.mediaShowPath == "") {
+      this.videoSrc = path
       this.mediaShowPath = path
       setTimeout(() => {
         this.showMediaPathStatus = true
@@ -236,6 +235,7 @@ export class FilesComponent {
     this.showMediaPathStatus = false
     setTimeout(() => {
       this.mediaShowPath = ""
+      this.videoSrc = ""
     }, 500);
   }
 }

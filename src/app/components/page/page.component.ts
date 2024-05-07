@@ -5,6 +5,7 @@ import { filter } from 'rxjs';
 import { PageService } from '@services/page.service';
 import { ElementComponent } from '../element/element.component';
 import { CommonModule, DOCUMENT } from '@angular/common';
+import { RequestsService } from '@services/admin/requests.service';
 interface schema {
   head: {
     css: string[]
@@ -14,9 +15,10 @@ interface schema {
     des: string
   }
   body: {
-    header: any
-    main: any
-    footer: any
+    main: {
+      update: boolean
+      children: any
+    }
   }
 }
 @Component({
@@ -28,34 +30,43 @@ interface schema {
 })
 export class PageComponent {
   pageName = ""
-  schema: any = {}
-  children: any[] = []
+  headerSchema: any = {}
+  mainSchema: any = {}
+  footerSchema: any = {}
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private pageService: PageService,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document) { }
+    private req: RequestsService,
+    @Inject(DOCUMENT) private document: Document
+  ) { }
   ngOnInit() {
-    this.pageName = this.route.snapshot.params['page']
-    this.schema = this.pageService.getPageSchema<schema>(this.pageName)?.subscribe((data) => {
-      this.children = data?.body?.main?.children
-      if (data.head?.css)
-        for (const cssName of data.head?.css) {
-          const link = this.renderer.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = `${environment.apiUrl}/static/css/${cssName}`;
-          this.renderer.appendChild(this.document.head, link);
-        }
-      if (data.head?.js)
-        for (const scriptName of data.head?.js) {
-          const script = this.renderer.createElement('script');
-          script.src = `${environment.apiUrl}/static/js/${scriptName}`;
-          script.async = true;
-          this.renderer.appendChild(this.document.head, script);
-        }
+    this.route.params.subscribe(params => {
+      this.pageName = this.route.snapshot.params['page']
+      this.req.Get<schema>(`${environment.apiUrl}/pages/guest-schema/${this.pageName}`).subscribe((data) => {
+        this.mainSchema = data
+        if (data.head?.css)
+          for (const cssName of data.head?.css) {
+            const link = this.renderer.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = `${environment.apiUrl}/static/css/${cssName}`;
+            this.renderer.appendChild(this.document.head, link);
+          }
+        if (data.head?.js)
+          for (const scriptName of data.head?.js) {
+            const script = this.renderer.createElement('script');
+            script.src = `${environment.apiUrl}/static/js/${scriptName}`;
+            script.async = true;
+            this.renderer.appendChild(this.document.head, script);
+          }
+      });
+      this.req.Get<schema>(`${environment.apiUrl}/pages/schema/header`).subscribe(data=>{
+        this.headerSchema = data
+      })
+      this.req.Get<schema>(`${environment.apiUrl}/pages/schema/footer`).subscribe(data=>{
+        this.footerSchema = data
+      })
     });
-  }
-  ngOnDestroy() {
-    this.schema.unsubscribe();
   }
 }

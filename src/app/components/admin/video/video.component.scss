@@ -1,0 +1,6 @@
+
+$size-index:calc(1vw + 1vh);
+.video-js{
+    width: calc($size-index * 45);
+    height: calc($size-index * 25);
+}

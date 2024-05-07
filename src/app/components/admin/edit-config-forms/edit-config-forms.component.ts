@@ -8,7 +8,12 @@ declare function emitSetImg(path: string): void;
 declare function emitSetList(count: number): void;
 declare function emitTitleType(type: string): void;
 declare function emitBtnSrc(path: string): void;
-
+declare function returnActiveStyles(): string[];
+declare function emitSocialBtn(path: string, social_link: string | undefined): void;
+declare function emitDownloadBtn(path:string):void;
+declare function emitVideoPreview(path:string):void;
+declare function emitVideoSrc(path:string):void;
+declare function emitSwiper(slides:any[]):void
 interface style {
   optGroupName: string,
   group: {
@@ -28,6 +33,22 @@ interface myFile {
   fileSize: number
   path: string
 }
+interface profile {
+  facebook_link?: string
+  instagramm_link?: string
+  github_link?: string
+  itchio_link?: string
+  google_link?: string
+}
+interface folder{
+  name:string,
+  files:file[]
+}
+interface file {
+  aliasName: string,
+  fileName: string,
+  path: string
+}
 @Component({
   selector: 'app-edit-config-forms',
   standalone: true,
@@ -44,10 +65,15 @@ export class EditConfigFormsComponent {
   pages: string[] = []
   showStyleGroupArray: string[] = []
   selectedStyles: string[] = []
+  profilesLinks: profile = {}
+  archivesFiles:file[] = []
+  videosFiles:file[] = []
+  subFoldersFiles:any = []
   isFlipped = false;
   galleryLength = 0
-  @ViewChild('gallery', { static: true }) gallery!: UploadedGalleryComponent;
+  videoChange = false
 
+  @ViewChild('gallery', { static: true }) gallery!: UploadedGalleryComponent;
   constructor(
     private constructorService: ConstructorService,
     private req: RequestsService
@@ -62,6 +88,33 @@ export class EditConfigFormsComponent {
       for (const i of data) {
         this.pages.push(i.pageName)
       }
+    })
+    this.req.Get<profile>(`${environment.apiUrl}/users/1`).subscribe(data => {
+      this.profilesLinks = data
+    })
+    this.req.Get<[any[], file[]]>(`${environment.apiUrl}/files/archives`).subscribe(data => {
+      this.archivesFiles = data[1].map((item, index) => {
+        return { ...item, path: `${environment.apiUrl}/static/archives/${item.fileName}` };
+      });
+    })
+    this.req.Get<[any[], file[]]>(`${environment.apiUrl}/files/videos`).subscribe(data => {
+      this.videosFiles = data[1].map((item, index) => {
+        return { ...item, path: `${environment.apiUrl}/static/videos/${item.fileName}` };
+      });
+    })
+    this.req.Get<folder[]>(`${environment.apiUrl}/files/subFolderFiles`).subscribe(data => {
+      this.subFoldersFiles = data.map(value=>{
+        return{
+          ...value,
+          files: value.files.map(fileObj=>{
+            return{
+              ...fileObj,
+              path: `${environment.apiUrl}/static/${value.name.replaceAll("-", "/")}/${fileObj.fileName}`
+            }
+          })
+        }
+      })
+      
     })
   }
   flipCard() {
@@ -86,6 +139,26 @@ export class EditConfigFormsComponent {
   checkStyleSelectedGroup(obj: style): boolean {
     return obj.group.map((item) => { return this.selectedStyles.includes(item.value) }).some((item: any) => item === true)
   }
+
+  returnEditorActiveStyles() {
+    this.showStyleGroupArray = []
+    this.selectedStyles = []
+    for (const styleName of returnActiveStyles()) {
+      const matchingGroup = this.styles.find(group => {
+        return group.group.some(item => styleName == item.value);
+      });
+      if (matchingGroup) {
+        if (!this.showStyleGroupArray.includes(matchingGroup.optGroupName))
+          this.showStyleGroupArray.push(matchingGroup.optGroupName)
+        const matchingItems = matchingGroup.group.filter(item => returnActiveStyles().includes(item.value));
+        matchingItems.forEach((value, index, array) => {
+          if (!this.selectedStyles.includes(value.value)) {
+            this.selectedStyles.push(value.value)
+          }
+        })
+      }
+    }
+  }
   /* ---------------------------- style editor form --------------------------- */
 
 
@@ -95,9 +168,14 @@ export class EditConfigFormsComponent {
   returnForms() {
     this.isFlipped = false
     this.selectedStyles = []
+    this.videoChange = false
   }
   setImage(imagePath: string) {
-    emitSetImg(imagePath)
+    if(!this.videoChange){
+      emitSetImg(imagePath)
+    }else{
+      emitVideoPreview(imagePath)
+    }
   }
   setImageUrl(e: any) {
     this.setImage(e.target.value)
@@ -132,9 +210,23 @@ export class EditConfigFormsComponent {
   changeTitle(e: any) {
     emitTitleType(e.target.value)
   }
-  changeBtnSrc(e: any) {
-    console.log(e)
-    emitBtnSrc(e.target.value)
+  changeBtnSrc(src: string) {
+    emitBtnSrc(src)
+  }
+  changeSocialBtn(imgPath: string, socialLink: string | undefined) {
+    emitSocialBtn(imgPath, socialLink)
+  }
+  changeDownloadBtn(src:string){
+    emitDownloadBtn(src)
+  }
+  triggerVideoPreview(){
+    this.videoChange = true
+  }
+  setVideoSrc(path:string){
+    emitVideoSrc(path)
+  }
+  setSlides(slides:file[]){
+    emitSwiper(slides)
   }
   /* ---------------------------- configurator form --------------------------- */
 }

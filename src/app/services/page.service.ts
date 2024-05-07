@@ -9,6 +9,6 @@ export class PageService {
 
   constructor(private req:RequestsService) { }
   getPageSchema<T>(pageName:string){
-    return this.req.Get<T>(`${environment.apiUrl}/pages/schema/${pageName}`)
+    return 
   }
 }

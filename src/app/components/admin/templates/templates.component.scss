@@ -1,13 +1,16 @@
 @import "../../../../styles.scss";
 :host{
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
     max-width: 86%;
     height: 100%;
     box-sizing: border-box;
     padding: 35px;
     padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }
 header{
     display: flex;
@@ -124,6 +127,7 @@ header{
             pointer-events: none;
             img{
                 width: calc($size-index * 1.5);
+                cursor: pointer;
             }
         }
     }

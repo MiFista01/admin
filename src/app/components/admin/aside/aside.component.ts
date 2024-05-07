@@ -19,11 +19,11 @@ export class AsideComponent {
   @Input() focusedItem: string | null = "dashboard"
   constructor(private router: Router, private req:RequestsService) {}
   ngOnInit(){
-    this.req.Get<[]>(`${environment.apiUrl}/pages`).subscribe(data=>{
-      this.pages = data.length
+    this.req.Get<number>(`${environment.apiUrl}/pages/count`).subscribe(data=>{
+      this.pages = data
     })
-    this.req.Get<[]>(`${environment.apiUrl}/templates`).subscribe(data=>{
-      this.templates = data.length
+    this.req.Get<number>(`${environment.apiUrl}/templates/count`).subscribe(data=>{
+      this.templates = data
     })
   }
 }

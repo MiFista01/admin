@@ -5,38 +5,26 @@
     <div class="block OpacityBorderColor">
         <h3 class="Color Middle">WebSite Stats</h3>
         <div id="start">
-            <a href="/home" class="Color BackgroundColorBtn BorderColor">Welcome WebSite</a>
+            <a [routerLink]="['/home']" target="_blank" routerLinkActive="router-link-active"
+                class="Color BackgroundColorBtn BorderColor">Welcome WebSite</a>
         </div>
     </div>
     <div class="block OpacityBorderColor" style="width: 75%;">
         <h3 class="Color Middle">Last action in pages</h3>
         <div id="actions">
-            <div class="action Color Tiny BackgroundColorBtn">
-                <p>Home / Modifier</p>
+            <div class="action BackgroundColorBtn" *ngFor="let item of recorderedActions">
+                <a class="Color Tiny" [routerLink]="'/admin/'+item.url">
+                    {{item.name}}
+                </a>
             </div>
-            <div class="action Color Tiny BackgroundColorBtn">
-                <p>Home / Create</p>
-            </div>
-            <div class="action Color Tiny BackgroundColorBtn">
-                <p>Home / Modifier</p>
-            </div>
-            <div class="action Color Tiny BackgroundColorBtn">
-                <p>Home / Create</p>
-            </div>
-            <div class="action Color Tiny BackgroundColorBtn">
-                <p>Home / Modifier</p>
-            </div>
-            <div class="action Color Tiny BackgroundColorBtn">
-                <p>Home / Create</p>
-            </div>
-            
         </div>
     </div>
 </div>
 <div id="wishes" class="block OpacityBorderColor">
     <form [formGroup]="wishes" (ngSubmit)="onSubmitWish()">
         <h3 class="Color Middle">Wishes to the developers</h3>
-        <textarea id="wish" cols="30" rows="10" formControlName="wish" placeholder="Write your wishes for improving the project" class="Small OpacityBorderColor"></textarea>
+        <textarea id="wish" cols="30" rows="10" formControlName="wish"
+            placeholder="Write your wishes for improving the project" class="Small OpacityBorderColor"></textarea>
         <button type="submit" [disabled]="wishes.invalid">send</button>
     </form>
 </div>

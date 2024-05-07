@@ -2,7 +2,9 @@
 <div class="forms">
     <div class="card" >
         <div class="bg" (click)="returnForms()"></div>
-        <form class="editor" [class.flipped]="isFlipped">
+        <div class="editor" [class.flipped]="isFlipped">
+            <button (click)="returnEditorActiveStyles()" id="styles"></button>
+            <button (click)="triggerVideoPreview()" id="preview"></button>
             <header>
                 <h2 class="OpacityColor Big"><span class="elementType"></span> editor</h2>
                 <p class="flippBtn editorBtn Color Small" (click)="flipCard()">Go to conf.</p>
@@ -12,7 +14,7 @@
                     <div class="group" *ngFor="let group of styles">
                         <p class="Color Small" (click)="showStyleGroup(group.optGroupName)" [class.selectedStyle]="checkStyleSelectedGroup(group)">{{group.optGroupName}}</p>
                         <div class="style-tokens" [class.show]="showStyleGroupArray.includes(group.optGroupName)" >
-                            <p class="Color Tiny" [attr.value]="style.value" (click)="selectedStyle(style.value)" [attr.type]="style.type" *ngFor="let style of group.group">{{style.name}}</p>
+                            <p class="Color Tiny" [class.ColorBackgroundOpacityOpacityOpacity]="selectedStyles.includes(style.value)" [attr.value]="style.value" (click)="selectedStyle(style.value)" [attr.type]="style.type" *ngFor="let style of group.group">{{style.name}}</p>
                         </div>
                     </div>
                 </div>
@@ -58,8 +60,8 @@
                 </div>
                 <p id="selectStyles">update</p>
             </div>
-        </form>
-        <form class="configurator" [class.flipped]="!isFlipped">
+        </div>
+        <div class="configurator" [class.flipped]="!isFlipped">
             <header>
                 <h2 class="OpacityColor Big"><span class="elementType"></span> configurator</h2>
                 <p class="flippBtn Color Small" (click)="flipCard()">Go to editor</p>
@@ -87,12 +89,28 @@
                     </select>
                 </div>
                 <div class="conf conf-btn">
-                    <select (change)="changeBtnSrc($event)">
-                        <option value="--" selected disabled>--</option>
-                        <option *ngFor="let item of pages" value="{{item}}">{{item}}</option>
-                    </select>
+                    <p class="Small Color BorderColor" *ngFor="let item of pages" (click)="changeBtnSrc(item)">{{item}}</p>
+                </div>
+                <div class="conf conf-social-btn">
+                    <img src="./assets/imgs/constructor/social/facebook.png" alt="" (click)="changeSocialBtn('./assets/imgs/constructor/social/facebook.png', profilesLinks.facebook_link)">
+                    <img src="./assets/imgs/constructor/social/instagram.png" alt="" (click)="changeSocialBtn('./assets/imgs/constructor/social/instagram.png', profilesLinks.instagramm_link)">
+                    <img src="./assets/imgs/constructor/social/github.png" alt="" (click)="changeSocialBtn('./assets/imgs/constructor/social/github.png', profilesLinks.github_link)">
+                    <img src="./assets/imgs/constructor/social/itchio.png" alt="" (click)="changeSocialBtn('./assets/imgs/constructor/social/itchio.png', profilesLinks.itchio_link)">
+                    <img src="./assets/imgs/constructor/social/google.png" alt="" (click)="changeSocialBtn('./assets/imgs/constructor/social/google.png', profilesLinks.google_link)">
+                </div>
+                <div class="conf conf-download-btn">
+                    <p class="Small color BorderColor" *ngFor="let item of archivesFiles" (click)="changeDownloadBtn(item.path)">{{item.aliasName}}</p>
+                </div>
+                <div class="conf conf-video">
+                    <p class="Color Small" *ngIf="galleryLength > 0" (click)="galleryMenuClick(true)">select video preview</p>
+                    <div class="videos">
+                        <p class="Small color BorderColor" *ngFor="let item of videosFiles" (click)="setVideoSrc(item.path)">{{item.aliasName}}</p>
+                    </div>
+                </div>
+                <div class="conf conf-swipers">
+                    <p class="Small color BorderColor" *ngFor="let item of subFoldersFiles" (click)="setSlides(item.files)">{{item.name.split("-").pop()}}</p>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

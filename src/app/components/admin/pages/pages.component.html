@@ -21,7 +21,7 @@
 <section>
     <div class="pages">
         <article *ngFor="let item of showPages">
-           <a [ngStyle]="{'justify-content': item.pageImg == null? 'end': 'space-between'}" [routerLink]="['./', item.pageName]">
+           <a [ngStyle]="{'justify-content': item.pageImg == null? 'end': 'space-between'}" [routerLink]="['./', item.id]">
                 <img src="{{item.pageImg}}" *ngIf="item.pageImg != null && item.pageImg.length > 0" alt="">
                 <div class="des">
                     <p class="name Color Small">{{item.pageName}}</p>

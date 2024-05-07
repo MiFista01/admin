@@ -32,8 +32,10 @@
 <div class="card" (click)="updatePageSnapshot()"
     [ngClass]="{'emptyCard': pageObj.pageImg == '' || pageObj.pageImg == null}">
     <img src="{{pageObj.pageImg}}" alt="" [ngClass]="{'hide': updateImageStatus}">
-    <a class="OpacityBorderColor ColorBackground Small" [routerLink]="['/',pageObj.pageName]" routerLinkActive="router-link-active" target="_blank">Open page</a>
-    <a class="OpacityBorderColor ColorBackground Small" href="admin/pages/{{pageObj.pageName}}/constructor">go to constructor</a>
+    <div>
+        <a class="OpacityBorderColor ColorBackground Small" [routerLink]="['/',pageObj.pageName]" routerLinkActive="router-link-active" target="_blank">Open page</a>
+        <a class="OpacityBorderColor ColorBackground Small" [routerLink]="['constructor']">go to constructor</a>
+    </div>
 </div>
 <div class="head">
     <div class="files BackgroundColorLight BorderColor">
