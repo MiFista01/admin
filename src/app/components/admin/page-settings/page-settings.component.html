@@ -4,7 +4,7 @@
     <div class="body">
         <h3 class="Color Middle">CSS</h3>
         <ng-container *ngFor="let item of allCss; let i = index">
-            <section class="BorderColor" *ngIf="!pageShema.head.css.includes(item.fileName)">
+            <section class="BorderColor" *ngIf="!pageSchema.head.css.includes(item.fileName)">
                 <div>
                     <p class="Small">{{item.aliasName}}</p>
                 </div>
@@ -16,7 +16,7 @@
         </ng-container>
         <h3 class="Color Middle">JS</h3>
         <ng-container *ngFor="let item of allJs; let i = index">
-            <section class="BorderColor" *ngIf="!pageShema.head.css.includes(item.fileName)">
+            <section class="BorderColor" *ngIf="!pageSchema.head.css.includes(item.fileName)">
                 <div>
                     <p class="Small">{{item.aliasName}}</p>
                 </div>
@@ -34,7 +34,7 @@
     <img src="{{pageObj.pageImg}}" alt="" [ngClass]="{'hide': updateImageStatus}">
     <div>
         <a class="OpacityBorderColor ColorBackground Small" [routerLink]="['/',pageObj.pageName]" routerLinkActive="router-link-active" target="_blank">Open page</a>
-        <a class="OpacityBorderColor ColorBackground Small" [routerLink]="['constructor']">go to constructor</a>
+        <a class="OpacityBorderColor ColorBackground Small not-mobile" [routerLink]="['constructor']">go to constructor</a>
     </div>
 </div>
 <div class="head">
@@ -42,9 +42,9 @@
         <header>
             <h3 class="Color Big" (click)="changeTab('files')">Files</h3>
             <div class="btns">
-                <p class="addFile Small OpacityBorderColor ColorBackground" (click)="showFileModalWindow()">apend file
+                <p class="addFile Tiny OpacityBorderColor ColorBackground" (click)="showFileModalWindow()">apend file
                 </p>
-                <p class="updateFiles Small OpacityBorderColor ColorBackground" (click)="updatePageHead()"> update page
+                <p class="updateFiles Tiny OpacityBorderColor ColorBackground" (click)="updatePageHead()"> update page
                     files</p>
             </div>
         </header>
@@ -53,7 +53,7 @@
             <p class="Color Small">button</p>
             <hr class="BorderColor">
         </div>
-        <div class="body" [ngStyle]="{'max-height': openTab == 'files'? '35vh': ''}">
+        <div class="body" [ngStyle]="{'max-height': openTab == 'files'? '40vh': ''}">
             <h4 class="Color Small">CSS</h4>
             <section *ngFor="let item of css; let i = index">
                 <div>
@@ -78,20 +78,20 @@
         <header>
             <h3 class="Color Big" (click)="changeTab('seo')">SEO</h3>
         </header>
-        <div class="body" [ngStyle]="{'max-height': openTab == 'seo'? '35vh': ''}">
+        <div class="body" [ngStyle]="{'max-height': openTab == 'seo'? '40vh': ''}">
             <div class="seo-parts">
                 <h4 class="Color Small">Title</h4>
-                <input class="Tiny BorderColor BackgroundColorLight" type="text" placeholder="Page title" (input)="updatePageTitle($event)" value="{{pageShema.head.title}}">
+                <input class="Tiny BorderColor BackgroundColorLight" type="text" placeholder="Page title" (input)="updatePageTitle($event)" value="{{pageSchema.head.title}}">
             </div>
             <div class="seo-parts">
                 <h4 class="Color Small">Description</h4>
-                <textarea class="Tiny BorderColor BackgroundColorLight" placeholder="Describe your page" (input)="updatePageDes($event)">{{pageShema.head.description}}</textarea>
+                <textarea class="Tiny BorderColor BackgroundColorLight" placeholder="Describe your page" (input)="updatePageDes($event)">{{pageSchema.head.description}}</textarea>
             </div>
             <div class="seo-parts">
                 <h4 class="Color Small">Tags</h4>
                 <input class="Tiny BorderColor BackgroundColorLight" type="text" placeholder="Add pageTags"  (change)="appendTags($event)">
                 <div class="tags">
-                    <div class="tag BorderColor" *ngFor="let item of pageShema.head.tags; let i = index" (click)="removeTags(i)">
+                    <div class="tag BorderColor" *ngFor="let item of pageSchema.head.tags; let i = index" (click)="removeTags(i)">
                         <p class="Tiny ">{{item}}</p>
                     </div>
                 </div>

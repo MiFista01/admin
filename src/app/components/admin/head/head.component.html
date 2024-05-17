@@ -1,51 +1,105 @@
+<div class="window"
+    [ngStyle]="{'opacity': modalWindowName == 'files'? 1 : 0, 'pointer-events': modalWindowName == 'files'? 'all': 'none'}">
+    <div class="bg" (click)="hideWindow()"></div>
+    <div class="body">
+        <h3 class="Color Middle">CSS</h3>
+        <ng-container *ngFor="let item of allCss; let i = index">
+            <section class="BorderColor" *ngIf="!mainSchema.head.css.includes(item.fileName)">
+                <div>
+                    <p class="Small">{{item.aliasName}}</p>
+                </div>
+                <div>
+                    <p class="Small ColorBackground OpacityBorderColor" (click)="appendFile('css',item, i)">append file
+                    </p>
+                </div>
+            </section>
+        </ng-container>
+        <h3 class="Color Middle">JS</h3>
+        <ng-container *ngFor="let item of allJs; let i = index">
+            <section class="BorderColor" *ngIf="!mainSchema.head.css.includes(item.fileName)">
+                <div>
+                    <p class="Small">{{item.aliasName}}</p>
+                </div>
+                <div>
+                    <p class="Small ColorBackground OpacityBorderColor" (click)="appendFile('js',item, i)">append file
+                    </p>
+                </div>
+            </section>
+        </ng-container>
+    </div>
+</div>
 <header>
     <h2 class="Color Large">Head settings</h2>
 </header>
 <div id="prime-settings">
     <div id="files" class="block BackgroundColorLight">
-        <h3 class="Color Big">Upload Files</h3>
+        <header>
+            <h3 class="Color Big" (click)="changeTab('files')">Upload Files</h3>
+            <div class="btns">
+                <p class="addFile Tiny OpacityBorderColor ColorBackground" (click)="showFileModalWindow()">apзend file
+                </p>
+                <p class="updateFiles Tiny OpacityBorderColor ColorBackground" (click)="updateMainHead()"> update page
+                    files</p>
+            </div>
+        </header>
         <div class="names">
-            <div class="col32 Color Small"><p>name</p></div>
-            <div class="col32 Color Small"><p>Downloaded date</p></div>
-            <div class="col32 Color Small"><p>Status</p></div>
+            <div class="Color Small"><p>name</p></div>
+            <div class="Color Small"><p>Downloaded date</p></div>
         </div>
         <hr>
-        <div class="rows">
-            <div class="row">
-                <div class="col32 Color Tiny"><p>style.css</p></div>
-                <div class="col32 Color Tiny"><p>01-01-2024</p></div>
-                <div class="col32 Color Tiny"></div>
+        <div class="rows" [ngStyle]="{'max-height': openTab == 'files'? '40vh': ''}">
+            <h4 class="Color Small">CSS</h4>
+            <section class="row" *ngFor="let item of css; let i = index">
+                <div class="text">
+                    <p class="Small">{{item.aliasName}}</p>
+                </div>
+                <div class="text">
+                    <p class="Small">{{item.updatedAt.split("T")[0]}}</p>
+                </div>
+                <div class="btns">
+                    <img src="./assets/imgs/files/delete.png" alt="" (click)="returnFile('css', item, i)">
+                </div>
+            </section>
+            <h4 class="Color Small">JS</h4>
+            <section class="row" *ngFor="let item of js; let i = index">
+                <div class="text">
+                    <p class="Small">{{item.aliasName}}</p>
+                </div>
+                <div class="text">
+                    <p class="Small">{{item.updatedAt.split("T")[0]}}</p>
+                </div>
+                <div class="btns">
+                    <img src="./assets/imgs/files/delete.png" alt="" (click)="returnFile('js', item, i)">
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="block BackgroundColorLight" id="seo">
+        <h3 class="Color Big" (click)="changeTab('seo')">SEO Settings</h3>
+        <div [ngStyle]="{'max-height': openTab == 'seo'? '40vh': ''}">
+            <div class="group">
+                <div class="col">
+                    <h4 class="Color Middle">Title:</h4>
+                    <input type="text" placeholder="Title for browser" class="Small" (input)="changeTitle($event)" [value]="mainSchema.head.title">
+                </div>
+                <div class="col">
+                    <h4 class="Color Middle">Description:</h4>
+                    <textarea  placeholder="Describe your site for search engines" class="Small" (input)="changeDes($event)">{{mainSchema.head.description}}</textarea>
+                </div>
+            </div>
+            <div class="group" id="tags">
+                <div class="col">
+                    <h4 class="Color Middle">Tags manager</h4>
+                    <div>
+                        <input type="text" #tagname name="tag-manager" placeholder="Tag name" [value]="tagName" (input)="tagName = tagname.value"  (change)="addTag($event)" class="Small">
+                    </div>
+                </div>
+                <div class="tags-container">
+                    <div class="tag BackgroundColorLight OpacityBorderColor" *ngFor="let item of this.mainSchema.head.tags" (click)="deleteTag(item)">
+                        <p>{{item}}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="block BackgroundColorLight" id="seo">
-    <h3 class="Color Big">SEO Settings</h3>
-    <form [formGroup]="seo" (ngSubmit)="onSubmitUpdateSEO()">
-        <div class="group">
-            <div class="col">
-                <h4 class="Color Middle">Title:</h4>
-                <input type="text" formControlName="title" placeholder="Title for browser" class="Small">
-            </div>
-            <div class="col">
-                <h4 class="Color Middle">Description:</h4>
-                <textarea  formControlName="des" placeholder="Describe your site for search engines" class="Small"></textarea>
-            </div>
-        </div>
-        <div class="group" id="tags">
-            <div class="col">
-                <h4 class="Color Middle">Tags manager</h4>
-                <div>
-                    <input type="text" name="tag-manager" [(ngModel)]="tagName" [ngModelOptions]="{standalone: true}" placeholder="Tag name" (keydown.enter)="$event.preventDefault()" (keyup.enter)="onEnter()" class="Small">
-                    <p class="button" (click)="addTag()">add</p>
-                </div>
-            </div>
-            <div class="tags-container">
-                <div class="tag BackgroundColorLight OpacityBorderColor" *ngFor="let item of tagsNames" (click)="deleteTag(item)">
-                    <p>{{item}}</p>
-                </div>
-            </div>
-        </div>
-        <button type="submit">Update</button>
-    </form>
 </div>

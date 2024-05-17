@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule, Event } from '@angular/router';
+import { environment } from '@config';
+import { RequestsService } from '@services/admin/requests.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,16 +13,31 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  link = "/"
-  constructor(private router: Router) {}
-  ChangerHome(){
-    const currentRoute = this.router.url;
-    if (currentRoute.substring(0,6) !== '/admin') {
-      this.link = "/"
-      return false;
-    } else {
-      this.link = "/admin"
-      return true;
-    }
+  link = "/admin"
+  constructor(
+    private router: Router,
+    private req: RequestsService  
+  ) {}
+  ngOnInit(){
+    this.router.events.pipe(
+      filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if(event.urlAfterRedirects == "/admin"){
+        this.link = event.urlAfterRedirects;
+
+      }else{
+        this.link = "/admin/dashboard"
+      }
+    });
+  }
+  logOut(){
+    
+    this.req.Post(`${environment.apiUrl}/users/logout`,{}).subscribe({
+      next: () => {
+        this.router.navigate(['admin/login']);
+      },
+      error: (err) => {}
+    })
+    
   }
 }

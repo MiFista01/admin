@@ -1,16 +1,18 @@
 @import "../../../../styles.scss";
 :host{
+    position: relative;
     flex-grow: 1;
     max-width: 86%;
     height: 100%;
     box-sizing: border-box;
-    padding: 35px;
+    padding: 0px 35px;
     padding-top: 0px;
     display: flex;
     flex-direction: column;
     &::-webkit-scrollbar{
         display: none;
     }
+    pointer-events: none;
 }
 header{
     display: flex;

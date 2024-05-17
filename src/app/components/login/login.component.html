@@ -1,0 +1,21 @@
+<div class="squares">
+    <app-square *ngFor="let item of squaresItems" [itemStep]="item"></app-square>
+</div>
+<div class="login-form BackgroundColorLight">
+    <h2 class="Color Big">Sign in to CMS</h2>
+    <div class="field">
+        <input class="Small BorderColor Color" type="text" [(ngModel)]="user" [ngClass]="{'wrong':wrongField == 1}">
+        <p class="Small" [ngClass]="{'wrong':wrongField == 1}"
+            [ngStyle]="{'transform': user.length> 0? 'translate(0px, calc(-150% - 10px))': '', 'left': user.length> 0? '0px': ''}">
+            Username or email</p>
+    </div>
+    <div class="field">
+        <input class="Small BorderColor Color" type="password" [(ngModel)]="password" [ngClass]="{'wrong':wrongField == 2}">
+        <p class="Small" [ngClass]="{'wrong':wrongField == 2}"
+            [ngStyle]="{'transform': password.length> 0? 'translate(0px, calc(-150% - 10px))': '', 'left': password.length> 0? '0px': ''}">
+            Password</p>
+    </div>
+    <div class="field">
+        <button class="Small" (click)="login()">Sign in</button>
+    </div>
+</div>

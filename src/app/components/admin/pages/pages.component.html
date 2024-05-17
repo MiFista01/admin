@@ -2,31 +2,39 @@
     <form>
         <h2 class="Color Large">Pages</h2>
         <div class="searchField">
-            <input class="Small" type="text" name="pageNameSearch" id="pageNameSearch" placeholder="search pages" (input)="searchPages($event)">
+            <input class="Small" type="text" name="pageNameSearch" id="pageNameSearch" placeholder="search pages"
+                (input)="searchPages($event)">
         </div>
     </form>
-    <div>
+    <div class="btns">
         <div class="btn">
             <p class="ColorBackgroundOpacity OpacityBorderColor Small" (click)="togglePageNameForm()">create page</p>
-            <form [formGroup]="createrPages" id="createrPages" (submit)="createPage()" [ngStyle]="{'height': pageNameFormToggle? '50px': '0px', 'pointer-events': pageNameFormToggle? 'all': 'none', 'opacity': pageNameFormToggle? '1': '0'}">
-                <input type="text" id="pageName" required formControlName="pageName" [ngStyle]="{'color': errorPageName ? 'red': 'white'}">
-                <button class="ColorBackgroundOpacityOpacity" [disabled]="!createrPages.valid">create</button>
+            <form [formGroup]="createrPages" id="createrPages" (submit)="createPage()"
+                [ngStyle]="{'height': pageNameFormToggle? '50px': '0px', 'pointer-events': pageNameFormToggle? 'all': 'none', 'opacity': pageNameFormToggle? '1': '0'}">
+                <input type="text" id="pageName" required formControlName="pageName"
+                    [ngStyle]="{'color': errorPageName ? 'red': 'white'}">
+                <button class="ColorBackground" [disabled]="!createrPages.valid">create</button>
             </form>
         </div>
-        <div class="btn">
-            <p class="ColorBackgroundOpacity OpacityBorderColor Small" (click)="updateCardsSnapshot()" >update cards</p>
-        </div>
+        <!-- <div class="btn">
+            <p class="ColorBackgroundOpacity OpacityBorderColor Small" (click)="updateCardsSnapshot()"
+                [ngStyle]="{'pointer-events': !updateDisable? 'all': 'none', 'scale': !updateDisable? '': 0.8}" [ngClass]="{'ColorBackgroundOpacityOpacity': updateDisable}">update cards</p>
+        </div> -->
     </div>
 </header>
 <section>
     <div class="pages">
-        <article *ngFor="let item of showPages">
-           <a [ngStyle]="{'justify-content': item.pageImg == null? 'end': 'space-between'}" [routerLink]="['./', item.id]">
+        <article *ngFor="let item of showPages; let i = index">
+            <a [ngStyle]="{'justify-content': item.pageImg == null? 'end': 'space-between'}"
+                [routerLink]="['./', item.id]">
                 <img src="{{item.pageImg}}" *ngIf="item.pageImg != null && item.pageImg.length > 0" alt="">
                 <div class="des">
                     <p class="name Color Small">{{item.pageName}}</p>
                 </div>
-           </a>
+            </a>
+            <div class="objFunc">
+                <img src="./assets/imgs/files/delete.png" alt="" (click)="removePage(item.id, i)">
+            </div>
         </article>
     </div>
     <div class="pagination">

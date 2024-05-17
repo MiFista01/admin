@@ -1,34 +1,38 @@
 @import "../../../../styles.scss";
-:host{
+:host {
+    position: sticky;
+    left: 0px;
+    top: 0px;
     width: 14%;
+    bottom: 0;
 }
-aside{
+aside {
     width: 100%;
-    height: 100%;
     z-index: 1;
     position: relative;
-    ul{
+    ul {
         width: 100%;
         height: 100%;
         list-style: none;
         margin: 0px;
         padding: 0px;
-        #focus{
+        #focus {
             background-color: $color-opacity-opacity;
             z-index: 1;
             transform: translate(5%, 0%);
             scale: 1.1;
-            a{
+            a {
                 color: $color !important;
             }
         }
-        li{
+        li {
             width: 100%;
             border: 3px solid black;
             box-sizing: border-box;
             transition-duration: 0.2s;
             border-radius: 10px;
-            a{
+            a {
+                position: relative;
                 box-sizing: border-box;
                 display: block;
                 width: 100%;
@@ -37,22 +41,81 @@ aside{
                 text-decoration: none;
                 display: flex;
                 justify-content: space-between;
-                p{
+                p {
                     margin: 0px;
+                }
+                img {
+                    display: none;
+                    max-height: 5vh;
+                    object-fit: contain;
                 }
             }
         }
-        li:not(:first-child){
+        li:not(:first-child) {
             margin-top: -3px;
         }
-        li:not(#focus):hover{
+        li:not(#focus):hover {
             background-color: $color-opacity-opacity;
             z-index: 1;
             transform: translate(2.5%, 0%);
             scale: 1.05;
-            a{
+            a {
                 color: $color !important;
             }
         }
+    }
+}
+@media (max-width: 800px) {
+    :host {
+        position: fixed !important;
+        width: 100%;
+        top: initial !important;
+        bottom: 0px !important;
+        // height: min-content !important;
+        z-index: 3;
+    }
+    aside {
+        width: 100% !important;
+        user-select: none;
+        ul {
+            display: flex !important;
+            a {
+                img {
+                    width: 100%;
+                }
+                p {
+                    position: absolute;
+                    bottom: 110%;
+                    left: 50%;
+                    transform: translate(50%, 0px);
+                    writing-mode: vertical-lr; /* или vertical-lr */
+                    text-orientation: mixed; /* или upright */
+                    white-space: nowrap;
+                    color: $color;
+                    pointer-events: none;
+                    cursor: none !important;
+                    scale: -1;
+                    text-transform: uppercase;
+                    opacity: 0;
+                    text-shadow:  0px 0px 2px black;
+                    font-weight: 900;
+                }
+                img {
+                    display: block !important;
+                }
+            }
+        }
+    }
+    #focus {
+        transform: translate(0%, -5%) !important;
+        p{
+            opacity: 1;
+        }
+    }
+    li:not(#focus):hover {
+        transform: translate(0%, -2.5%) !important;
+    }
+    .not-mobile {
+        display: none;
     }
 }

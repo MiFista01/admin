@@ -1,4 +1,11 @@
 <app-edit-config-forms></app-edit-config-forms>
+<div class="window update" [ngStyle]="{'opacity': updatedStatus? 1:0, 'pointer-events': updatedStatus? 'all':''}">
+    <div class="bg" (click)="hideWindow()"></div>
+    <div class="body">
+        <img [src]="updateImg" alt="">
+        <p class="Middle Color">Updated</p>
+    </div>
+</div>
 <div class="constructor">
     <h2 class="Color Large">{{templateName}}</h2>
     <div class="constructorMain">
@@ -9,9 +16,12 @@
 
 <div class="constructorAside">
     <div class="constructorAsideBtn">
-        <p (click)="updateStructure()" #update>Update Template</p>
+        <p (click)="updateStructure()" class="btn Tiny" #update>Update Head/Foot</p>
     </div>
     <div class="elements">
         <app-constructor-element *ngFor="let elementConf of constructorElements" [element]="elementConf"></app-constructor-element>
     </div>
+</div>
+<div class="auto-update" [ngStyle]="{'opacity': autoUpdatedStatus? 1:0, 'pointer-events': autoUpdatedStatus? 'all':''}">
+    <img [src]="autoUpdateImg" alt="">
 </div>

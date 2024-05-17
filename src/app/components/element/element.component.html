@@ -34,7 +34,7 @@
 
   <a *ngSwitchCase="'btn'" class="Small" [routerLink]="['/', element.properties?.href]" routerLinkActive="link-active" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles">{{element.properties.text}}</a>
 
-  <a *ngSwitchCase="'social-btn'" class="Small" [id]="element.properties?.id" [ngClass]="element.properties?.class" [href]="element.properties?.href" [style]="element.styles"><img src="{{element.properties?.src}}" alt=""></a>
+  <a *ngSwitchCase="'social-btn'" class="Small" [id]="element.properties?.id" [ngClass]="element.properties?.class" [href]="element.properties?.href" [style]="element.styles" target="_blank"><img src="{{element.properties?.src}}" alt=""></a>
 
   <a *ngSwitchCase="'download-btn'" class="Small" [href]="element.properties?.href" [id]="element.properties?.id" [ngClass]="element.properties?.class" [style]="element.styles" download="{{element.properties.text}}">{{element.properties.text}}</a>
 

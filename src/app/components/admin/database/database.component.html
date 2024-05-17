@@ -1,3 +1,10 @@
+<div class="future">
+    <div class="img">
+        <img src="./assets/imgs/future/3.gif" alt="">
+    </div>
+    <div class="front"></div>
+</div>
+<app-uploaded-gallery #gallery (setImageInput)="setImage($event)"></app-uploaded-gallery>
 <div class="window" [ngStyle]="{'opacity': modalWindowName == 'createTable'? 1:0, 'pointer-events': modalWindowName == 'createTable'? 'all':''}">
     <div class="bg" (click)="returnModalWindow()"></div>
     <div class="form-db-table BorderColor">
@@ -10,7 +17,7 @@
             <div class="field" *ngFor="let item of showFieldTables; let i = index">
                 <input class="Small" type="text" [attr.place]="i" value="{{item.fieldName}}"
                     placeholder="Field name (column name)" (input)="changeColumnName($event, i)">
-                <select [attr.place]="i" (input)="changeColumnType($event, i)">
+                <select class="Small"  [attr.place]="i" (input)="changeColumnType($event, i)">
                     <option value="STRING" [selected]="item.type == 'STRING'">STRING</option>
                     <option value="TEXT" [selected]="item.type == 'TEXT'">TEXT</option>
                     <option value="INTEGER" [selected]="item.type == 'INTEGER'">INTEGER</option>
@@ -19,18 +26,18 @@
                     <option value="DATEONLY" [selected]="item.type == 'DATEONLY'">DATEONLY</option>
                     <option value="IMG" [selected]="item.type == 'IMG'">IMAGE</option>
                 </select>
-                <p (click)="deleteField(i)">Delete</p>
+                <p class="Small"  (click)="deleteField(i)">Delete</p>
             </div>
         </div>
         <div class="btns">
             <div class="group">
-                <p class="Tiny" (click)="addField()">Add a field <img src="./assets/imgs/db/add.png" alt=""></p>
+                <p class="Small" (click)="addField()">Add a field <img src="./assets/imgs/db/add.png" alt=""></p>
             </div>
             <div class="group">
                 <div class="btn-container">
                     <p class="Color Small" [ngStyle]="{'transform': createdStatus? 'translate(0%, -100%)':''}">created
                     </p>
-                    <p class="Tiny" (click)="createTable($event)">Save table</p>
+                    <p class="Small" (click)="createTable($event)">Save table</p>
                 </div>
             </div>
         </div>
@@ -96,11 +103,9 @@
                             <input class="Small BorderColor" type="number" *ngIf="getColumnType(field) == 'DOUBLE'" step="0.1" (input)="changeTableValueField($event, i, field)" value="{{value[field]}}">
                             <input class="Small BorderColor" type="date" *ngIf="getColumnType(field) == 'DATEONLY'" (input)="changeTableValueField($event, i, field)" value="{{value[field]}}">
                             <input class="Small BorderColor" type="datetime-local" *ngIf="getColumnType(field) == 'DATE'" (input)="changeTableValueField($event, i, field)" value="{{value[field]}}">
-                            <select class="Small BorderColor" *ngIf="getColumnType(field) == 'IMG'" (change)="changeTableValueField($event, i, field)">
-                                <option value="{{img.path}}" *ngFor="let img of showImgs" [selected]="img.path == value[field]">
-                                    {{img.aliasName.split('.')[0]}}
-                                </option>
-                            </select>
+                            <div *ngIf="getColumnType(field) == 'IMG'">
+                                <p class="Color Small" (click)="galleryMenuClick(true, field, i)">selct image</p>
+                            </div>
                             <textarea class="Small BorderColor" *ngIf="getColumnType(field) == 'TEXT'" (input)="changeTableValueField($event, i, field)">{{value[field]}}</textarea>
                         </article>
                     </ng-container>
@@ -114,26 +119,15 @@
                 <ng-container *ngFor="let item of showFieldTables">
                     <div class="field" [ngSwitch]="item.type">
                         <p class="Color Small">{{item.fieldName}}</p>
-                        <input class="Small BorderColor" type="text" *ngSwitchCase="'STRING'"
-                            [attr.fieldName]="item.fieldName" placeholder="write the details"
-                            (input)="changeTableValue($event)">
-                        <input class="Small BorderColor" type="number" *ngSwitchCase="'INTEGER'"
-                            [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
-                        <input class="Small BorderColor" type="number" *ngSwitchCase="'DOUBLE'" step="0.1"
-                            [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
-                        <input class="Small BorderColor" type="date" *ngSwitchCase="'DATEONLY'"
-                            [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
-                        <input class="Small BorderColor" type="datetime-local" *ngSwitchCase="'DATE'"
-                            [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
-                        <select class="Small BorderColor" *ngSwitchCase="'IMG'" [attr.fieldName]="item.fieldName"
-                            (change)="changeTableValue($event)">
-                            <option value="--" selected disabled>--</option>
-                            <option value="{{img.path}}" *ngFor="let img of showImgs">
-                                {{img.aliasName.split('.')[0]}}
-                            </option>
-                        </select>
-                        <textarea class="Small BorderColor" *ngSwitchCase="'TEXT'" [attr.fieldName]="item.fieldName"
-                            (input)="changeTableValue($event)"></textarea>
+                        <input class="Small BorderColor" type="text" *ngSwitchCase="'STRING'" [attr.fieldName]="item.fieldName" placeholder="write the details"(input)="changeTableValue($event)">
+                        <input class="Small BorderColor" type="number" *ngSwitchCase="'INTEGER'" [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
+                        <input class="Small BorderColor" type="number" *ngSwitchCase="'DOUBLE'" step="0.1"[attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
+                        <input class="Small BorderColor" type="date" *ngSwitchCase="'DATEONLY'" [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
+                        <input class="Small BorderColor" type="datetime-local" *ngSwitchCase="'DATE'" [attr.fieldName]="item.fieldName" (input)="changeTableValue($event)">
+                        <div *ngSwitchCase="'IMG'">
+                            <p class="Color Small" (click)="galleryMenuClick(true, item.fieldName)">selct image</p>
+                        </div>
+                        <textarea class="Small BorderColor" *ngSwitchCase="'TEXT'" [attr.fieldName]="item.fieldName"(input)="changeTableValue($event)"></textarea>
                     </div>
                 </ng-container>
 
@@ -146,7 +140,7 @@
     </div>
 </div>
 <div class="window" [ngStyle]="{'opacity': modalWindowName == 'warningUpdate'? 1:0, 'pointer-events': modalWindowName == 'warningUpdate'? 'all':''}">
-    <div class="bg"></div>
+    <div class="bg" (click)="returnModalWindow()"></div>
     <div class="warning">
         <img src="./assets/imgs/db/recheck.png" alt="">
         <h3 class="Big"></h3>
@@ -167,7 +161,7 @@
 <header>
     <h2 class="Color Large">database configs</h2>
     <div class="btns">
-        <p class="Small ColorBackground OpacityBorderColor" (click)="openWindowCreateTable('createTable')">create table
+        <p class="Tiny ColorBackground OpacityBorderColor" (click)="openWindowCreateTable('createTable')">create table
         </p>
     </div>
 </header>
@@ -182,12 +176,12 @@
     </header>
     <section class="tables-container" [ngStyle]="{'max-height': openTableView == 'last'? '55vh': '0vh'}">
         <article class="table" *ngFor="let item of lastUpdatedTables">
-            <p>{{item.tableName}}</p>
-            <p>{{item.updatedAt.split("T")[0]}}</p>
+            <p class="Small">{{item.tableName}}</p>
+            <p class="Small">{{item.updatedAt.split("T")[0]}}</p>
             <div class="tableFuncBtns">
-                <div class="btn">Delete</div>
-                <div class="btn">Edit</div>
-                <div class="btn">Insert</div>
+                <div class="btn Small">Delete</div>
+                <div class="btn Small">Edit</div>
+                <div class="btn Small">Insert</div>
             </div>
         </article>
     </section>
@@ -205,12 +199,12 @@
     </header>
     <section class="tables-container" [ngStyle]="{'max-height': openTableView == 'all'? '55vh': '0vh'}">
         <article class="table" *ngFor="let item of showTables">
-            <p>{{item.tableName}}</p>
-            <p>{{item.updatedAt.split("T")[0]}}</p>
+            <p class="Small">{{item.tableName}}</p>
+            <p class="Small">{{item.updatedAt.split("T")[0]}}</p>
             <div class="tableFuncBtns">
-                <div class="btn" (click)="deleteTable(item.tableName)">Delete</div>
-                <div class="btn" (click)="openEditForm(item.id)">Edit</div>
-                <div class="btn" (click)="openTableValues(item.tableName)">Data</div>
+                <div class="btn Small" (click)="deleteTable(item.tableName)">Delete</div>
+                <div class="btn Small" (click)="openEditForm(item.id)">Edit</div>
+                <div class="btn Small" (click)="openTableValues(item.tableName)">Data</div>
             </div>
         </article>
     </section>

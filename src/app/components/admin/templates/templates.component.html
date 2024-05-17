@@ -1,3 +1,9 @@
+<div class="future">
+    <div class="img">
+        <img src="./assets/imgs/future/3.gif" alt="">
+    </div>
+    <div class="front"></div>
+</div>
 <header>
     <h2 class="Color Large">Templates</h2>
     <div class="search">
@@ -10,7 +16,7 @@
 </header>
 <div class="templates">
     <div class="template BorderColor BackgroundColorLight" *ngFor="let item of showTemplates; let i = index">
-        <a class=" Color Middle" [routerLink]="['/admin/templates/',item.id]" [attr.createdAt]="'Created:'+item.createdAt.split('T')[0]">{{item.name}}</a>
+        <a class="Color Middle not-mobile" [routerLink]="['/admin/templates/',item.id]" [attr.createdAt]="'Created:'+item.createdAt.split('T')[0]">{{item.name}}</a>
         <div class="objFunc">
             <img src="./assets/imgs/files/delete.png" alt="" (click)="removeTemplate(item.id, i)">
         </div>

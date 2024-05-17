@@ -87,7 +87,8 @@ function hover(obj) {
     function (e) {
       if (
         $(this).hasClass("element") &&
-        $(obj)[0].nodeName.toLowerCase() != "li"
+        $(obj)[0].nodeName.toLowerCase() != "li" &&
+        !$($(obj).parent()).hasClass("db-conector")
       ) {
         //проверка на главный класс
         $(".element").removeClass("active"); //удаление класса для выделения
@@ -100,15 +101,20 @@ function hover(obj) {
     function (e) {
       if (
         $(this).hasClass("element") &&
-        ($(obj)[0].nodeName.toLowerCase() != "li") != "li"
+        $(obj)[0].nodeName.toLowerCase() != "li"
       ) {
         //проверка на главный классу нынешнего наведённого и прошлого наведённого элемента
         $(this).removeClass("active"); //удаление у нынешнего элемента класса актив
-        if (!$(e.relatedTarget).hasClass("element")) {
-          //проверка на не наличие главного класса у элемента к которому пришли
-          $($(e.relatedTarget).parents(".element")[0]).addClass("active"); //когда класса нету ищется первый родитель с главным классом и ему добавляется класс актив
-        } else {
-          $(e.relatedTarget).addClass("active"); //добавление класса актив к элементу к которому перешлт
+        if($(obj).parent(".element").length > 0){
+            if($(obj).parent(".element")[0].nodeName.toLowerCase() == "li"){
+              $($(obj).parents(".element")[1]).addClass("active")
+            }else{
+              if($(e.relatedTarget).hasClass("borders")){
+                $($(e.relatedTarget).parent()).addClass("active"); //добавление класса актив к элементу к которому перешлт
+              }else{
+                $(e.relatedTarget).addClass("active"); //добавление класса актив к элементу к которому перешлт
+              }
+            }
         }
       }
     }

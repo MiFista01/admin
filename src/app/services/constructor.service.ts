@@ -89,7 +89,7 @@ export class ConstructorService {
         className: "element swipers prime"
       },
       place: "all"
-    },
+    }
   }
   public styles = [
     {

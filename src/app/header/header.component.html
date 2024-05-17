@@ -1,10 +1,13 @@
-<header class="BackgroundColorDark" *ngIf="ChangerHome()">
+<header class="BackgroundColorDark">
     <div class="logo">
         <a [routerLink]="link">
             <img src="assets/imgs/logo.svg" alt="">
         </a>
+        <h1 class="HeaderTitle">
+            LifeForge
+        </h1>
     </div>
-    <h1>
-        LifeForge
-    </h1>
+    <div class="btns">
+        <p class="Small" (click)="logOut()">log out</p>
+    </div>
 </header>

@@ -1,10 +1,31 @@
 <div class="window"
     [ngStyle]="{'opacity': showMediaPathStatus? 1 : 0, 'pointer-events': showMediaPathStatus? 'all': 'none'}">
     <div class="bg" (click)="hideWindow()"></div>
-    <app-video  *ngIf="videoSrc != ''" [videoSrc]="videoSrc"></app-video>
+    <app-video *ngIf="videoSrc != '' && dirName == 'videos'" [videoSrc]="videoSrc"></app-video>
     <div class="img-card">
         <div class="back-img" [ngStyle]="{'background-image':'url('+mediaShowPath+')'}" loading="lazy"></div>
         <img [src]="mediaShowPath" alt="" *ngIf="dirName == 'imgs-uploads' || dirName.includes('imgs-swipers')">
+    </div>
+</div>
+<div class="window" [ngStyle]="{'opacity': showEditorStatus? 1 : 0, 'pointer-events': showEditorStatus? 'all': 'none'}">
+    <div class="bg" (click)="hideEditor()"></div>
+    <div class="editor" *ngIf="dirName == 'css'">
+        <ngx-monaco-editor style="height: 100%" [options]="editorOptionsCSS" [(ngModel)]="editorContent"></ngx-monaco-editor>
+        <div class="btns">
+            <div class="btn-update">
+                <p class="Small" [ngStyle]="{'transform': updateCodeSTatus? 'translate(0px, -100%)': ''}">updated</p>
+                <p class="Small btn" (click)="updateCode()">update</p>
+            </div>
+        </div>
+    </div>
+    <div class="editor" *ngIf="dirName == 'js'">
+        <ngx-monaco-editor style="height: 100%" [options]="editorOptionsJS" [(ngModel)]="editorContent"></ngx-monaco-editor>
+        <div class="btns">
+            <div class="btn-update">
+                <p class="Small" [ngStyle]="{'transform': updateCodeSTatus? 'translate(0px, -100%)': ''}">updated</p>
+                <p class="Small btn" (click)="updateCode()">update</p>
+            </div>
+        </div>
     </div>
 </div>
 <header>
@@ -68,7 +89,7 @@
             </div>
             <div class="createFolder" *ngIf="dirName == 'imgs-swipers'">
                 <p class="OpacityBorderColor" (click)="toggleFolderForm()">create folder</p>
-                <input  class="BorderColor Small BackgroundColor" type="text" (change)="createFolder($event)"
+                <input class="BorderColor Small BackgroundColor" type="text" (change)="createFolder($event)"
                     placeholder="Create folder"
                     [ngStyle]="{'max-height': toggleFolderInput? '100px': '0px', 'opacity': toggleFolderInput? '1': '0', 'pointer-events': toggleFolderInput? 'all': 'none'}">
             </div>
@@ -76,8 +97,8 @@
         <div class="columnTitle">
             <p class="Color Small">name</p>
             <p class="Color Small" *ngIf="dirName != 'imgs-swipers'">type</p>
-            <p class="Color Small">created date</p>
-            <p class="Color Small">updated date</p>
+            <p class="Color Small date">created date</p>
+            <p class="Color Small date">updated date</p>
             <p class="Color Small" *ngIf="imgPreviewStatus && dirName != 'imgs-swipers' || dirName == 'videos'">preview
             </p>
             <hr>
@@ -87,22 +108,27 @@
         <div class="folder">
             <p class="Color Small" (click)="changeFilesDirs(getFolderName(folder), false)">
                 {{folder.name.split('-').pop()}}</p>
-            <p class="Color Small">{{folder.createdAt.split("T")[0]}}</p>
-            <p class="Color Small">{{folder.updatedAt.split("T")[0]}}</p>
+            <p class="Color Small date">{{folder.createdAt.split("T")[0]}}</p>
+            <p class="Color Small date">{{folder.updatedAt.split("T")[0]}}</p>
             <div class="funcBtn">
                 <img src="./assets/imgs/files/delete.png" alt="" (click)="deleteFolder(folder.id)">
             </div>
         </div>
     </section>
     <section *ngFor="let item of showFiles">
-        <div class="file" [attr.fileSize]="(item.fileSize/1024).toFixed(2)+'KB'"[attr.fileResolution]="item.fileResolution">
-            <input class="Color Small" type="text" [value]="item.aliasName.split('.')[0]"[attr.currentName]="item.aliasName" (change)="changeFileName($event)">
+        <div class="file" [attr.fileSize]="(item.fileSize/1024).toFixed(2)+'KB'"
+            [attr.fileResolution]="item.fileResolution">
+            <input class="Color Small" type="text" [value]="item.aliasName.split('.')[0]"
+                [attr.currentName]="item.aliasName" (change)="changeFileName($event)">
             <p class="Color Small">{{item.fileName.split(".").pop()}}</p>
-            <p class="Meta Small">{{item.createdAt.split("T")[0]}}</p>
-            <p class="Meta Small">{{item.updatedAt.split("T")[0]}}</p>
+            <p class="Meta Small date">{{item.createdAt.split("T")[0]}}</p>
+            <p class="Meta Small date">{{item.updatedAt.split("T")[0]}}</p>
             <img src="{{item.path}}" alt="" *ngIf="imgPreviewStatus" (click)="showWindow(item.path)">
             <div class="funcBtn">
-                <img src="./assets/imgs/files/watch_video.png" alt="" *ngIf="dirName == 'videos'" (click)="showWindow(item.path)">
+                <img src="./assets/imgs/files/watch_video.png" alt="" *ngIf="dirName == 'videos'"
+                    (click)="showWindow(item.path)">
+                <img src="./assets/imgs/files/editor.png" alt="" *ngIf="dirName == 'css' || dirName == 'js'"
+                    (click)="showEditor(item.fileName)">
                 <img src="./assets/imgs/files/delete.png" alt="" (click)="deleteFile(item.id)">
             </div>
         </div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor-v2';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,9 @@ import { FooterComponent } from './footer/footer.component';
     CommonModule,
     RouterOutlet,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

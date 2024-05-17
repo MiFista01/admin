@@ -1,4 +1,4 @@
-$size-index: calc(1vw + 1svh );
+@import "../../../styles.scss";
 :host {
     display: contents;
     overflow: visible !important;

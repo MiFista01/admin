@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 interface log {
   url: string
   method: string
-  route?: string
   name?: string
 }
 @Component({
@@ -32,7 +31,7 @@ export class DashboardComponent {
   ngOnInit() {
     this.req.Get<log[]>(`${environment.apiUrl}/logger`).subscribe(data => {
       this.recorderedActions = data.map((value, index) => {
-        if (value.url == "files" || value.url == "user" || value.url == "db" || value.url == "templates" || value.url == "pages" || value.url == "head-foot") {
+        if (value.url == "files" || value.url == "user" || value.url == "db" || value.url == "templates" || value.url == "pages" || value.url == "head-foot"|| value.url == "head") {
           value.name = value.url
         } else {
           if (value.url?.split("/")[0] == "pages") {
@@ -47,12 +46,10 @@ export class DashboardComponent {
             this.req.Get<any>(`${environment.apiUrl}/templates/${value.url?.split("/")[1]}`).subscribe(data => {
               const urlParts = value.url.split("/").filter(value => value != "")
               const numb = urlParts.pop()
-              console.log(numb)
               if (!isNaN(Number(numb))) { this.recorderedActions[index].name = data.name + " constructor"}
             })
           }
         }
-
         return {
           ...value
         }

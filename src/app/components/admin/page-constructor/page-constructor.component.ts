@@ -4,17 +4,18 @@ import { EditConfigFormsComponent } from '../edit-config-forms/edit-config-forms
 import { ConstructorElementComponent } from '../constructor-element/constructor-element.component';
 import { ScriptloaderService } from '@services/scriptloader.service';
 import { ConstructorService } from '@services/constructor.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { RequestsService } from '@services/admin/requests.service';
 import { environment } from '@config';
-declare function emitCreateCondtructorTree(parent:String): any
-declare function setHTML(parent:any, html:any): any
+import { Subscription } from 'rxjs';
+declare function emitCreateCondtructorTree(parent: String): any
+declare function setHTML(parent: any, html: any): any
 interface pageShema {
   body: {
     main: {
       update: boolean,
       children: any,
-      html:string
+      html: string
     }
   }
 }
@@ -39,15 +40,22 @@ interface page {
 })
 export class PageConstructorComponent {
   @ViewChild('update', { static: true }) target!: ElementRef;
-  name = ""
   pageObj: any = {}
-  pageShema:any = {}
+  pageShema: any = {}
   constructorElements: unknown[] = []
+  name = ""
+  updateImg = ""
+  autoUpdateImg = ""
+  updatedStatus = false
+  autoUpdatedStatus = false
+  timeOut:any
+  private routerSubscription: Subscription | undefined;
   constructor(
     private sl: ScriptloaderService,
     private constructorService: ConstructorService,
     private route: ActivatedRoute,
-    private req: RequestsService
+    private req: RequestsService,
+    private router: Router
   ) {
     for (const key of Object.keys(constructorService.elements)) {
       const element = {
@@ -62,8 +70,9 @@ export class PageConstructorComponent {
   }
   ngOnInit(): void {
     setInterval(() => {
-      this.target.nativeElement.click()
-    }, 300000);
+      this.saveStructure("auto")
+    }, 5 * 60 * 1000);
+
     this.route.params.subscribe(params => {
       const id = params['id']
       this.req.Get<page>(`${environment.apiUrl}/pages/${id}`).subscribe((data) => {
@@ -74,13 +83,61 @@ export class PageConstructorComponent {
         setHTML("main", this.pageShema.body.main.html)
       })
     });
+
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.saveStructure("auto")
+      }
+    });
   }
   updateStructure() {
+    this.saveStructure("handler")
+  }
+  hideWindow() {
+    this.updatedStatus = false
+    setTimeout(() => {
+      this.updateImg = ""
+    }, 500);
+  }
+  saveStructure(saveType: "auto"|"handler"){
     const constructor = emitCreateCondtructorTree("main")
     this.pageShema.body.main.children = constructor[0]
     this.pageShema.body.main.html = constructor[1]
-    this.req.Patch(`${environment.apiUrl}/pages/schema/${this.pageObj.id}`, this.pageShema).subscribe(data=>{
-      console.log(data)
+    if(!this.updatedStatus || !this.autoUpdatedStatus)
+    this.req.Patch(`${environment.apiUrl}/pages/schema/${this.pageObj.id}`, this.pageShema).subscribe(data => {
+      if (data) {
+        if(saveType == "auto"){
+          this.autoUpdatedStatus = true
+          this.autoUpdateImg = "./assets/imgs/constructor/success.gif"
+          clearTimeout(this.timeOut)
+          this.timeOut = setTimeout(() => {
+            if (this.autoUpdatedStatus){
+              this.autoUpdatedStatus = false
+              setTimeout(() => {
+                if(this.autoUpdateImg)
+                  this.autoUpdateImg = ""
+              }, 500);
+            }
+          }, 3000);
+        }else{
+          this.updateImg = ""
+          this.updatedStatus = true
+          this.updateImg = "./assets/imgs/constructor/success.gif"
+          clearTimeout(this.timeOut)
+          this.timeOut = setTimeout(() => {
+            if (this.updatedStatus){
+              this.updatedStatus = false
+              setTimeout(() => {
+                if(this.updateImg)
+                  this.updateImg = ""
+              }, 500);
+            }
+          }, 3000);
+        }
+      }
     })
+  }
+  ngOnDestroy() {
+    this.routerSubscription?.unsubscribe();
   }
 }
