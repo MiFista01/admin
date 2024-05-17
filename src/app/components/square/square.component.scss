@@ -1,7 +1,9 @@
+
+@import "../../../styles.scss";
 .square{
-    width: 14px;
-    height: 14px;
-    background-color: rgb(195, 159, 231);
+    width: calc($size-index * 0.8);
+    height: calc($size-index * 0.8);
+    background-color: $color-hover;
     margin: 12px;
     float: left;
     box-shadow: -5px 5px 5px 2px rgba(0, 0, 0, 0.334);

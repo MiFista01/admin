@@ -4,7 +4,7 @@ $color-opacity: rgba(51, 220, 208, 0.6);
 $color-opacity-hover: rgba(35, 217, 205, 0.6);
 $color-opacity-opacity: rgba(51, 220, 208, 0.3);
 $color-opacity-opacity-opacity: rgba(51, 220, 208, 0.15);
-$size-index: calc(1vw + 1svh);
+$size-index: calc(1lvw + 1lvh);
 html,
 body {
     padding: 0px;
@@ -22,7 +22,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding-right: 10px;
+    box-sizing: border-box;
     &::-webkit-scrollbar {
         width: 10px;
     }
@@ -66,7 +66,7 @@ body {
         transition-duration: 0s !important;
         transform: translate(-50%, -50%);
         box-shadow: inset 0px 0px 10px $color;
-        font-size: calc($size-index * .65);
+        font-size: calc($size-index * 0.65);
         * {
             display: none;
         }
@@ -180,7 +180,7 @@ body {
         }
         .btn {
             display: flex;
-            width: fit-content;
+            width: 100%;
             a {
                 width: 100%;
                 min-width: calc($size-index * 3);
@@ -240,12 +240,14 @@ body {
                 z-index: 1;
             }
         }
+        .db-conector {
+            width: 100%;
+        }
         .element {
             min-height: 10vh;
-            padding: 10px;
+            padding: 15px;
             box-sizing: border-box;
             box-shadow: inset 0px 0px 10px $color;
-
             &::before {
                 content: attr(placeholder);
                 position: absolute;
@@ -284,15 +286,14 @@ body {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     .constructorAsideBtn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        position: relative;
+        padding-top: 10px;
+        z-index: 2;
         width: 100%;
         height: 10%;
         box-sizing: border-box;
         pointer-events: all;
-        p {
-            margin: 0px;
+        .btn {
             text-transform: uppercase;
             color: whitesmoke;
             background-color: $color;
@@ -300,6 +301,8 @@ body {
             border-radius: 10px;
             cursor: pointer;
             transition-duration: 0.5s;
+            margin: auto;
+            width: fit-content;
             &:hover {
                 background-color: $color;
                 color: white;
@@ -349,7 +352,17 @@ body {
         }
     }
 }
-
+.auto-update {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    opacity: 0;
+    pointer-events: none;
+    transition-duration: 0.3s;
+    img {
+        width: calc($size-index * 3.5);
+    }
+}
 .element {
     position: relative;
     display: flex;
@@ -491,11 +504,24 @@ body {
     & > *:not(.bg) {
         max-width: 80%;
         max-height: 80%;
-
         box-sizing: content-box;
-        border-radius: 25px;
+        border-radius: 20px;
         z-index: 3;
         object-fit: contain;
+    }
+}
+.window.update {
+    .body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+            width: 20vw;
+        }
+        p {
+            text-align: center;
+        }
     }
 }
 .Color {
@@ -537,6 +563,7 @@ body {
 .BackgroundColorBtn {
     background-color: rgb(37, 37, 37);
 }
+.HeaderTitle,
 .Large,
 .Big,
 .Middle,
@@ -545,6 +572,11 @@ body {
     font-family: "Asap", sans-serif;
     width: 100%;
     margin: 0px;
+}
+.HeaderTitle {
+    font-size: calc($size-index * 2.5);
+    font-weight: 600;
+    letter-spacing: 3px;
 }
 .Large {
     font-size: calc($size-index * 2);
@@ -572,6 +604,140 @@ body {
     font-size: calc($size-index * 0.65);
     font-weight: 400;
 }
+@media (max-width: 1300px) {
+    .Large {
+        font-size: calc($size-index * 2.5);
+    }
+    .Big {
+        font-size: calc($size-index * 2.05);
+    }
+    .Middle {
+        font-size: calc($size-index * 1.5);
+    }
+    .Small {
+        font-size: calc($size-index * 1.2);
+    }
+    .Tiny {
+        font-size: calc($size-index * 0.8);
+    }
+}
+@media (max-width: 800px) {
+    .Large {
+        font-size: calc($size-index * 3);
+    }
+    .Big {
+        font-size: calc($size-index * 2.4);
+    }
+    .Middle {
+        font-size: calc($size-index * 1.8);
+    }
+    .Small {
+        font-size: calc($size-index * 1.5);
+    }
+    .Tiny {
+        font-size: calc($size-index * 1.1);
+    }
+    .window {
+        & > *:not(.bg) {
+            max-width: 90% !important;
+            max-height: 90% !important;
+        }
+    }
+}
 .disableBtn {
     background-color: $color-opacity-opacity;
+}
+.notReady {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+.not-mobile {
+}
+@media (pointer: coarse) {
+    .not-mobile {
+        display: none;
+    }
+}
+@keyframes swing {
+    0% {
+        transform: translateX(-50%) rotate(-10deg);
+    }
+    100% {
+        transform: translateX(-50%) rotate(10deg);
+    }
+}
+
+.future {
+    position: absolute;
+    left: 35px;
+    top: 0px;
+    width: calc(100% - 70px);
+    height: calc(100%);
+    pointer-events: none;
+    z-index: 10;
+    box-shadow:
+        inset 150px 150px 150px 150px rgb(0, 0, 0),
+        5px 5px 5px 2px black;
+    .img {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        width: 30%;
+        &::after {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            content: "";
+            width: 20px;
+            height: 20px;
+            background-color: lightyellow;
+            box-shadow: 0px 0px 20px 10px lightyellow;
+            border-radius: 20px;
+            transform: translate(-50%, 0px);
+            animation: swing 2s infinite alternate ease-in-out;
+        }
+        &:before {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            content: "";
+            width: 40%;
+            height: 80%;
+            background-image: url("./assets/imgs/future/light.png");
+            background-size: 100% 100%;
+            background-position: center;
+            border-radius: 20px;
+            transform: translate(-50%, 0px);
+            transform-origin: 50% 0%;
+            z-index: 2;
+            opacity: 0.1;
+            animation: swing 2s infinite alternate ease-in-out;
+        }
+        img {
+            z-index: 0;
+            width: 100%;
+            filter: brightness(0.4);
+            border-top: 10px solid rgb(68, 50, 3);
+            border-left: 10px solid rgb(68, 50, 3);
+            border-radius: 10px;
+        }
+    }
+    .front {
+        position: relative;
+        z-index: 2;
+        background-image: url("./assets/imgs/future/2.png");
+        background-size: 100% auto;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+    }
+}
+@media (max-width: 900px) {
+    .future {
+        .img {
+            width: 70%;
+        }
+    }
 }

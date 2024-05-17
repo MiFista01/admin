@@ -3,11 +3,9 @@
     position: relative;
     flex-grow: 1;
     max-width: 86%;
-    height: calc(100vh - $size-index * 4.5);
+    height: 100%;
     box-sizing: border-box;
-    padding: 35px;
-    padding-top: 0px;
-    padding-right: 0px;
+    padding-left: 35px;
     display: flex;
     align-items: start;
     justify-content: space-between;

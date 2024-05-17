@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Type } from '@angular/core';
+import { Component, Type, ViewChild } from '@angular/core';
 import { RequestsService } from '@services/admin/requests.service';
 import { environment } from "@config"
+import { UploadedGalleryComponent } from '../uploaded-gallery/uploaded-gallery.component';
 
 interface Table {
   id?: number
@@ -28,7 +29,7 @@ interface Img {
 @Component({
   selector: 'app-database',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UploadedGalleryComponent],
   templateUrl: './database.component.html',
   styleUrl: './database.component.scss'
 })
@@ -51,6 +52,8 @@ export class DatabaseComponent {
   tableName = ""
   modalWindowName = ""
   openTableView = ""
+  imageFieldName = ""
+  updateIndex = -1
   showFieldTables: TableField[] = [...this.defaultCreateTable]
   allFieldTables: TableField[] = []
   allTables: Table[] = []
@@ -61,7 +64,7 @@ export class DatabaseComponent {
   createdStatus = false
   emptyTableNameStatus = false
   formTableValueinsert = false
-
+  @ViewChild('gallery', { static: true }) gallery!: UploadedGalleryComponent;
   constructor(private req: RequestsService) { }
   ngOnInit() {
     this.req.Get<Table[]>(`${environment.apiUrl}/db`, true).subscribe(value => {
@@ -70,6 +73,18 @@ export class DatabaseComponent {
       this.getLastTables(5)
     })
 
+  }
+  setImage(e: any) {
+    if(this.updateIndex == -1){
+      this.createTableValue[this.imageFieldName] = e
+    }else{
+      this.tableValues[this.updateIndex][this.imageFieldName] = e
+    }
+  }
+  galleryMenuClick(status: boolean, saveField: string, index = -1) {
+    this.gallery.toggleAside(status);
+    this.imageFieldName = saveField
+    this.updateIndex = index
   }
   getLastTables(offset: number) {
     const array = [...this.showTables].sort((a, b) => {
@@ -215,7 +230,6 @@ export class DatabaseComponent {
       this.modalWindowName = "tableValues"
       this.showFieldTables = value[1]
       this.tableValues = [...value[0]]
-      console.log(this.tableValues)
     })
     this.req.Get<[any, Img[]]>(`${environment.apiUrl}/files/imgs-uploads`).subscribe(data => {
       this.showImgs = data[1].map((item, index) => {

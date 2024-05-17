@@ -1,17 +1,23 @@
 @import "../../../../styles.scss";
 :host {
+    position: relative;
     flex-grow: 1;
     max-width: 86%;
     height: 100%;
     box-sizing: border-box;
-    padding: 35px;
+    padding: 0px 35px;
     padding-top: 0px;
     display: flex;
     flex-direction: column;
+    pointer-events: none;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    pointer-events: none;
 }
 .warning {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: column;
     width: 30%;
@@ -27,13 +33,13 @@
         text-align: center;
     }
     button {
-        flex-grow: 1;
         width: 100%;
         border-radius: 15px;
         background-color: red;
         cursor: pointer;
         color: white;
         border: none;
+        padding: 15px 0px;
         transition-duration: 0.5s;
         &:hover {
             transform: translate(0px, -10%);
@@ -43,6 +49,11 @@
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    h2{
+        width: fit-content;
+    }
     .btns {
         display: flex;
         justify-content: end;
@@ -55,6 +66,7 @@ header {
             border-radius: 10px;
             border: 3px solid;
             cursor: pointer;
+            text-align: center;
         }
     }
 }
@@ -112,6 +124,7 @@ header {
             padding-bottom: 10px;
             margin-bottom: 10px;
             border-bottom: 1px solid black;
+            
             &:last-child {
                 border-bottom: 0px solid black;
                 padding-bottom: 0px;
@@ -165,26 +178,26 @@ header {
                 .btn-container {
                     display: flex;
                     justify-content: center;
-                }
-                .btn-container:first-child {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    p:first-child {
-                        position: absolute;
-                        text-transform: uppercase;
-                        text-align: center;
-                        margin: 0;
-                        z-index: -1;
-                        transition-duration: 0.5s;
-                    }
-                    p:last-child {
-                        border: 1px solid black;
-                        padding: 10px 40px;
-                        border-radius: 50px;
-                        transition-duration: 0.5s;
-                        background-color: whitesmoke;
-                        z-index: 1;
+                    &:first-child {
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        p:first-child {
+                            position: absolute;
+                            text-transform: uppercase;
+                            text-align: center;
+                            margin: 0;
+                            z-index: -1;
+                            transition-duration: 0.5s;
+                        }
+                        p:last-child {
+                            border: 1px solid black;
+                            padding: 10px 40px;
+                            border-radius: 50px;
+                            transition-duration: 0.5s;
+                            background-color: whitesmoke;
+                            z-index: 1;
+                        }
                     }
                 }
             }
@@ -254,6 +267,23 @@ header {
                     display: flex;
                     align-items: center;
                     margin: 5px 0px;
+                    &>div{
+                        p {
+                            width: fit-content;
+                            padding: 10px 20px;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            transition-duration: 0.5s;
+                            margin: 10px 0px;
+                            background-color: $color-opacity-opacity;
+                            user-select: none;
+                            text-transform: uppercase;
+                            &:hover {
+                                color: white;
+                                background-color: $color;
+                            }
+                        }
+                    }
                     select,
                     textarea {
                         border: 2px solid;
@@ -267,6 +297,7 @@ header {
                         border-bottom: 2px solid;
                         padding: 5px 10px;
                         border-radius: 5px;
+                        width: 80%;
                         &::placeholder {
                             text-transform: uppercase;
                         }
@@ -277,7 +308,7 @@ header {
                     }
                 }
                 .label {
-                    width: 25%;
+                    width: 20%;
                     margin: 0px;
                     text-align: end;
                     margin-right: 20px;
@@ -329,10 +360,28 @@ header {
                 align-items: center;
                 width: 100%;
                 margin: 10px 0px;
-                p {
-                    width: 25%;
+                &>p {
+                    width: 20%;
                     margin: 0px;
                     text-align: center;
+                }
+                &>div{
+                    width: 80%;
+                    p {
+                        width: fit-content;
+                        padding: 10px 20px;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        transition-duration: 0.5s;
+                        margin: 10px 0px;
+                        background-color: $color-opacity-opacity;
+                        user-select: none;
+                        text-transform: uppercase;
+                        &:hover {
+                            color: white;
+                            background-color: $color;
+                        }
+                    }
                 }
                 select,
                 textarea {
@@ -347,6 +396,7 @@ header {
                     border-bottom: 2px solid;
                     padding: 5px 10px;
                     border-radius: 5px;
+                    width: 80%;
                     &::placeholder {
                         text-transform: uppercase;
                     }
@@ -454,6 +504,7 @@ header {
             border-bottom: 2px solid $color;
             padding: 10px;
             transition-duration: 0.3s;
+            
             &:hover {
                 scale: 1.02;
             }
@@ -464,6 +515,7 @@ header {
                 width: 27.5%;
                 margin-bottom: 0px;
                 text-align: center;
+                flex-grow: 1;
                 &:nth-child(1) {
                     color: $color;
                 }
@@ -471,6 +523,7 @@ header {
                     color: grey;
                 }
                 &:last-child {
+                    
                     & > * {
                         cursor: pointer;
                         padding: 5px 35px;
@@ -504,4 +557,52 @@ header {
     opacity: 1 !important;
     pointer-events: all !important;
     top: 0px !important;
+}
+@media (max-width: 1000px){
+    header{
+        .btns{
+            width: fit-content !important;
+        }
+    }
+    .warning{
+        width: 50%;
+        height: 70%;
+    }
+    .form-db-table{
+        header{
+            margin-bottom: 0px !important;
+            
+        }
+        .fields{
+            overflow-x: scroll;
+            &::-webkit-scrollbar{
+                display: none;
+            }
+            .field{
+                width: fit-content !important;
+                p{
+                    width: fit-content !important;
+                    
+                }
+            }
+        }
+        .btns{
+            .btn-container{
+                &>*:last-child{
+                    padding: 10px !important;
+                    margin: 0 !important;
+                }
+            }
+        }
+    }
+    .tables{
+        .columnNames{
+            display: none !important;
+        }
+    }
+    .tables-container{
+        .table{
+            width: 100% !important;
+        }
+    }
 }

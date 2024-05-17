@@ -6,7 +6,7 @@
         <h3 class="Color Middle">WebSite Stats</h3>
         <div id="start">
             <a [routerLink]="['/home']" target="_blank" routerLinkActive="router-link-active"
-                class="Color BackgroundColorBtn BorderColor">Welcome WebSite</a>
+                class="Color BackgroundColorBtn BorderColor Tiny">Welcome WebSite</a>
         </div>
     </div>
     <div class="block OpacityBorderColor" style="width: 75%;">
@@ -24,7 +24,7 @@
     <form [formGroup]="wishes" (ngSubmit)="onSubmitWish()">
         <h3 class="Color Middle">Wishes to the developers</h3>
         <textarea id="wish" cols="30" rows="10" formControlName="wish"
-            placeholder="Write your wishes for improving the project" class="Small OpacityBorderColor"></textarea>
+            placeholder="Write your wishes for improving the project" class="Tiny OpacityBorderColor"></textarea>
         <button type="submit" [disabled]="wishes.invalid">send</button>
     </form>
 </div>

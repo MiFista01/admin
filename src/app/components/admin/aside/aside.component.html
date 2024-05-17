@@ -1,31 +1,58 @@
 <aside>
     <ul>
         <li [id]="focusedItem === 'dashboard' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/dashboard" class="Small"><p>DashBoard</p></a>
+            <a routerLink="/admin/dashboard" class="Small">
+                <img src="./assets/imgs/mobile/aside/dashboard.png" alt="">
+                <p>DashBoard</p>
+            </a>
         </li>
         <li [id]="focusedItem === 'head' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/head" class="Small"><p>Head</p></a>
+            <a routerLink="/admin/head" class="Small">
+                <img src="./assets/imgs/mobile/aside/head.png" alt="">
+                <p>Head</p>
+            </a>
         </li>
-        <li [id]="focusedItem === 'head-foot' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/head-foot" class="Small"><p>Header/Footer</p></a>
+        <li [id]="focusedItem === 'head-foot' ? 'focus' : null" class="BackgroundColorLight not-mobile">
+            <a routerLink="/admin/head-foot" class="Small">
+                <img src="./assets/imgs/mobile/aside/head_foot.png" alt="">
+                <p>Header/Footer</p>
+            </a>
         </li>
         <li [id]="focusedItem === 'pages' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/pages" class="Small"><p>Pages</p> <p>{{pages}}</p></a>
+            <a routerLink="/admin/pages" class="Small">
+                <img src="./assets/imgs/mobile/aside/pages.png" alt="">
+                <p>Pages</p> <p>{{pages}}</p>
+            </a>
         </li>
-        <li [id]="focusedItem === 'templates' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/templates" class="Small"><p>Templates</p> <p>{{templates}}</p></a>
+        <li [id]="focusedItem === 'templates' ? 'focus' : null" class="BackgroundColorLight not-mobile">
+            <a routerLink="/admin/templates" class="Small">
+                <img src="./assets/imgs/mobile/aside/templates.png" alt="">
+                <p>Templates</p> <p>{{templates}}</p>
+            </a>
         </li>
         <li [id]="focusedItem === 'files' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/files" class="Small"><p>Files</p></a>
+            <a routerLink="/admin/files" class="Small">
+                <img src="./assets/imgs/mobile/aside/files.png" alt="">
+                <p>Files</p>
+            </a>
         </li>
         <li [id]="focusedItem === 'db' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/db" class="Small"><p>Database</p></a>
+            <a routerLink="/admin/db" class="Small">
+                <img src="./assets/imgs/mobile/aside/db.png" alt="">
+                <p>Database</p>
+            </a>
         </li>
         <li [id]="focusedItem === 'user' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/user" class="Small"><p>User</p></a>
+            <a routerLink="/admin/user" class="Small">
+                <img src="./assets/imgs/mobile/aside/user.png" alt="">
+                <p>User</p>
+            </a>
         </li>
         <li [id]="focusedItem === 'faq' ? 'focus' : null" class="BackgroundColorLight">
-            <a routerLink="/admin/faq" class="Small"><p>FAQ</p></a>
+            <a routerLink="/admin/faq" class="Small">
+                <img src="./assets/imgs/mobile/aside/faq.png" alt="">
+                <p>FAQ</p>
+            </a>
         </li>
     </ul>
 </aside>

@@ -19,7 +19,8 @@ export class PagesComponent {
   allPages: any[] = []
   pageNameFormToggle = false
   errorPageName = false
-
+  updateDisable = false
+  startCountUpdate = 0
   constructor(
     private req: RequestsService,
     private fb: FormBuilder,
@@ -35,11 +36,19 @@ export class PagesComponent {
   }
   ngOnInit() {
     this.host = this.document.location.origin
-    this.req.Get<[]>(`${environment.apiUrl}/pages/`, true).subscribe(data => {
-      for (const i of data) {
-        this.showPages.push(i)
-        this.allPages.push(i)
-      }
+    this.req.Get<any[]>(`${environment.apiUrl}/pages/`, true).subscribe(data => {
+      this.showPages = [...data.map(page => {
+        if (page.pageImg) {
+          page.pageImg = `${environment.apiUrl}/static/pages/${page.pageImg}`
+        }
+        return { ...page }
+      })]
+      this.allPages = [...data.map(page => {
+        if (page.pageImg) {
+          page.pageImg = `${environment.apiUrl}/static/pages/${page.pageImg}`
+        }
+        return { ...page }
+      })]
     })
   }
   searchPages(e: any) {
@@ -73,10 +82,26 @@ export class PagesComponent {
     }
   }
   updateCardsSnapshot() {
-    for (const i of this.showPages) {
-      this.req.Patch<any>(`${environment.apiUrl}/pages/snapshot/${i.id}`, { url: this.host + "/" + i.pageName }).subscribe(data => {
-        i.pageImg = data.pageImg
-      })
+    if (!this.updateDisable) {
+      this.updateDisable = true
+      this.startCountUpdate = 0
+      for (const i of this.showPages) {
+        this.req.Patch<any>(`${environment.apiUrl}/pages/snapshot/${i.id}`, { url: this.host + "/" + i.pageName }).subscribe(data => {
+          i.pageImg = `${environment.apiUrl}/static/pages/${data.pageImg}`
+          this.startCountUpdate += 1
+          if(this.startCountUpdate == this.allPages.length-1){
+            this.updateDisable = false
+          }
+        })
+      }
     }
+  }
+  removePage(id: number, index: number) {
+    this.req.Delete<any>(`${environment.apiUrl}/pages/${id}`).subscribe(data => {
+      if (data) {
+        this.showPages = this.showPages.filter((val, i, ar) => { return i != index })
+        this.allPages = this.allPages.filter((val, i, ar) => { return i != index })
+      }
+    })
   }
 }

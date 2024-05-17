@@ -2,13 +2,17 @@
 :host {
     flex-grow: 1;
     max-width: 86%;
-    max-height: 95%;
+    max-height: 100%;
     box-sizing: border-box;
-    padding: 35px;
+    padding: 0px 35px;
     padding-top: 0px;
     display: flex;
     align-items: start;
     flex-wrap: wrap;
+    overflow: auto;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }
 .window {
     .body {
@@ -62,6 +66,8 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 50%;
+    overflow: visible;
+    justify-content: space-between;
     img {
         width: 100%;
         
@@ -118,6 +124,8 @@
                     cursor: pointer;
                     border: 2px solid;
                     text-transform: uppercase;
+                    flex-grow: 1;
+                    text-align: center;
                 }
             }
         }
@@ -151,6 +159,11 @@
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
+                padding: 10px 0px;
+                transition-duration: .3s;
+                &:hover{
+                    background-color: rgba(245, 245, 245, 0.2);
+                }
                 div {
                     display: flex;
                     justify-content: center;
@@ -235,6 +248,42 @@
         flex-grow: 1;
     }
     &>div{
-        transform: translate(0px, 120%);
+        transform: translate(0px, 0%);
+    }
+}
+@media (max-width: 767.98px){
+    .card{
+        width: 100%;
+        &>div{
+            a:last-of-type{
+                display: none;
+            }
+        }
+    }
+    .head{
+        width: 100% !important;
+        max-width: none !important;
+        overflow: auto;
+        flex-grow: 1;
+        .files{
+            margin-top: 10px;
+            header{
+                align-items: center;
+                .btns{
+                    flex-wrap: wrap !important;
+                    p{
+                        width: 100% !important;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+        .seo{
+            height: fit-content !important;
+            max-height: none !important;
+            .body{
+                height: fit-content !important;
+            }
+        }
     }
 }

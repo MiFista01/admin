@@ -2,12 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RequestsService } from '@services/admin/requests.service';
-import { VgCoreModule } from '@videogular/ngx-videogular/core';
-import { VgControlsModule } from '@videogular/ngx-videogular/controls';
-import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
-import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { environment } from "@config"
 import { VideoComponent } from '../video/video.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 interface Folder {
   id: number
@@ -33,28 +30,60 @@ interface File {
   imports: [
     CommonModule,
     FormsModule,
-    VideoComponent
+    VideoComponent,
+    MonacoEditorModule
   ],
   templateUrl: './files.component.html',
   styleUrl: './files.component.scss'
 })
 export class FilesComponent {
+  editorOptionsCSS = {theme: "myCustomTheme", language: 'css', wordWrap: 'on'};
+  editorOptionsJS = {theme: "myCustomTheme", language: 'javascript', wordWrap: 'on'};
+
   @ViewChild('search', { static: false }) searchInput!: ElementRef;
+
   showFiles: File[] = []
   allFiles: File[] = []
   showFolders: Folder[] = []
   allFolders: Folder[] = []
+
+  editorContent = ""
   dirName = ""
   mediaShowPath = ""
+  videoSrc = ""
+  fileName = ""
+
   showMediaPathStatus = false
   imgPreviewStatus = false
   uploadStatus = false
   selectedDir = false
   toggleFolderInput = false
-  videoSrc = ""
+  showEditorStatus = false
+  updateCodeSTatus = false
   constructor(
     private req: RequestsService,
   ) { }
+
+  showEditor(fileName: string) {
+    this.req.Get<string>(`${environment.apiUrl}/static/${this.dirName.replaceAll("-", "/")}/${fileName}`, false, "text").subscribe(data => {
+      this.editorContent = data
+      this.showEditorStatus = true
+      this.fileName = fileName 
+    })
+  }
+  hideEditor() {
+    this.showEditorStatus = false
+  }
+  updateCode(){
+    this.req.Patch(`${environment.apiUrl}/files/content/${this.dirName}/${this.fileName}`, {content:this.editorContent}).subscribe(data=>{
+      if(data){
+        this.updateCodeSTatus = true
+        setTimeout(() => {
+          this.updateCodeSTatus = false
+        }, 1000);
+      }
+    })
+  }
   searchFiles(e: any) {
     const inputValue = e.target.value
     this.showFiles = this.allFiles.filter(value => {
@@ -77,7 +106,7 @@ export class FilesComponent {
         this.dirName = ''
       }
       if (this.dirName != "") this.getAllFilesDirs()
-        this.searchInput.nativeElement.value = ""
+      this.searchInput.nativeElement.value = ""
       this.imgPreviewStatus = this.dirName.includes('imgs-uploads') || this.dirName.includes('imgs-swipers')
     }, oldDirName == "" ? 0 : 500);
   }

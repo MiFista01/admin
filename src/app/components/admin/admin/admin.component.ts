@@ -19,7 +19,7 @@ export class AdminComponent {
       if(value instanceof NavigationEnd){
         const urlsParts = value.url.split("/")
         const startIndex = urlsParts.indexOf("admin")
-        this.showAside = startIndex < urlsParts.length-1
+        this.showAside = startIndex < urlsParts.length-1 && !urlsParts.includes("login")
         this.focusedItem = urlsParts[startIndex+1]
       }
     })

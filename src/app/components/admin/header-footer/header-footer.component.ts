@@ -8,8 +8,10 @@ import { ConstructorService } from '@services/constructor.service';
 import { EditConfigFormsComponent } from '../edit-config-forms/edit-config-forms.component';
 import { RequestsService } from '@services/admin/requests.service';
 import { environment } from '@config';
+import { Subscription } from 'rxjs';
+import { NavigationStart, Router } from '@angular/router';
 declare function emitCreateCondtructorTree(parent: string): any
-declare function setHTML(parent:any, html:any): any
+declare function setHTML(parent: any, html: any): any
 interface schema {
   body: {
     main: {
@@ -53,12 +55,18 @@ export class HeaderFooterComponent {
       }
     }
   }
+  updatedStatus = false
+  autoUpdatedStatus = false
+  updateImg = ""
+  autoUpdateImg = ""
+  timeOut:any
+  private routerSubscription: Subscription | undefined;
   constructor(
     private sl: ScriptloaderService,
     private fb: FormBuilder,
     private req: RequestsService,
     private constructorService: ConstructorService,
-
+    private router: Router
   ) {
     for (const key of Object.keys(constructorService.elements)) {
       const element = {
@@ -71,11 +79,12 @@ export class HeaderFooterComponent {
       this.sl.createConstructor()
 
     });
+    
   }
-  ngOnInit(){
+  ngOnInit() {
     setInterval(() => {
-      this.target.nativeElement.click()
-    }, 300000);
+      this.saveStructure("auto")
+    }, 5 * 60 * 1000);
     this.req.Get<schema>(`${environment.apiUrl}/pages/schema/header`, true).subscribe((data) => {
       this.headerSchema = data
       setHTML(".constructorMain header", this.headerSchema.body.main.html)
@@ -84,20 +93,63 @@ export class HeaderFooterComponent {
       this.footerSchema = data
       setHTML(".constructorMain footer", this.footerSchema.body.main.html)
     })
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.saveStructure("auto")
+      }
+    });
   }
   updateStructure() {
-    const headeConstructor = emitCreateCondtructorTree("header")
-    this.headerSchema.body.main.children = headeConstructor[0]
-    this.headerSchema.body.main.html = headeConstructor[1]
-    this.req.Patch(`${environment.apiUrl}/pages/schema/header`, this.headerSchema).subscribe(data=>{
-      console.log(data)
+   this.saveStructure("handler")
+  }
+  hideWindow() {
+    this.updatedStatus = false
+    setTimeout(() => {
+      this.updateImg = ""
+    }, 500);
+  }
+  saveStructure(saveType: "auto"|"handler"){
+    const headerConstructor = emitCreateCondtructorTree("header")
+    this.headerSchema.body.main.children = headerConstructor[0]
+    this.headerSchema.body.main.html = headerConstructor[1]
+    this.req.Patch(`${environment.apiUrl}/pages/schema/header`, this.headerSchema).subscribe(data => {
+      if (data) {
+        if(saveType == "auto"){
+          this.autoUpdatedStatus = true
+          this.autoUpdateImg = "./assets/imgs/constructor/success.gif"
+          clearTimeout(this.timeOut)
+          this.timeOut = setTimeout(() => {
+            if (this.autoUpdatedStatus){
+              this.autoUpdatedStatus = false
+              setTimeout(() => {
+                if(this.autoUpdateImg)
+                  this.autoUpdateImg = ""
+              }, 500);
+            }
+          }, 3000);
+        }else{
+          this.updateImg = ""
+          this.updatedStatus = true
+          this.updateImg = "./assets/imgs/constructor/success.gif"
+          clearTimeout(this.timeOut)
+          this.timeOut = setTimeout(() => {
+            if (this.updatedStatus){
+              this.updatedStatus = false
+              setTimeout(() => {
+                if(this.updateImg)
+                  this.updateImg = ""
+              }, 500);
+            }
+          }, 3000);
+        }
+      }
     })
     const footerConstructor = emitCreateCondtructorTree("footer")
     this.footerSchema.body.main.children = footerConstructor[0]
     this.footerSchema.body.main.html = footerConstructor[1]
-    this.req.Patch(`${environment.apiUrl}/pages/schema/footer`, this.footerSchema).subscribe(data=>{
-      console.log(data)
-    })
+    this.req.Patch(`${environment.apiUrl}/pages/schema/footer`, this.footerSchema).subscribe(data => {})
   }
-  
+  ngOnDestroy() {
+    this.routerSubscription?.unsubscribe();
+  }
 }

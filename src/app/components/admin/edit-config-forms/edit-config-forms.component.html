@@ -110,6 +110,9 @@
                 <div class="conf conf-swipers">
                     <p class="Small color BorderColor" *ngFor="let item of subFoldersFiles" (click)="setSlides(item.files)">{{item.name.split("-").pop()}}</p>
                 </div>
+                <div class="conf conf-db-conector">
+                    <p class="Small color BorderColor" *ngFor="let item of subFoldersFiles">{{item.name.split("-").pop()}}</p>
+                </div>
             </div>
         </div>
     </div>

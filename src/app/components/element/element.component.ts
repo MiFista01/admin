@@ -20,6 +20,7 @@ export class ElementComponent {
     "autoplay": "false",
     "preload": "auto"
   }
+  ready = false
   ngOnInit() {
     switch (this.element.type) {
       case "swipers":

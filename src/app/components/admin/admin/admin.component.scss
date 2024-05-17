@@ -3,17 +3,35 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
-    width: 100vw;
+    height: 100svh;
+    width: 100svw;
     margin: 0px;
     padding: 0px;
     background: rgb(38, 38, 38);
     overflow: hidden;
-    &>div{
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        flex-grow: 1;
-        height: calc(100vh - $size-index * 4.5);
+}
+.adminRoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-grow: 1;
+    padding-bottom: 35px;
+    box-sizing: border-box;
+    height: calc(100svh - 4.5 * $size-index);
+}
+@media (max-width: 900px) {
+    .adminRoot {
+        padding-bottom: 80px;
+        &>*:last-child{
+            max-width: 100% !important;
+        }
     }
+    :host::ng-deep {
+        .adminRoot{
+            &>*{
+                max-width: 100% !important;
+            }
+        }
+    }
+
 }

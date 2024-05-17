@@ -157,6 +157,22 @@
             </div>
         </div>
     </div>
+    <div *ngSwitchCase="'db-conector'" [ngClass]="element.properties?.className" [attr.placeholder]="element.type">
+        <div class="borders">
+            <div class="border border1"></div>
+            <div class="border border2"></div>
+            <div class="border border3"></div>
+            <div class="border border4"></div>
+        </div>
+        <div class="funcBtns">
+            <img src="assets/imgs/constructor/move.png" alt="" class="move">
+            <img src="assets/imgs/constructor/configuration.png" alt="" class="configurator">
+            <img src="assets/imgs/constructor/delete.png" alt="" class="delete">
+        </div>
+        <div class="element area" dropzone="true">
+            
+        </div>
+    </div>
     <div *ngSwitchDefault>
     </div>
 </ng-container>
