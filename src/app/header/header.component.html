@@ -1,4 +1,4 @@
-<header class="BackgroundColorDark">
+<header class="BackgroundColorDark" *ngIf="link.includes('admin')">
     <div class="logo">
         <a [routerLink]="link">
             <img src="assets/imgs/logo.svg" alt="">
@@ -7,7 +7,7 @@
             LifeForge
         </h1>
     </div>
-    <div class="btns">
+    <div class="btns" *ngIf="!link.includes('login') && link != '/admin'">
         <p class="Small" (click)="logOut()">log out</p>
     </div>
 </header>

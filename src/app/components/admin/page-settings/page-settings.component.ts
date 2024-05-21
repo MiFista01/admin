@@ -57,6 +57,7 @@ export class PageSettingsComponent {
   showJs: headFile[] = []
   allJs: headFile[] = []
   updateImageStatus = false
+  updated = false
   modalWindowName = ''
   constructor(
     private route: ActivatedRoute,
@@ -67,7 +68,7 @@ export class PageSettingsComponent {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.req.Get<page>(`${environment.apiUrl}/pages/${id}`, true).subscribe((data) => {
-        if(data.pageImg){
+        if (data.pageImg) {
           data.pageImg = `${environment.apiUrl}/static/pages/${data.pageImg}`
         }
         this.pageObj = data
@@ -158,7 +159,10 @@ export class PageSettingsComponent {
   updatePageHead() {
     if (this.pageObj.id != 0) {
       this.req.Patch<pageSchema>(`${environment.apiUrl}/pages/schema/${this.pageObj.id}`, this.pageSchema).subscribe(data => {
-        console.log(data)
+        this.updated = true
+        setTimeout(() => {
+          this.updated = false
+        }, 500);
       })
     }
   }

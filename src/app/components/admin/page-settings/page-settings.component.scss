@@ -115,6 +115,7 @@
             }
             .btns {
                 display: flex;
+                align-items: start;
                 p {
                     width: max-content;
                     margin: 0px 10px;
@@ -126,6 +127,10 @@
                     text-transform: uppercase;
                     flex-grow: 1;
                     text-align: center;
+                    transition-duration: .3s;
+                    &:hover{
+                        scale: 1.1;
+                    }
                 }
             }
         }

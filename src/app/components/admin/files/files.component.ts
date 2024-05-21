@@ -243,7 +243,7 @@ export class FilesComponent {
         const indexShow = this.showFolders.findIndex(obj => obj.id === id);
         const indexAll = this.allFolders.findIndex(obj => obj.id === id);
         if (indexShow !== -1) {
-          console.log(this.showFolders.splice(indexShow, 1))
+          this.showFolders.splice(indexShow, 1)
         }
         if (indexAll !== -1) {
           this.allFolders.splice(indexAll, 1);

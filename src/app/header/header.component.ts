@@ -16,28 +16,31 @@ export class HeaderComponent {
   link = "/admin"
   constructor(
     private router: Router,
-    private req: RequestsService  
-  ) {}
-  ngOnInit(){
+    private req: RequestsService
+  ) { }
+  ngOnInit() {
+    if(this.router.url == "/admin" || this.router.url == "/admin/login"){
+      this.link = "/admin"
+    }else{
+      this.link = "/admin/dashboard"
+    }
     this.router.events.pipe(
       filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      if(event.urlAfterRedirects == "/admin"){
-        this.link = event.urlAfterRedirects;
-
+      if(event.url == "/admin" || event.url == "/admin/login"){
+        this.link = "/admin"
       }else{
         this.link = "/admin/dashboard"
       }
     });
   }
-  logOut(){
-    
-    this.req.Post(`${environment.apiUrl}/users/logout`,{}).subscribe({
+  logOut() {
+    this.req.Post(`${environment.apiUrl}/users/logout`, {}).subscribe({
       next: () => {
         this.router.navigate(['admin/login']);
       },
-      error: (err) => {}
+      error: (err) => { }
     })
-    
+
   }
 }
