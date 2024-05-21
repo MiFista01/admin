@@ -118,6 +118,7 @@ button, .button {
             width: 100%;
             .btns {
                 display: flex;
+                align-items: start;
                 p {
                     width: max-content;
                     margin: 0px 10px;
@@ -128,6 +129,10 @@ button, .button {
                     border: 2px solid;
                     text-transform: uppercase;
                     text-align: center;
+                    transition-duration: .3s;
+                    &:hover{
+                        scale: 1.1;
+                    }
                 }
             }
         }

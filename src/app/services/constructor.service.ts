@@ -159,6 +159,7 @@ export class ConstructorService {
       group: [
         { name: 'Display', value: 'display', type: "user-select", values: ["none", "block", "inline", "inline-block", "flex", "inline-flex"] },
         { name: 'flex direction', value: 'flex-direction', type: "user-select", values: ["none", "row", "row-reverse", "column", "column-reverse"] },
+        { name: 'flex wrap', value: 'flex-wrap', type: "user-select", values: ["nowrap", "wrap", "wrap-reverse"] },
         { name: 'flex grow', value: 'flex-grow', type: "user-numb" },
         { name: 'justify content', value: 'justify-content', type: "user-select", values: ["normal", "center", "start", "end", "left", "right", "space-between", "space-around","space-evenly", "stretch"] },
         { name: 'align items', value: 'align-items', type: "user-select", values: ["normal", "stretch", "center", "start", "end", "baseline"] },

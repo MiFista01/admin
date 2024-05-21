@@ -44,6 +44,7 @@ export class HeadComponent {
   allCss: headFile[] = []
   js: headFile[] = []
   allJs: headFile[] = []
+  updated = false
   @ViewChild("tagsContainer", { read: ViewContainerRef })
   container!: ViewContainerRef
 
@@ -123,9 +124,11 @@ export class HeadComponent {
     this.mainSchema.head.tags.splice(index, 1)
   }
   updateMainHead() {
-    console.log(this.mainSchema)
     this.req.Patch<schema>(`${environment.apiUrl}/pages/schema/main`, this.mainSchema).subscribe(data => {
-      console.log(data)
+      this.updated = true
+      setTimeout(() => {
+        this.updated = false
+      }, 500);
     })
   }
 }

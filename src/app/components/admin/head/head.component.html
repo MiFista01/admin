@@ -38,7 +38,7 @@
             <div class="btns">
                 <p class="addFile Tiny OpacityBorderColor ColorBackground" (click)="showFileModalWindow()">apзend file
                 </p>
-                <p class="updateFiles Tiny OpacityBorderColor ColorBackground" (click)="updateMainHead()"> update page
+                <p class="updateFiles Tiny OpacityBorderColor ColorBackground" (click)="updateMainHead()" [ngStyle]="{'scale': updated ? '0.8':''}" [ngClass]="{'disableBtn': updated}"> update page
                     files</p>
             </div>
         </header>

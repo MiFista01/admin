@@ -13,7 +13,4 @@ export class ConstructorElementComponent {
   constructor(
   ){}
   @Input() element:any = {}
-  // ngOnInit(){
-  //   console.log(this.element)
-  // }
 }
