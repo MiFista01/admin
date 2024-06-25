@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:3000/api',
+    apiUrl: 'https://www.cms.mifista.eu/api',
     theme: {
         "base": "vs-dark",
         "inherit": true,

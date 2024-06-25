@@ -1,7 +1,10 @@
 @import "../../../../styles.scss";
 .element{
     box-shadow: inset 0px 0px 10px $color-opacity;
+    white-space: pre-line;
     &>*{
         margin: 0px;
+        white-space: pre-line;
+        height: 100%;
     }
 }

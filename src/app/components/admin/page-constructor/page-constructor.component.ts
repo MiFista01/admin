@@ -39,6 +39,8 @@ interface page {
   styleUrl: './page-constructor.component.scss'
 })
 export class PageConstructorComponent {
+  private subRoute: Subscription | undefined
+  private routerSubscription: Subscription | undefined;
   @ViewChild('update', { static: true }) target!: ElementRef;
   pageObj: any = {}
   pageShema: any = {}
@@ -49,7 +51,6 @@ export class PageConstructorComponent {
   updatedStatus = false
   autoUpdatedStatus = false
   timeOut:any
-  private routerSubscription: Subscription | undefined;
   constructor(
     private sl: ScriptloaderService,
     private constructorService: ConstructorService,
@@ -73,10 +74,11 @@ export class PageConstructorComponent {
       this.saveStructure("auto")
     }, 5 * 60 * 1000);
 
-    this.route.params.subscribe(params => {
+    this.subRoute = this.route.params.subscribe(params => {
       const id = params['id']
       this.req.Get<page>(`${environment.apiUrl}/pages/${id}`).subscribe((data) => {
         this.pageObj = data
+        this.name = data.pageName
       })
       this.req.Get<pageShema>(`${environment.apiUrl}/pages/schema/${id}`, true).subscribe((data) => {
         this.pageShema = data
@@ -139,5 +141,6 @@ export class PageConstructorComponent {
   }
   ngOnDestroy() {
     this.routerSubscription?.unsubscribe();
+    this.subRoute?.unsubscribe()
   }
 }

@@ -51,6 +51,7 @@
 .title {
     width: 100%;
     margin: 0;
+    white-space: pre-line;
 }
 .btn {
     display: block;
@@ -123,4 +124,5 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    white-space: pre-line;
 }
